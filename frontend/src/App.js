@@ -1,0 +1,135 @@
+import React, { Suspense, lazy } from "react";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate
+} from "react-router-dom";
+import {
+  ThemeProvider,
+  createTheme,
+  CircularProgress,
+  Box
+} from '@mui/material';
+import { setNavigate } from './utils/navigation';
+import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
+import Login from './components/Login';
+import Layout from "./Layout";
+import ErrorBoundary from "./components/ErrorBoundary";
+
+// Lazy load components
+const Dashboard = lazy(() => import("./components/Dashboard/Dashboard"));
+const Production = lazy(() => import("./components/Production"));
+const ProductionSiteDetails = lazy(() => import("./components/ProductionSiteDetails"));
+const Consumption = lazy(() => import("./components/Consumption"));
+const Reports = lazy(() => import("./components/Reports"));
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1E3A8A',
+    },
+    secondary: {
+      main: '#1E40AF',
+    },
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif'
+    ].join(','),
+  },
+});
+
+function App() {
+  const navigate = useNavigate();
+
+  // Set the navigation function when the component mounts
+  React.useEffect(() => {
+    setNavigate(navigate);
+  }, [navigate]);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <AuthProvider>
+        <ErrorBoundary>
+          <Suspense
+            fallback={
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                height="100vh"
+              >
+                <CircularProgress />
+              </Box>
+            }
+          >
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Dashboard />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/production"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Production />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/production/:companyId/:productionSiteId"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <ProductionSiteDetails />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/consumption"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Consumption />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/reports"
+                element={
+                  <PrivateRoute>
+                    <Layout>
+                      <Reports />
+                    </Layout>
+                  </PrivateRoute>
+                }
+              />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;

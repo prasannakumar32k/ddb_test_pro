@@ -1,0 +1,935 @@
+{"level":"info","message":"Server is running on port 3333","timestamp":"2025-02-28 13:27:58"}
+{"level":"info","message":"Server is running on port 3333","timestamp":"2025-02-28 13:30:28"}
+{"level":"info","message":"Server is running on port 3333","timestamp":"2025-02-28 13:30:33"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:30:43"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:30:43"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:30:44"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:30:46"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:30:46"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:30:46"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:31:14"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:31:14"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-units","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:31:34","url":"/api/production-units"}
+{"level":"info","message":"GET /api/production-units 404 10ms","method":"GET","responseTime":10,"status":404,"timestamp":"2025-02-28 13:31:34","url":"/api/production-units"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-units","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:31:34","url":"/api/production-units"}
+{"level":"info","message":"GET /api/production-units 404 3ms","method":"GET","responseTime":3,"status":404,"timestamp":"2025-02-28 13:31:34","url":"/api/production-units"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:31:34","url":"/api/production-unit"}
+{"level":"info","message":"GET /api/production-unit 404 3ms","method":"GET","responseTime":3,"status":404,"timestamp":"2025-02-28 13:31:34","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:31:34","url":"/api/production-unit"}
+{"level":"info","message":"GET /api/production-unit 404 1ms","method":"GET","responseTime":1,"status":404,"timestamp":"2025-02-28 13:31:34","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-units","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:34:04","url":"/api/production-units"}
+{"level":"info","message":"GET /api/production-units 404 2ms","method":"GET","responseTime":2,"status":404,"timestamp":"2025-02-28 13:34:04","url":"/api/production-units"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:34:08","url":"/api/production-unit"}
+{"level":"info","message":"GET /api/production-unit 404 2ms","method":"GET","responseTime":2,"status":404,"timestamp":"2025-02-28 13:34:08","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:34:09","url":"/api/production-unit"}
+{"level":"info","message":"GET /api/production-unit 404 1ms","method":"GET","responseTime":1,"status":404,"timestamp":"2025-02-28 13:34:09","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/productions","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:34:14","url":"/api/productions"}
+{"level":"info","message":"GET / 200 57ms","method":"GET","responseTime":57,"status":200,"timestamp":"2025-02-28 13:34:14","url":"/"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:34:46"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:34:46"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:34:49"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:34:49"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-units","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:35:21","url":"/api/production-units"}
+{"level":"info","message":"GET /api/production-units 404 8ms","method":"GET","responseTime":8,"status":404,"timestamp":"2025-02-28 13:35:21","url":"/api/production-units"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:35:21","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-units","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:35:21","url":"/api/production-units"}
+{"level":"info","message":"GET /api/production-units 404 2ms","method":"GET","responseTime":2,"status":404,"timestamp":"2025-02-28 13:35:21","url":"/api/production-units"}
+{"level":"info","message":"GET / 200 58ms","method":"GET","responseTime":58,"status":200,"timestamp":"2025-02-28 13:35:21","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:35:21","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 13:35:21","url":"/"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:35:54"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:35:54"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:35:57"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:35:57"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:36:07"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:36:07"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-units","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:36:26","url":"/api/production-units"}
+{"level":"info","message":"GET /api/production-units 404 10ms","method":"GET","responseTime":10,"status":404,"timestamp":"2025-02-28 13:36:26","url":"/api/production-units"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:36:26","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 45ms","method":"GET","responseTime":45,"status":304,"timestamp":"2025-02-28 13:36:26","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:36:58","url":"/api/production-site"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:38:25"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:38:25"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/productions","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:38:32","url":"/api/productions"}
+{"level":"info","message":"GET /api/productions 404 7ms","method":"GET","responseTime":7,"status":404,"timestamp":"2025-02-28 13:38:32","url":"/api/productions"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:38:37","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 45ms","method":"GET","responseTime":45,"status":304,"timestamp":"2025-02-28 13:38:37","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:38:43","url":"/api/production-site"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:51:38"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:51:38"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:51:43","url":"/api/production-site"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:52:27"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:52:27"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:52:29"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:52:29"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:52:43","url":"/api/production-site"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:53:39"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:53:39"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:54:04","url":"/api/production-site"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:03"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:03"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:09"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:09"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:12"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:12"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:22"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:22"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:29"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:29"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:33"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:33"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:56:41"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:56:41"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:57:16"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:57:16"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:57:18"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:57:18"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:57:26"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:57:26"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 13:57:34"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 13:57:34"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:57:48","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 13:57:48"}
+{"level":"error","message":"[ProductionSiteController] Error: ProductionSiteDAL.getAllItems is not a function","stack":"TypeError: ProductionSiteDAL.getAllItems is not a function\n    at getAllProductionSites (C:\\Users\\HP\\work\\ddb_test\\backend\\productionSite\\productionSiteControllers.js:7:47)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:47:12)","timestamp":"2025-02-28 13:57:48"}
+{"level":"info","message":"GET / 500 16ms","method":"GET","responseTime":16,"status":500,"timestamp":"2025-02-28 13:57:48","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:57:48","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 13:57:48"}
+{"level":"error","message":"[ProductionSiteController] Error: ProductionSiteDAL.getAllItems is not a function","stack":"TypeError: ProductionSiteDAL.getAllItems is not a function\n    at getAllProductionSites (C:\\Users\\HP\\work\\ddb_test\\backend\\productionSite\\productionSiteControllers.js:7:47)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:47:12)","timestamp":"2025-02-28 13:57:48"}
+{"level":"info","message":"GET / 500 13ms","method":"GET","responseTime":13,"status":500,"timestamp":"2025-02-28 13:57:48","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:57:48","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 89ms","method":"GET","responseTime":89,"status":304,"timestamp":"2025-02-28 13:57:48","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:57:48","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 33ms","method":"GET","responseTime":33,"status":304,"timestamp":"2025-02-28 13:57:48","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:58:02","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 13:58:02","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:58:07","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 13:58:07"}
+{"level":"error","message":"[ProductionSiteController] Error: ProductionSiteDAL.getAllItems is not a function","stack":"TypeError: ProductionSiteDAL.getAllItems is not a function\n    at getAllProductionSites (C:\\Users\\HP\\work\\ddb_test\\backend\\productionSite\\productionSiteControllers.js:7:47)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:47:12)","timestamp":"2025-02-28 13:58:07"}
+{"level":"info","message":"GET / 500 11ms","method":"GET","responseTime":11,"status":500,"timestamp":"2025-02-28 13:58:07","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 13:58:07","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 13:58:07"}
+{"level":"error","message":"[ProductionSiteController] Error: ProductionSiteDAL.getAllItems is not a function","stack":"TypeError: ProductionSiteDAL.getAllItems is not a function\n    at getAllProductionSites (C:\\Users\\HP\\work\\ddb_test\\backend\\productionSite\\productionSiteControllers.js:7:47)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\HP\\work\\ddb_test\\backend\\node_modules\\express\\lib\\router\\index.js:47:12)","timestamp":"2025-02-28 13:58:07"}
+{"level":"info","message":"GET / 500 7ms","method":"GET","responseTime":7,"status":500,"timestamp":"2025-02-28 13:58:07","url":"/"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:00:25"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:00:25"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:00:26"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:00:26"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:00:36","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:00:36"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:00:36","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteController] Found 2 items","timestamp":"2025-02-28 14:00:36"}
+{"level":"info","message":"GET / 200 79ms","method":"GET","responseTime":79,"status":200,"timestamp":"2025-02-28 14:00:36","url":"/"}
+{"level":"info","message":"GET / 304 65ms","method":"GET","responseTime":65,"status":304,"timestamp":"2025-02-28 14:00:36","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:00:36","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:00:36"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:00:36","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteController] Found 2 items","timestamp":"2025-02-28 14:00:36"}
+{"level":"info","message":"GET / 304 26ms","method":"GET","responseTime":26,"status":304,"timestamp":"2025-02-28 14:00:36","url":"/"}
+{"level":"info","message":"GET / 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 14:00:36","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:00:38","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:00:38"}
+{"level":"info","message":"[ProductionSiteController] Found 2 items","timestamp":"2025-02-28 14:00:38"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:00:38","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:00:38","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:00:38"}
+{"level":"info","message":"[ProductionSiteController] Found 2 items","timestamp":"2025-02-28 14:00:38"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:00:38","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:01:45","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:01:45"}
+{"level":"info","message":"[ProductionSiteController] Found 2 items","timestamp":"2025-02-28 14:01:45"}
+{"level":"info","message":"GET / 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 14:01:45","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:01:45","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:01:45"}
+{"level":"info","message":"[ProductionSiteController] Found 2 items","timestamp":"2025-02-28 14:01:45"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:01:45","url":"/"}
+{"body":{"annualProduction_L":34,"banking":0,"capacity_MW":34,"companyId":1,"htscNo":"34","injectionVoltage_KV":3434,"location":"trichy","name":"trichy_3456mw","productionSiteId":3,"status":"Active","type":"Wind"},"ip":"::1","level":"info","message":"POST /api/production-site","method":"POST","params":{},"query":{},"timestamp":"2025-02-28 14:01:57","url":"/api/production-site"}
+{"annualProduction_L":34,"banking":0,"capacity_MW":34,"companyId":1,"htscNo":"34","injectionVoltage_KV":3434,"level":"info","location":"trichy","message":"[ProductionSiteController] Creating site:","name":"trichy_3456mw","productionSiteId":3,"status":"Active","timestamp":"2025-02-28 14:01:57","type":"Wind"}
+{"level":"info","message":"POST / 201 82ms","method":"POST","responseTime":82,"status":201,"timestamp":"2025-02-28 14:01:57","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"DELETE /api/production-site/1/2","method":"DELETE","params":{},"query":{},"timestamp":"2025-02-28 14:02:15","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Deleting site:","productionSiteId":"2","timestamp":"2025-02-28 14:02:15"}
+{"level":"info","message":"DELETE /1/2 200 53ms","method":"DELETE","responseTime":53,"status":200,"timestamp":"2025-02-28 14:02:15","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"DELETE /api/production-site/1/1","method":"DELETE","params":{},"query":{},"timestamp":"2025-02-28 14:02:18","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Deleting site:","productionSiteId":"1","timestamp":"2025-02-28 14:02:18"}
+{"level":"info","message":"DELETE /1/1 200 33ms","method":"DELETE","responseTime":33,"status":200,"timestamp":"2025-02-28 14:02:18","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:20","url":"/api/production-site/1/3"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"3","timestamp":"2025-02-28 14:02:20"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:20","url":"/api/production-unit/1/3"}
+{"level":"info","message":"GET /1/3 500 15ms","method":"GET","responseTime":15,"status":500,"timestamp":"2025-02-28 14:02:20","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:20","url":"/api/production-unit/1/3"}
+{"level":"info","message":"GET /1/3 500 10ms","method":"GET","responseTime":10,"status":500,"timestamp":"2025-02-28 14:02:20","url":"/1/3"}
+{"level":"info","message":"GET /1/3 200 47ms","method":"GET","responseTime":47,"status":200,"timestamp":"2025-02-28 14:02:20","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:20","url":"/api/production-site/1/3"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"3","timestamp":"2025-02-28 14:02:20"}
+{"level":"info","message":"GET /1/3 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:02:20","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:34","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:02:34"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:34","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteController] Found 1 items","timestamp":"2025-02-28 14:02:34"}
+{"level":"info","message":"GET / 200 17ms","method":"GET","responseTime":17,"status":200,"timestamp":"2025-02-28 14:02:34","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:34","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:02:34"}
+{"level":"info","message":"GET / 304 32ms","method":"GET","responseTime":32,"status":304,"timestamp":"2025-02-28 14:02:35","url":"/"}
+{"level":"info","message":"[ProductionSiteController] Found 1 items","timestamp":"2025-02-28 14:02:35"}
+{"level":"info","message":"GET / 304 27ms","method":"GET","responseTime":27,"status":304,"timestamp":"2025-02-28 14:02:35","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:35","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:02:35","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:36","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:02:36"}
+{"level":"info","message":"[ProductionSiteController] Found 1 items","timestamp":"2025-02-28 14:02:36"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:02:36","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:02:36","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:02:36"}
+{"level":"info","message":"[ProductionSiteController] Found 1 items","timestamp":"2025-02-28 14:02:36"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:02:36","url":"/"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:03:00"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:03:00"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:03:03"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:03:03"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:03:11"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:03:11"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:03:13"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:03:13"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:03:31","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:03:31"}
+{"level":"info","message":"[ProductionSiteController] Found 1 items","timestamp":"2025-02-28 14:03:31"}
+{"level":"info","message":"GET / 200 35ms","method":"GET","responseTime":35,"status":200,"timestamp":"2025-02-28 14:03:31","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:03:38","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:03:38"}
+{"level":"info","message":"[ProductionSiteController] Found 1 items","timestamp":"2025-02-28 14:03:38"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:03:38","url":"/"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:07:49"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:07:49"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:08:03"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:08:03"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:08:11"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:08:11"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:08:22"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:08:22"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:08:23"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:08:23"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:37","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:13:37"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:13:38"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:38","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 111ms","method":"GET","responseTime":111,"status":304,"timestamp":"2025-02-28 14:13:38","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:13:38"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:13:38"}
+{"level":"info","message":"GET / 200 157ms","method":"GET","responseTime":157,"status":200,"timestamp":"2025-02-28 14:13:38","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:38","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:38","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:13:38"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:13:38"}
+{"level":"info","message":"GET / 304 26ms","method":"GET","responseTime":26,"status":304,"timestamp":"2025-02-28 14:13:38","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:13:38"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:13:38"}
+{"level":"info","message":"GET / 304 28ms","method":"GET","responseTime":28,"status":304,"timestamp":"2025-02-28 14:13:38","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:39","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"GET / 304 42ms","method":"GET","responseTime":42,"status":304,"timestamp":"2025-02-28 14:13:39","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:39","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:13:39"}
+{"level":"info","message":"GET / 304 27ms","method":"GET","responseTime":27,"status":304,"timestamp":"2025-02-28 14:13:39","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"DELETE /api/production-site/1/3","method":"DELETE","params":{},"query":{},"timestamp":"2025-02-28 14:13:47","url":"/api/production-site/1/3"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Deleting site:","productionSiteId":"3","timestamp":"2025-02-28 14:13:47"}
+{"level":"info","message":"DELETE /1/3 200 72ms","method":"DELETE","responseTime":72,"status":200,"timestamp":"2025-02-28 14:13:47","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:49","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"[ProductionSiteDAL] Found 0 items","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 0 sites","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"GET / 200 23ms","method":"GET","responseTime":23,"status":200,"timestamp":"2025-02-28 14:13:49","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:13:49","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"[ProductionSiteDAL] Found 0 items","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 0 sites","timestamp":"2025-02-28 14:13:49"}
+{"level":"info","message":"GET / 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 14:13:49","url":"/"}
+{"body":{"annualProduction_L":234,"banking":0,"capacity_MW":234,"companyId":1,"htscNo":"234","injectionVoltage_KV":234,"location":"trichy","name":"trichy_3456mw","productionSiteId":1,"status":"Active","type":"Wind"},"ip":"::1","level":"info","message":"POST /api/production-site","method":"POST","params":{},"query":{},"timestamp":"2025-02-28 14:14:03","url":"/api/production-site"}
+{"annualProduction_L":234,"banking":0,"capacity_MW":234,"companyId":1,"htscNo":"234","injectionVoltage_KV":234,"level":"info","location":"trichy","message":"[ProductionSiteController] Creating site:","name":"trichy_3456mw","productionSiteId":1,"status":"Active","timestamp":"2025-02-28 14:14:03","type":"Wind"}
+{"level":"info","message":"POST / 201 38ms","method":"POST","responseTime":38,"status":201,"timestamp":"2025-02-28 14:14:03","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:14:07","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:14:07"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:14:07"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:14:07","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:14:07"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:14:07"}
+{"level":"info","message":"GET / 200 29ms","method":"GET","responseTime":29,"status":200,"timestamp":"2025-02-28 14:14:07","url":"/"}
+{"level":"info","message":"GET / 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 14:14:07","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:14:07","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:14:07"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:14:07"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:14:07","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:14:07"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:14:07"}
+{"level":"info","message":"GET / 304 26ms","method":"GET","responseTime":26,"status":304,"timestamp":"2025-02-28 14:14:07","url":"/"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:14:07","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:14:09","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"GET / 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 14:14:09","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:14:09","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:14:09"}
+{"level":"info","message":"GET / 304 17ms","method":"GET","responseTime":17,"status":304,"timestamp":"2025-02-28 14:14:09","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:15:51","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:15:51"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:15:51","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 13ms","method":"GET","responseTime":13,"status":500,"timestamp":"2025-02-28 14:15:51","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:15:51","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 11ms","method":"GET","responseTime":11,"status":500,"timestamp":"2025-02-28 14:15:51","url":"/1/1"}
+{"level":"info","message":"GET /1/1 200 50ms","method":"GET","responseTime":50,"status":200,"timestamp":"2025-02-28 14:15:51","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:15:51","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:15:51"}
+{"level":"info","message":"GET /1/1 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:15:51","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:33","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:33"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:33"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:33","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:33"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:33"}
+{"level":"info","message":"GET / 304 100ms","method":"GET","responseTime":100,"status":304,"timestamp":"2025-02-28 14:21:33","url":"/"}
+{"level":"info","message":"GET / 304 73ms","method":"GET","responseTime":73,"status":304,"timestamp":"2025-02-28 14:21:33","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:33","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:33"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:33"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:33","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:33"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:33"}
+{"level":"info","message":"GET / 304 30ms","method":"GET","responseTime":30,"status":304,"timestamp":"2025-02-28 14:21:33","url":"/"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:21:33","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:35","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"GET / 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 14:21:35","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:35","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:35"}
+{"level":"info","message":"GET / 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 14:21:35","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:39","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:39"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:39"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:39","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:39"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:39"}
+{"level":"info","message":"GET / 304 25ms","method":"GET","responseTime":25,"status":304,"timestamp":"2025-02-28 14:21:39","url":"/"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:21:39","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:39","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:39"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:39"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:39","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:39"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:39"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:21:39","url":"/"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:21:39","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:40","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:21:40","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:21:40","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:21:40"}
+{"level":"info","message":"GET / 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 14:21:40","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:22:13","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:22:13"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:22:13"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:22:13","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:22:13"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:22:13"}
+{"level":"info","message":"GET / 304 29ms","method":"GET","responseTime":29,"status":304,"timestamp":"2025-02-28 14:22:13","url":"/"}
+{"level":"info","message":"GET / 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 14:22:13","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:22:13","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:22:13"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:22:13"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:22:13","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:22:13"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:22:13"}
+{"level":"info","message":"GET / 304 50ms","method":"GET","responseTime":50,"status":304,"timestamp":"2025-02-28 14:22:13","url":"/"}
+{"level":"info","message":"GET / 304 46ms","method":"GET","responseTime":46,"status":304,"timestamp":"2025-02-28 14:22:13","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:22:22","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"GET / 304 26ms","method":"GET","responseTime":26,"status":304,"timestamp":"2025-02-28 14:22:22","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:22:22","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:22:22"}
+{"level":"info","message":"GET / 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 14:22:22","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:26","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:25:26"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:25:26"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:25:27"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:25:27"}
+{"level":"info","message":"GET / 304 91ms","method":"GET","responseTime":91,"status":304,"timestamp":"2025-02-28 14:25:27","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:42","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:25:42"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:42","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"GET / 304 31ms","method":"GET","responseTime":31,"status":304,"timestamp":"2025-02-28 14:25:42","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:42","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"GET / 304 37ms","method":"GET","responseTime":37,"status":304,"timestamp":"2025-02-28 14:25:42","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:25:42"}
+{"level":"info","message":"GET / 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 14:25:42","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:42","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 13ms","method":"GET","responseTime":13,"status":304,"timestamp":"2025-02-28 14:25:42","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:43","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"GET / 304 16ms","method":"GET","responseTime":16,"status":304,"timestamp":"2025-02-28 14:25:43","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:25:43","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:25:43"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:25:43","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:26:45","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:26:45","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:26:45","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"[ProductionSiteDAL] Found 1 items","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 1 sites","timestamp":"2025-02-28 14:26:45"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:26:45","url":"/"}
+{"body":{"annualProduction_L":34,"banking":0,"capacity_MW":23434,"companyId":1,"htscNo":"3567389","injectionVoltage_KV":234,"location":"namakkal","name":"namakkal","productionSiteId":2,"status":"Active","type":"Wind"},"ip":"::1","level":"info","message":"POST /api/production-site","method":"POST","params":{},"query":{},"timestamp":"2025-02-28 14:27:00","url":"/api/production-site"}
+{"annualProduction_L":34,"banking":0,"capacity_MW":23434,"companyId":1,"htscNo":"3567389","injectionVoltage_KV":234,"level":"info","location":"namakkal","message":"[ProductionSiteController] Creating site:","name":"namakkal","productionSiteId":2,"status":"Active","timestamp":"2025-02-28 14:27:00","type":"Wind"}
+{"level":"info","message":"POST / 201 50ms","method":"POST","responseTime":50,"status":201,"timestamp":"2025-02-28 14:27:00","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:27:02","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:27:02"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:27:02","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 500 12ms","method":"GET","responseTime":12,"status":500,"timestamp":"2025-02-28 14:27:02","url":"/1/2"}
+{"level":"info","message":"GET /1/2 200 26ms","method":"GET","responseTime":26,"status":200,"timestamp":"2025-02-28 14:27:02","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:27:02","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 500 10ms","method":"GET","responseTime":10,"status":500,"timestamp":"2025-02-28 14:27:02","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:27:02","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:27:02"}
+{"level":"info","message":"GET /1/2 304 13ms","method":"GET","responseTime":13,"status":304,"timestamp":"2025-02-28 14:27:02","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:27:04","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"GET / 200 18ms","method":"GET","responseTime":18,"status":200,"timestamp":"2025-02-28 14:27:04","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:27:04","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:27:04"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 14:27:04","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:09","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:29:09"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:29:09"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:09","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:29:09"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:29:09"}
+{"level":"info","message":"GET / 304 34ms","method":"GET","responseTime":34,"status":304,"timestamp":"2025-02-28 14:29:09","url":"/"}
+{"level":"info","message":"GET / 304 28ms","method":"GET","responseTime":28,"status":304,"timestamp":"2025-02-28 14:29:09","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:09","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:29:09"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:29:09"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:09","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:29:09"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:29:09"}
+{"level":"info","message":"GET / 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 14:29:09","url":"/"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:29:09","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:10","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:29:10","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:10","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:29:10"}
+{"level":"info","message":"GET / 304 17ms","method":"GET","responseTime":17,"status":304,"timestamp":"2025-02-28 14:29:10","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:15","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:29:15"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:15","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 500 8ms","method":"GET","responseTime":8,"status":500,"timestamp":"2025-02-28 14:29:15","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:15","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 500 7ms","method":"GET","responseTime":7,"status":500,"timestamp":"2025-02-28 14:29:15","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 30ms","method":"GET","responseTime":30,"status":304,"timestamp":"2025-02-28 14:29:15","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:15","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:29:15"}
+{"level":"info","message":"GET /1/2 304 12ms","method":"GET","responseTime":12,"status":304,"timestamp":"2025-02-28 14:29:15","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:17","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:29:17","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:29:17","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:29:17"}
+{"level":"info","message":"GET / 304 13ms","method":"GET","responseTime":13,"status":304,"timestamp":"2025-02-28 14:29:17","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:31:26","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:31:26"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:31:26","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 3ms","method":"GET","responseTime":3,"status":500,"timestamp":"2025-02-28 14:31:26","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:31:26","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 6ms","method":"GET","responseTime":6,"status":500,"timestamp":"2025-02-28 14:31:26","url":"/1/1"}
+{"level":"info","message":"GET /1/1 304 31ms","method":"GET","responseTime":31,"status":304,"timestamp":"2025-02-28 14:31:26","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:31:26","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:31:26"}
+{"level":"info","message":"GET /1/1 304 7ms","method":"GET","responseTime":7,"status":304,"timestamp":"2025-02-28 14:31:26","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:41","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:35:41"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:41","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 6ms","method":"GET","responseTime":6,"status":500,"timestamp":"2025-02-28 14:35:41","url":"/1/1"}
+{"level":"info","message":"GET /1/1 304 131ms","method":"GET","responseTime":131,"status":304,"timestamp":"2025-02-28 14:35:42","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:55","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:35:55"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:55","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"GET / 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 14:35:55","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:55","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"GET / 304 30ms","method":"GET","responseTime":30,"status":304,"timestamp":"2025-02-28 14:35:55","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:35:55"}
+{"level":"info","message":"GET / 304 14ms","method":"GET","responseTime":14,"status":304,"timestamp":"2025-02-28 14:35:55","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:55","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 11ms","method":"GET","responseTime":11,"status":304,"timestamp":"2025-02-28 14:35:55","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:56","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"GET / 304 10ms","method":"GET","responseTime":10,"status":304,"timestamp":"2025-02-28 14:35:56","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:56","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:35:56"}
+{"level":"info","message":"GET / 304 13ms","method":"GET","responseTime":13,"status":304,"timestamp":"2025-02-28 14:35:56","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:58","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 500 4ms","method":"GET","responseTime":4,"status":500,"timestamp":"2025-02-28 14:35:58","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:58","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:35:58"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:58","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 500 4ms","method":"GET","responseTime":4,"status":500,"timestamp":"2025-02-28 14:35:58","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 14ms","method":"GET","responseTime":14,"status":304,"timestamp":"2025-02-28 14:35:58","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:35:58","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:35:58"}
+{"level":"info","message":"GET /1/2 304 9ms","method":"GET","responseTime":9,"status":304,"timestamp":"2025-02-28 14:35:58","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:02","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"GET / 200 19ms","method":"GET","responseTime":19,"status":200,"timestamp":"2025-02-28 14:37:02","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:02","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:37:02"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:37:02","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:11","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:37:11"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:11","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"GET / 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 14:37:11","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:11","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"GET / 304 34ms","method":"GET","responseTime":34,"status":304,"timestamp":"2025-02-28 14:37:11","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:37:11"}
+{"level":"info","message":"GET / 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 14:37:11","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:11","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 9ms","method":"GET","responseTime":9,"status":304,"timestamp":"2025-02-28 14:37:11","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:13","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"GET / 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 14:37:13","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:13","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:37:13"}
+{"level":"info","message":"GET / 304 9ms","method":"GET","responseTime":9,"status":304,"timestamp":"2025-02-28 14:37:13","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:14","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:37:14"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:14","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 6ms","method":"GET","responseTime":6,"status":500,"timestamp":"2025-02-28 14:37:14","url":"/1/1"}
+{"level":"info","message":"GET /1/1 200 19ms","method":"GET","responseTime":19,"status":200,"timestamp":"2025-02-28 14:37:14","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:14","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 500 6ms","method":"GET","responseTime":6,"status":500,"timestamp":"2025-02-28 14:37:14","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:37:14","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:37:14"}
+{"level":"info","message":"GET /1/1 304 10ms","method":"GET","responseTime":10,"status":304,"timestamp":"2025-02-28 14:37:14","url":"/1/1"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:37:36"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:37:36"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:37:54"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:37:54"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:37:56"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:37:56"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:38:30"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:38:30"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 14:38:37"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 14:38:37"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:06","url":"/api/production-site/1/1"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"1","timestamp":"2025-02-28 14:39:06"}
+{"level":"info","message":"GET /1/1 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 14:39:06","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:24","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:39:24"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:24","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"GET / 304 41ms","method":"GET","responseTime":41,"status":304,"timestamp":"2025-02-28 14:39:24","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:24","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"GET / 200 57ms","method":"GET","responseTime":57,"status":200,"timestamp":"2025-02-28 14:39:24","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:39:24"}
+{"level":"info","message":"GET / 304 30ms","method":"GET","responseTime":30,"status":304,"timestamp":"2025-02-28 14:39:24","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:24","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 14ms","method":"GET","responseTime":14,"status":304,"timestamp":"2025-02-28 14:39:24","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:25","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"GET / 304 13ms","method":"GET","responseTime":13,"status":304,"timestamp":"2025-02-28 14:39:25","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:25","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 14:39:25"}
+{"level":"info","message":"GET / 304 14ms","method":"GET","responseTime":14,"status":304,"timestamp":"2025-02-28 14:39:25","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:27","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:39:27"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/productions/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:27","url":"/api/productions/1/2"}
+{"level":"info","message":"GET /api/productions/1/2 404 3ms","method":"GET","responseTime":3,"status":404,"timestamp":"2025-02-28 14:39:27","url":"/api/productions/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/productions/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:27","url":"/api/productions/1/2"}
+{"level":"info","message":"GET /api/productions/1/2 404 2ms","method":"GET","responseTime":2,"status":404,"timestamp":"2025-02-28 14:39:27","url":"/api/productions/1/2"}
+{"level":"info","message":"GET /1/2 200 24ms","method":"GET","responseTime":24,"status":200,"timestamp":"2025-02-28 14:39:27","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 14:39:27","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 14:39:27"}
+{"level":"info","message":"GET /1/2 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 14:39:27","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:18:18","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:18:18"}
+{"level":"info","message":"GET /1/2 304 184ms","method":"GET","responseTime":184,"status":304,"timestamp":"2025-02-28 15:18:18","url":"/1/2"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:33:38"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:33:38"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:33:46"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:33:46"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:33:58","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:33:58","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:33:58"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:33:58"}
+{"level":"info","message":"GET / 304 291ms","method":"GET","responseTime":291,"status":304,"timestamp":"2025-02-28 15:33:59","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:33:59"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:33:59"}
+{"level":"info","message":"GET / 304 283ms","method":"GET","responseTime":283,"status":304,"timestamp":"2025-02-28 15:33:59","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:01","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"GET / 304 33ms","method":"GET","responseTime":33,"status":304,"timestamp":"2025-02-28 15:34:01","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:01","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:34:01"}
+{"level":"info","message":"GET / 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 15:34:01","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:03","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 200 190ms","method":"GET","responseTime":190,"status":200,"timestamp":"2025-02-28 15:34:03","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/1","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:03","url":"/api/production-unit/1/1"}
+{"level":"info","message":"GET /1/1 304 28ms","method":"GET","responseTime":28,"status":304,"timestamp":"2025-02-28 15:34:03","url":"/1/1"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:08","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"GET / 304 25ms","method":"GET","responseTime":25,"status":304,"timestamp":"2025-02-28 15:34:08","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:08","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:34:08"}
+{"level":"info","message":"GET / 304 26ms","method":"GET","responseTime":26,"status":304,"timestamp":"2025-02-28 15:34:08","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:11","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:34:11"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:34:11"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:34:11"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:34:11"}
+{"level":"info","message":"GET / 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 15:34:11","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:11","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:34:11"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:34:11"}
+{"level":"info","message":"[ProductionSiteDAL] Found 2 items","timestamp":"2025-02-28 15:34:12"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 2 sites","timestamp":"2025-02-28 15:34:12"}
+{"level":"info","message":"GET / 304 27ms","method":"GET","responseTime":27,"status":304,"timestamp":"2025-02-28 15:34:12","url":"/"}
+{"body":{"annualProduction_L":78,"banking":0,"capacity_MW":78,"companyId":1,"htscNo":"3567389","injectionVoltage_KV":45,"location":"trichy","name":"trichy_3456mw","productionSiteId":3,"status":"Active","type":"Wind"},"ip":"::1","level":"info","message":"POST /api/production-site","method":"POST","params":{},"query":{},"timestamp":"2025-02-28 15:34:24","url":"/api/production-site"}
+{"annualProduction_L":78,"banking":0,"capacity_MW":78,"companyId":1,"htscNo":"3567389","injectionVoltage_KV":45,"level":"info","location":"trichy","message":"[ProductionSiteController] Creating site:","name":"trichy_3456mw","productionSiteId":3,"status":"Active","timestamp":"2025-02-28 15:34:24","type":"Wind"}
+{"level":"info","message":"POST / 201 63ms","method":"POST","responseTime":63,"status":201,"timestamp":"2025-02-28 15:34:24","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:30","url":"/api/production-unit/1/3"}
+{"level":"info","message":"GET /1/3 200 19ms","method":"GET","responseTime":19,"status":200,"timestamp":"2025-02-28 15:34:30","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:34:30","url":"/api/production-unit/1/3"}
+{"level":"info","message":"GET /1/3 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 15:34:30","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:23","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:41:23"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:23","url":"/api/production-unit"}
+{"level":"info","message":"GET / 304 153ms","method":"GET","responseTime":153,"status":304,"timestamp":"2025-02-28 15:41:23","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"GET / 200 189ms","method":"GET","responseTime":189,"status":200,"timestamp":"2025-02-28 15:41:23","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:23","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:23","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"GET / 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 15:41:23","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:41:23"}
+{"level":"info","message":"GET / 304 33ms","method":"GET","responseTime":33,"status":304,"timestamp":"2025-02-28 15:41:23","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:24","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:41:24","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:24","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:41:24"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:41:24","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:26","url":"/api/production-site/1/3"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"3","timestamp":"2025-02-28 15:41:26"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:26","url":"/api/production-unit/1/3"}
+{"level":"info","message":"GET /1/3 200 37ms","method":"GET","responseTime":37,"status":200,"timestamp":"2025-02-28 15:41:26","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:26","url":"/api/production-site/1/3"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"3","timestamp":"2025-02-28 15:41:26"}
+{"level":"info","message":"GET /1/3 304 43ms","method":"GET","responseTime":43,"status":304,"timestamp":"2025-02-28 15:41:26","url":"/1/3"}
+{"level":"info","message":"GET /1/3 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:41:26","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/3","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:26","url":"/api/production-unit/1/3"}
+{"level":"info","message":"GET /1/3 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:41:26","url":"/1/3"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:30","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"GET / 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 15:41:30","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:30","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:41:30"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:41:30","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:32","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:41:32"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:32","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 15:41:32","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:32","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:41:32"}
+{"level":"info","message":"GET /1/2 304 17ms","method":"GET","responseTime":17,"status":304,"timestamp":"2025-02-28 15:41:32","url":"/1/2"}
+{"level":"info","message":"GET /1/2 200 38ms","method":"GET","responseTime":38,"status":200,"timestamp":"2025-02-28 15:41:32","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:41:32","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 13ms","method":"GET","responseTime":13,"status":304,"timestamp":"2025-02-28 15:41:32","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:46:48","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:46:48"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:46:48","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 115ms","method":"GET","responseTime":115,"status":304,"timestamp":"2025-02-28 15:46:48","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 77ms","method":"GET","responseTime":77,"status":304,"timestamp":"2025-02-28 15:46:48","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:46:48","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:46:48"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:46:48","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 17ms","method":"GET","responseTime":17,"status":304,"timestamp":"2025-02-28 15:46:48","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 16ms","method":"GET","responseTime":16,"status":304,"timestamp":"2025-02-28 15:46:48","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:02","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:47:02"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:47:02"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:02","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:47:02"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:47:02"}
+{"level":"info","message":"GET / 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 15:47:02","url":"/"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:47:02","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:02","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:47:02"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:47:02"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:02","url":"/api/production-unit"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:47:02"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:47:02"}
+{"level":"info","message":"GET / 304 31ms","method":"GET","responseTime":31,"status":304,"timestamp":"2025-02-28 15:47:02","url":"/"}
+{"level":"info","message":"GET / 304 26ms","method":"GET","responseTime":26,"status":304,"timestamp":"2025-02-28 15:47:02","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:04","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"GET / 304 16ms","method":"GET","responseTime":16,"status":304,"timestamp":"2025-02-28 15:47:04","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:04","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:47:04"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:47:04","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:06","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:47:06"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:06","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 15ms","method":"GET","responseTime":15,"status":304,"timestamp":"2025-02-28 15:47:06","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:06","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:47:06"}
+{"level":"info","message":"GET /1/2 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 15:47:06","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:47:06","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:06","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 15:47:06","url":"/1/2"}
+{"body":{"c1":2,"c2":22,"c3":2,"c4":22,"c5":2,"companyId":1,"createdAt":"2025-02-28T10:17:36.996Z","month":"0225","pk":"1_2","productionSiteId":2,"sk":"0225"},"ip":"::1","level":"info","message":"POST /api/production-unit","method":"POST","params":{},"query":{},"timestamp":"2025-02-28 15:47:37","url":"/api/production-unit"}
+{"level":"info","message":"POST / 201 58ms","method":"POST","responseTime":58,"status":201,"timestamp":"2025-02-28 15:47:37","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:37","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:47:37"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:37","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 200 15ms","method":"GET","responseTime":15,"status":200,"timestamp":"2025-02-28 15:47:37","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 27ms","method":"GET","responseTime":27,"status":304,"timestamp":"2025-02-28 15:47:37","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:41","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:47:41"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:41","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 14ms","method":"GET","responseTime":14,"status":304,"timestamp":"2025-02-28 15:47:41","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 16ms","method":"GET","responseTime":16,"status":304,"timestamp":"2025-02-28 15:47:41","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:44","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:47:44"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:44","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 15:47:44","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 15:47:44","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:47","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:47:47"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:47:47","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 21ms","method":"GET","responseTime":21,"status":304,"timestamp":"2025-02-28 15:47:47","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 15:47:47","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:48:37","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:48:37"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:48:37","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 15:48:37","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 15:48:37","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:49:13","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:49:13"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:49:13","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 22ms","method":"GET","responseTime":22,"status":304,"timestamp":"2025-02-28 15:49:13","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 20ms","method":"GET","responseTime":20,"status":304,"timestamp":"2025-02-28 15:49:13","url":"/1/2"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:54:17"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:54:17"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:54:22"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:54:22"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:54:29"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:54:29"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:54:48"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:54:48"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:55:07"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:55:07"}
+{"0":"ConsumptionSiteTable","1":"ConsumptionTable","2":"ProductionSiteTable","3":"ProductionTable","level":"info","message":"[DynamoDB] Available tables:","timestamp":"2025-02-28 15:55:11"}
+{"level":"info","message":"\n🚀 Server running on port 3333\n📁 DynamoDB endpoint: http://localhost:8000\n            ","timestamp":"2025-02-28 15:55:11"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:27","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:27","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"GET / 200 116ms","method":"GET","responseTime":116,"status":200,"timestamp":"2025-02-28 15:56:27","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"GET / 304 97ms","method":"GET","responseTime":97,"status":304,"timestamp":"2025-02-28 15:56:27","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:27","url":"/api/production-unit"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:27","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"GET / 304 45ms","method":"GET","responseTime":45,"status":304,"timestamp":"2025-02-28 15:56:27","url":"/"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:56:27"}
+{"level":"info","message":"GET / 304 45ms","method":"GET","responseTime":45,"status":304,"timestamp":"2025-02-28 15:56:27","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:29","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"GET / 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:56:29","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:29","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:56:29"}
+{"level":"info","message":"GET / 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 15:56:29","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:30","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:56:30"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:30","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 30ms","method":"GET","responseTime":30,"status":304,"timestamp":"2025-02-28 15:56:30","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:30","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:56:30"}
+{"level":"info","message":"GET /1/2 200 52ms","method":"GET","responseTime":52,"status":200,"timestamp":"2025-02-28 15:56:30","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 35ms","method":"GET","responseTime":35,"status":304,"timestamp":"2025-02-28 15:56:30","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:30","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 23ms","method":"GET","responseTime":23,"status":304,"timestamp":"2025-02-28 15:56:30","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"DELETE /api/productions/1/2/112024","method":"DELETE","params":{},"query":{},"timestamp":"2025-02-28 15:56:36","url":"/api/productions/1/2/112024"}
+{"level":"info","message":"DELETE /api/productions/1/2/112024 404 2ms","method":"DELETE","responseTime":2,"status":404,"timestamp":"2025-02-28 15:56:36","url":"/api/productions/1/2/112024"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:40","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"GET / 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 15:56:40","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:40","url":"/api/production-site"}
+{"level":"info","message":"[ProductionSiteController] Fetching all production sites","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"[ProductionSiteDAL] Scanning table for all items","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"[ProductionSiteDAL] Found 3 items","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"[ProductionSiteController] Successfully retrieved 3 sites","timestamp":"2025-02-28 15:56:40"}
+{"level":"info","message":"GET / 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 15:56:40","url":"/"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:41","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:56:41"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:41","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 28ms","method":"GET","responseTime":28,"status":304,"timestamp":"2025-02-28 15:56:41","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 24ms","method":"GET","responseTime":24,"status":304,"timestamp":"2025-02-28 15:56:41","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:41","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:56:41"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:56:41","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 15:56:41","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:56:41","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-site/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:57:01","url":"/api/production-site/1/2"}
+{"companyId":"1","level":"info","message":"[ProductionSiteController] Getting site:","productionSiteId":"2","timestamp":"2025-02-28 15:57:01"}
+{"body":{},"ip":"::1","level":"info","message":"GET /api/production-unit/1/2","method":"GET","params":{},"query":{},"timestamp":"2025-02-28 15:57:01","url":"/api/production-unit/1/2"}
+{"level":"info","message":"GET /1/2 304 19ms","method":"GET","responseTime":19,"status":304,"timestamp":"2025-02-28 15:57:01","url":"/1/2"}
+{"level":"info","message":"GET /1/2 304 18ms","method":"GET","responseTime":18,"status":304,"timestamp":"2025-02-28 15:57:01","url":"/1/2"}
+{"body":{},"ip":"::1","level":"info","message":"DELETE /api/productions/1/2/0225","method":"DELETE","params":{},"query":{},"timestamp":"2025-02-28 15:57:12","url":"/api/productions/1/2/0225"}
+{"level":"info","message":"DELETE /api/productions/1/2/0225 404 2ms","method":"DELETE","responseTime":2,"status":404,"timestamp":"2025-02-28 15:57:12","url":"/api/productions/1/2/0225"}
