@@ -27,7 +27,9 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Skeleton,
-  Tooltip // Add this import
+  Tooltip,
+  DialogContentText, // Added import
+  DialogActions     // Added import
 } from '@mui/material';
 
 import {
@@ -49,13 +51,15 @@ import {
   BarChart as BarChartIcon,
   Speed as CapacityIcon,
   CalendarToday as DateIcon,
-  PlayArrow as StatusIcon
+  PlayArrow as StatusIcon,
+  TableChart as TableChartIcon,
 } from '@mui/icons-material';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useAuth } from '../context/AuthContext';
 import ProductionSiteForm from './ProductionSiteForm';
 import ProductionSiteDataForm from './ProductionSiteDataForm';
+import ProductionDataTable from './ProductionDataTable';  // Keep this import
 import {
   fetchProductionUnits,
   createProductionUnit,
@@ -71,15 +75,37 @@ import {
 } from '../services/productionapi';
 import DateFormatter from '../utils/DateFormatter';
 import { isValid } from 'date-fns';
+import { useSnackbar } from 'notistack';
 
-// Component to display label-value pairs
+// Keep only one formatMonthYear function at the top of the file
+const formatMonthYear = (sk) => {
+  try {
+    if (typeof sk === 'string' && sk.length === 6) {
+      // Handle SK format (MMYYYY)
+      const month = sk.substring(0, 2);
+      const year = sk.substring(2);
+
+      return new Date(parseInt(year), parseInt(month) - 1)
+        .toLocaleString('en-US', {
+          month: 'short',
+          year: 'numeric'
+        });
+    }
+    return 'Invalid Date';
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return 'Invalid Date';
+  }
+};
+
+// Update the DetailItem component to handle undefined values
 const DetailItem = ({ label, value }) => (
   <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
     <Typography variant="body2" color="text.secondary" component="div">
       {label}
     </Typography>
     <Typography variant="body2" fontWeight={500} component="div">
-      {value}
+      {value || 'N/A'}
     </Typography>
   </Box>
 );
@@ -157,10 +183,7 @@ const ProductionDataCard = ({ data, onMenuOpen }) => (
       mb: 2
     }}>
       <Typography variant="subtitle1" fontWeight="500">
-        {new Date(data.sk).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long'
-        })}
+        {formatMonthYear(data.sk)}
       </Typography>
       <IconButton
         size="small"
@@ -198,111 +221,63 @@ const ProductionDataCard = ({ data, onMenuOpen }) => (
 
 // Update ProductionTable component
 const ProductionTable = ({ data = [], matrixType, onEdit, onDelete }) => {
-  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
-  const [selectedRow, setSelectedRow] = useState(null);
-
-  const handleMenuOpen = (event, row) => {
-    setMenuAnchorEl(event.currentTarget);
-    setSelectedRow(row);
-  };
-
-  const handleMenuClose = () => {
-    setMenuAnchorEl(null);
-    setSelectedRow(null);
-  };
-
-  const handleEdit = () => {
-    if (selectedRow) {
-      onEdit(selectedRow);
-    }
-    handleMenuClose();
-  };
-
-  const handleDelete = () => {
-    if (selectedRow) {
-      onDelete(selectedRow);
-    }
-    handleMenuClose();
-  };
-
-  const getColumns = () => {
-    if (matrixType === 'charge') {
-      return Array.from({ length: 8 }, (_, i) => ({
-        id: `c00${i + 1}`,
-        label: `C00${i + 1}`
-      }));
-    }
-    return Array.from({ length: 5 }, (_, i) => ({
-      id: `c${i + 1}`,
-      label: `C${i + 1}`
-    }));
-  };
-
-  const columns = getColumns();
-
-  const sortedData = useMemo(() => {
-    return [...data].sort((a, b) => DateFormatter.sortDatesDesc(a, b));
-  }, [data]);
-
   return (
-    <>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Month</TableCell>
-              {columns.map(column => (
-                <TableCell key={column.id} align="right">
-                  {column.label}
-                </TableCell>
-              ))}
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedData.map((row) => (
-              <TableRow key={row.sk} hover>
-                <TableCell>{DateFormatter.formatForTable(row.sk)}</TableCell>
-                {columns.map(column => (
-                  <TableCell key={column.id} align="right">
-                    {row[column.id] || 0}
+    <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Month</TableCell>
+            {matrixType === 'unit' ? (
+              // Unit Matrix Headers
+              Array.from({ length: 5 }, (_, i) => (
+                <TableCell key={`c${i + 1}`} align="right">C{i + 1}</TableCell>
+              ))
+            ) : (
+              // Charge Matrix Headers
+              Array.from({ length: 10 }, (_, i) => (
+                <TableCell key={`c00${i + 1}`} align="right">C00{i + 1}</TableCell>
+              ))
+            )}
+            <TableCell align="right">Total</TableCell>
+            <TableCell align="right">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row) => (
+            <TableRow key={row.sk} hover>
+              <TableCell>{formatMonthYear(row.sk)}</TableCell>
+              {matrixType === 'unit' ? (
+                // Unit Matrix Values
+                Array.from({ length: 5 }, (_, i) => (
+                  <TableCell key={`c${i + 1}`} align="right">
+                    {row[`c${i + 1}`].toFixed(2)}
                   </TableCell>
-                ))}
-                <TableCell align="right">
-                  <IconButton
-                    size="small"
-                    onClick={(e) => handleMenuOpen(e, row)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Menu
-        anchorEl={menuAnchorEl}
-        open={Boolean(menuAnchorEl)}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleEdit}>
-          <EditIcon sx={{ mr: 1 }} /> Edit
-        </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <DeleteIcon sx={{ mr: 1 }} /> Delete
-        </MenuItem>
-      </Menu>
-    </>
+                ))
+              ) : (
+                // Charge Matrix Values
+                Array.from({ length: 10 }, (_, i) => (
+                  <TableCell key={`c00${i + 1}`} align="right">
+                    {row[`c00${i + 1}`].toFixed(2)}
+                  </TableCell>
+                ))
+              )}
+              <TableCell align="right">
+                {(matrixType === 'unit' ? row.totalUnit : row.totalCharge).toFixed(2)}
+              </TableCell>
+              <TableCell align="right">
+                <IconButton size="small" onClick={() => onEdit(row)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton size="small" onClick={() => onDelete(row)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
-};
-
-const formatMonthYear = (dateString) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long'
-  });
 };
 
 // Add this new component for the chart toggle
@@ -364,70 +339,73 @@ const ChartLegend = ({ series }) => (
 
 // Update the ProductionGraph component
 const ProductionGraph = ({ data, chartType = 'line', matrixType = 'unit' }) => {
-  const series = React.useMemo(() => {
-    if (matrixType === 'charge') {
-      return Array.from({ length: 8 }, (_, i) => ({
-        label: `c00${i + 1}`
-      }));
-    }
-    return Array.from({ length: 5 }, (_, i) => ({
-      label: `c${i + 1}`
+  const chartData = useMemo(() => {
+    return data.map(item => ({
+      date: DateFormatter.formatMonthYear(item.sk),
+      ...(matrixType === 'unit'
+        ? {
+          c1: Number(parseFloat(item.c1 || 0).toFixed(2)),
+          c2: Number(parseFloat(item.c2 || 0).toFixed(2)),
+          c3: Number(parseFloat(item.c3 || 0).toFixed(2)),
+          c4: Number(parseFloat(item.c4 || 0).toFixed(2)),
+          c5: Number(parseFloat(item.c5 || 0).toFixed(2)),
+        }
+        : {
+          c001: Number(parseFloat(item.c001 || 0).toFixed(2)),
+          c002: Number(parseFloat(item.c002 || 0).toFixed(2)),
+          c003: Number(parseFloat(item.c003 || 0).toFixed(2)),
+          c004: Number(parseFloat(item.c004 || 0).toFixed(2)),
+          c005: Number(parseFloat(item.c005 || 0).toFixed(2)),
+          c006: Number(parseFloat(item.c006 || 0).toFixed(2)),
+          c007: Number(parseFloat(item.c007 || 0).toFixed(2)),
+          c008: Number(parseFloat(item.c008 || 0).toFixed(2)),
+          c009: Number(parseFloat(item.c009 || 0).toFixed(2)),
+          c010: Number(parseFloat(item.c010 || 0).toFixed(2)),
+        }
+      )
     }));
+  }, [data, matrixType]);
+
+  const series = useMemo(() => {
+    return matrixType === 'unit'
+      ? Array.from({ length: 5 }, (_, i) => ({
+        dataKey: `c${i + 1}`,
+        label: `C${i + 1}`,
+        color: `hsl(${(i * 360) / 5}, 70%, 50%)`
+      }))
+      : Array.from({ length: 10 }, (_, i) => ({
+        dataKey: `c00${i + 1}`,
+        label: `C00${i + 1}`,
+        color: `hsl(${(i * 360) / 10}, 70%, 50%)`
+      }));
   }, [matrixType]);
 
-  // Ensure data is properly formatted
-  const formattedData = React.useMemo(() => {
-    return data.map(d => ({
-      ...d,
-      date: new Date(d.sk).toLocaleDateString('en-US', { month: 'short' })
-    })).sort((a, b) => new Date(a.sk) - new Date(b.sk));
-  }, [data]);
-
-  const chartProps = {
-    series: series.map(s => ({
-      data: formattedData.map(d => {
-        const value = Number(d[s.label]);
-        return isNaN(value) ? 0 : value;
-      }),
-      label: s.label.toUpperCase()
-    })),
-    xAxis: [{
-      data: formattedData.map(d => d.date),
-      scaleType: 'band'
-    }],
-    height: 400,
-    margin: { top: 20, right: 40, bottom: 30, left: 40 }
-  };
-
   return (
-    <Box sx={{ width: '100%' }}>
-      {formattedData.length > 0 ? (
-        <>
-          {chartType === 'line' ? (
-            <LineChart
-              {...chartProps}
-              sx={{
-                '.MuiLineElement-root': {
-                  strokeWidth: 2
-                }
-              }}
-            />
-          ) : (
-            <BarChart
-              {...chartProps}
-              sx={{
-                '.MuiBarElement-root': {
-                  borderRadius: 1
-                }
-              }}
-            />
-          )}
-          <ChartLegend series={chartProps.series} />
-        </>
+    <Box sx={{ width: '100%', height: 400 }}>
+      {chartType === 'line' ? (
+        <LineChart
+          xAxis={[{
+            dataKey: 'date',
+            scaleType: 'band',
+            tickLabelStyle: { angle: 45, textAnchor: 'start' }
+          }]}
+          series={series}
+          dataset={chartData}
+          height={400}
+          margin={{ left: 60, right: 20, top: 20, bottom: 60 }}
+        />
       ) : (
-        <Box sx={{ height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography color="text.secondary">No production data available</Typography>
-        </Box>
+        <BarChart
+          xAxis={[{
+            dataKey: 'date',
+            scaleType: 'band',
+            tickLabelStyle: { angle: 45, textAnchor: 'start' }
+          }]}
+          series={series}
+          dataset={chartData}
+          height={400}
+          margin={{ left: 60, right: 20, top: 20, bottom: 60 }}
+        />
       )}
     </Box>
   );
@@ -442,9 +420,11 @@ const MatrixTypeToggle = ({ matrixType, onMatrixTypeChange }) => (
     size="small"
   >
     <ToggleButton value="unit">
+      <PowerIcon sx={{ mr: 1 }} />
       Unit Matrix
     </ToggleButton>
     <ToggleButton value="charge">
+      <VoltageIcon sx={{ mr: 1 }} />
       Charge Matrix
     </ToggleButton>
   </ToggleButtonGroup>
@@ -464,380 +444,356 @@ const getTypeIcon = (type) => {
 
 // Update the main ProductionSiteDetails component
 const ProductionSiteDetails = () => {
-  const { companyId, productionSiteId } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
+  const { companyId, productionSiteId } = useParams();
 
-  const [productionData, setProductionData] = useState([]);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingData, setEditingData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [siteDetails, setSiteDetails] = useState(null);
-  const [chartType, setChartType] = useState('line');
-  // Add matrixType state
-  const [matrixType, setMatrixType] = useState('unit');
+  // State management
   const [site, setSite] = useState(null);
+  const [productionData, setProductionData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+  const [chartType, setChartType] = useState('line');
+  const [matrixType, setMatrixType] = useState('unit');
 
-  // Add site details fetch
-  const loadSiteDetails = async () => {
-    try {
-      const siteData = await fetchProductionSiteDetails(companyId, productionSiteId);
-      setSite(siteData);
-    } catch (error) {
-      console.error('Error loading site details:', error);
+  // Handler functions
+  const handleChartTypeChange = (event, newType) => {
+    if (newType !== null) {
+      setChartType(newType);
     }
   };
 
-  // Update the loadData function to use productionSiteId instead of siteId
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      await Promise.all([
-        loadSiteDetails(),
-        fetchProductionSiteHistory(companyId, productionSiteId)
-      ]).then(([_, result]) => {
-        if (result.error) {
-          setError(result.message);
-          setProductionData([]);
-        } else {
-          setProductionData(result.data);
-          setError(null);
-        }
-      });
-    } catch (err) {
-      console.error('Failed to load data:', err);
-      setError('Failed to load production history. Please try again later.');
-      setProductionData([]);
-    } finally {
-      setLoading(false);
+  const handleMatrixTypeChange = (event, newType) => {
+    if (newType !== null) {
+      setMatrixType(newType);
     }
   };
 
-  // Make sure useEffect uses the same variable name
-  useEffect(() => {
-    if (companyId && productionSiteId) {
-      loadData();
-    }
-  }, [companyId, productionSiteId, matrixType]);
+  const handleEditData = (data) => {
+    setSelectedData(data);
+    setEditDialogOpen(true);
+  };
 
-  const handleFormSubmit = async (formData) => {
+  const handleDeleteData = (data) => {
+    setSelectedData(data);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedData?.sk) {
+      enqueueSnackbar('No data selected for deletion', { variant: 'error' });
+      return;
+    }
+
     try {
       setLoading(true);
-      setError(null);
 
-      if (!formData.selectedDate) {
-        throw new Error('Please select a valid date');
-      }
+      // Ensure sk is in MMYYYY format - keep all 6 digits
+      const sk = selectedData.sk;
 
-      // Ensure the date is the first of the month
-      const selectedDate = new Date(formData.selectedDate.getFullYear(),
-        formData.selectedDate.getMonth(),
-        1);
+      console.log('[ProductionSiteDetails] Deleting data:', {
+        companyId,
+        productionSiteId,
+        sk
+      });
 
-      const payload = {
-        selectedDate,
-        companyId: parseInt(companyId),
-        productionSiteId: parseInt(productionSiteId),
-        c1: parseInt(formData.c1) || 0,
-        c2: parseInt(formData.c2) || 0,
-        c3: parseInt(formData.c3) || 0,
-        c4: parseInt(formData.c4) || 0,
-        c5: parseInt(formData.c5) || 0,
-        matrixType: matrixType
-      };
+      await deleteProductionData(
+        parseInt(companyId),
+        parseInt(productionSiteId),
+        sk
+      );
 
-      if (editingData) {
-        await updateProductionData(companyId, productionSiteId, payload);
-      } else {
-        await createProductionData(companyId, productionSiteId, payload);
-      }
-
-      setDialogOpen(false);
-      setEditingData(null);
-      await loadData();
-    } catch (error) {
-      console.error('Failed to save production data:', error);
-      setError(error.message || 'Failed to save production data');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (data) => {
-    try {
-      await deleteProductionData(companyId, productionSiteId, data.sk);
+      enqueueSnackbar('Production data deleted successfully', { variant: 'success' });
+      setDeleteDialogOpen(false);
+      setSelectedData(null);
       await loadData();
     } catch (error) {
       console.error('Failed to delete production data:', error);
-      setError('Failed to delete production data');
+      enqueueSnackbar(error.message || 'Failed to delete data', { variant: 'error' });
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Update the getBankingStatus function
-  const getBankingStatus = (hasBanking) => {
-    // Convert to number and handle both banking and hasBanking properties
-    const bankingValue = parseInt(hasBanking);
-    return bankingValue === 1 ? 'Has Banking' : 'No Banking';
+  // Add loadData function
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const [siteDetails, productionHistory] = await Promise.all([
+        fetchProductionSiteDetails(companyId, productionSiteId),
+        fetchProductionSiteHistory(companyId, productionSiteId)
+      ]);
+
+      setSite(siteDetails);
+      setProductionData(productionHistory.data || []);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading data:', err);
+      setError(err.message || 'Failed to load data');
+      enqueueSnackbar(err.message || 'Failed to load data', { variant: 'error' });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Render function for the header
-  const renderHeader = () => (
-    <Paper sx={{ p: 3, mb: 3, borderLeft: 6, borderColor: site?.type?.toLowerCase() === 'wind' ? '#1976D2' : '#FFC107' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {getTypeIcon(site?.type)}
-          <Typography variant="h5" sx={{ ml: 2 }}>
-            {site?.name || 'New Site'}
-          </Typography>
-        </Box>
-        <Box>
-          {site?.banking && (
-            <Tooltip title="Banking Enabled">
-              <BankingIcon sx={{ color: 'success.main', mr: 1 }} />
-            </Tooltip>
-          )}
-          <StatusIcon 
-            sx={{ 
-              color: site?.status === 'Active' ? 'success.main' : 'error.main'
-            }} 
-          />
-        </Box>
-      </Box>
-      
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
-          <DetailCard
-            title="Location"
-            value={site?.location}
-            icon={<LocationIcon />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <DetailCard
-            title="Capacity"
-            value={site?.capacity_MW ? `${site.capacity_MW} MW` : 'Not set'}
-            icon={<CapacityIcon />}
-            color={site?.type?.toLowerCase() === 'wind' ? '#1976D2' : '#FFC107'}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <DetailCard
-            title="Injection Voltage"
-            value={site?.injectionVoltage_KV ? `${site.injectionVoltage_KV} KV` : 'Not set'}
-            icon={<VoltageIcon />}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <DetailCard
-            title="Annual Production"
-            value={site?.annualProduction_L ? `${site.annualProduction_L.toLocaleString()} L` : 'Not set'}
-            icon={<DateIcon />}
-          />
-        </Grid>
-      </Grid>
-    </Paper>
-  );
+  // Update the handleFormSubmit function
+  const handleFormSubmit = async (formData) => {
+    try {
+      const selectedDate = new Date(formData.selectedDate);
+      const sk = DateFormatter.toApiFormat(selectedDate);
 
-  // Render function for no data state
-  const renderNoData = () => (
-    <Alert 
-      severity="info" 
-      sx={{ mb: 2 }}
-      action={
-        <Button 
-          color="inherit" 
-          size="small" 
-          startIcon={<AddIcon />}
-          onClick={() => setDialogOpen(true)}
-        >
-          Add Production Data
-        </Button>
+      if (!sk) {
+        throw new Error('Invalid date format');
       }
-    >
-      No production data available for {site?.name || 'this site'} yet.
-    </Alert>
-  );
 
-  const renderProductionData = (data) => (
-    <Grid container spacing={3}>
-      {/* Unit Matrix Card */}
-      <Grid item xs={12} md={6}>
-        <Paper sx={{ p: 2 }}>
-          <Typography variant="h6" gutterBottom color="primary">
-            Unit Matrix
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <Grid container spacing={2}>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <Grid item xs={6} sm={4} key={`unit-${num}`}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    C{num}:
-                  </Typography>
-                  <Typography variant="body2" fontWeight="medium">
-                    {data[`c${num}`] || '0'}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
-      </Grid>
-  
-      {/* Charge Matrix Card */}
-      <Grid item xs={12} md={6}>
-        <Paper sx={{ p: 2 }}>
-          <Typography variant="h6" gutterBottom color="primary">
-            Charge Matrix
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <Grid container spacing={2}>
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-              <Grid item xs={6} sm={4} key={`charge-${num}`}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    C00{num}:
-                  </Typography>
-                  <Typography variant="body2" fontWeight="medium">
-                    {data[`c00${num}`] || '0'}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
-      </Grid>
-    </Grid>
-  );
+      const payload = {
+        ...formData,
+        sk,
+        companyId: parseInt(companyId),
+        productionSiteId: parseInt(productionSiteId)
+      };
 
-  if (loading) {
-    return (
-      <Box sx={{ p: 4, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+      await createProductionData(
+        parseInt(companyId),
+        parseInt(productionSiteId),
+        payload
+      );
 
-  if (error) {
-    return <ErrorDisplay error={error} />;
-  }
+      enqueueSnackbar('Production data added successfully', { variant: 'success' });
+      await loadData(); // Refresh data after successful addition
+      return true;
+    } catch (error) {
+      console.error('Failed to add production data:', error);
+      enqueueSnackbar(error.message || 'Failed to add data', { variant: 'error' });
+      throw error;
+    }
+  };
 
+  // Update the handleUpdateData function
+  const handleUpdateData = async (formData) => {
+    try {
+      const selectedDate = new Date(formData.selectedDate);
+      const sk = DateFormatter.toApiFormat(selectedDate);
+
+      if (!sk) {
+        throw new Error('Invalid date format');
+      }
+
+      // Rest of update logic...
+    } catch (error) {
+      console.error('Update error:', error);
+      throw error;
+    }
+  };
+
+  // Add useEffect for initial data loading
+  useEffect(() => {
+    loadData();
+  }, [companyId, productionSiteId]);
+
+  // Update the prepareChartData function for sorting
+  const prepareChartData = (data, matrixType) => {
+    return data
+      .sort((a, b) => {
+        const dateA = new Date(a.sk.slice(2), parseInt(a.sk.slice(0, 2)) - 1);
+        const dateB = new Date(b.sk.slice(2), parseInt(b.sk.slice(0, 2)) - 1);
+        return dateA - dateB;
+      })
+      .map(item => ({
+        month: formatMonthYear(item.sk),
+        ...(matrixType === 'unit' ? {
+          c1: parseFloat(item.c1) || 0,
+          c2: parseFloat(item.c2) || 0,
+          c3: parseFloat(item.c3) || 0,
+          c4: parseFloat(item.c4) || 0,
+          c5: parseFloat(item.c5) || 0,
+        } : {
+          c001: parseFloat(item.c001) || 0,
+          c002: parseFloat(item.c002) || 0,
+          c003: parseFloat(item.c003) || 0,
+          c004: parseFloat(item.c004) || 0,
+          c005: parseFloat(item.c005) || 0,
+        })
+      }));
+  };
+
+  // Remove SiteDetailsSection and update the return section
   return (
-    <Box sx={{ p: 3, bgcolor: '#f5f5f5', minHeight: '100vh' }}>
+    <Box sx={{ p: 3 }}>
       {/* Header Section */}
       <Box sx={{
         display: 'flex',
-        flexDirection: 'column',
-        mb: 4,
-        borderBottom: '1px solid',
-        borderColor: 'grey.200',
-        pb: 2
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        mb: 4
       }}>
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => navigate('/production')}
-          sx={{ alignSelf: 'flex-start', mb: 1 }}
+          onClick={() => navigate('/production-sites')}
+          variant="outlined"
         >
-          Back to Production Sites
+          Back to Sites
         </Button>
-        <Typography variant="h4" fontWeight="600">
-          {siteDetails?.name || 'Production Site'}
-        </Typography>
+        {site && (
+          <Typography variant="h5" sx={{ flex: 1, textAlign: 'center', mx: 2 }}>
+            {site.name}
+          </Typography>
+        )}
+        <Button
+          startIcon={<AddIcon />}
+          onClick={() => setIsAddDialogOpen(true)}
+          variant="contained"
+          color="primary"
+        >
+          Add Production Data
+        </Button>
       </Box>
 
-      {/* Graph Section with Controls */}
-      <Paper sx={{ p: 3, mb: 4, borderRadius: 2 }}>
+      {/* Chart Section */}
+      <Paper sx={{ p: 3, mb: 3 }}>
         <Box sx={{
+          mb: 3,
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 3
+          flexDirection: 'column',
+          gap: 2
         }}>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <Typography variant="h6">Production Analysis</Typography>
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 2,
+            flexWrap: 'wrap'
+          }}>
+            <MatrixTypeToggle
+              matrixType={matrixType}
+              onMatrixTypeChange={handleMatrixTypeChange}
+            />
             <ChartTypeToggle
               chartType={chartType}
-              onChartTypeChange={(_, newValue) => newValue && setChartType(newValue)}
+              onChartTypeChange={handleChartTypeChange}
             />
           </Box>
-          <Button
-            startIcon={<AddIcon />}
-            variant="contained"
-            onClick={() => setDialogOpen(true)}
-            sx={{
-              bgcolor: 'primary.main',
-              '&:hover': { bgcolor: 'primary.dark' }
-            }}
-          >
-            Add Production Data
-          </Button>
         </Box>
-        <ProductionGraph
-          data={productionData}
-          chartType={chartType}
-          matrixType={matrixType}
-        />
-      </Paper>
 
-      {/* Production History Table */}
-      <Paper sx={{ p: 3, borderRadius: 2 }}>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 3
-        }}>
-          <Typography variant="h6" fontWeight="600">
-            Historical Production Data
-          </Typography>
-          <MatrixTypeToggle
-            matrixType={matrixType}
-            onMatrixTypeChange={(_, newValue) => newValue && setMatrixType(newValue)}
-          />
-        </Box>
-        {productionData.length > 0 ? (
-          <ProductionTable
-            data={productionData}
-            matrixType={matrixType}
-            onEdit={(data) => {
-              setEditingData(data);
-              setDialogOpen(true);
-            }}
-            onDelete={handleDelete}
-          />
+        {loading ? (
+          <Box sx={{ height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+        ) : error ? (
+          <ErrorDisplay error={error} />
         ) : (
-          <Alert severity="info">
-            No production data available
-          </Alert>
+          <ProductionGraph
+            data={productionData}
+            chartType={chartType}
+            matrixType={matrixType}
+          />
         )}
       </Paper>
 
-      {/* Form Dialog */}
+      {/* Production Data Table */}
+      <Paper sx={{ p: 3 }}>
+        <Box sx={{ mb: 2 }}>
+          <Typography variant="h6">Historical Production Data</Typography>
+        </Box>
+        <ProductionDataTable
+          data={productionData}
+          matrixType={matrixType}
+          onRefresh={loadData}
+          onEdit={handleEditData}
+          onDelete={handleDeleteData}
+        />
+      </Paper>
+
+      {/* Add Dialog */}
       <Dialog
-        open={dialogOpen}
-        onClose={() => {
-          setDialogOpen(false);
-          setEditingData(null);
-        }}
-        maxWidth="sm"
+        open={isAddDialogOpen}
+        onClose={() => setIsAddDialogOpen(false)}
+        maxWidth="md"
         fullWidth
       >
-        <DialogTitle>
-          {editingData ? 'Edit Production Data' : 'Add Production Data'}
-        </DialogTitle>
+        <DialogTitle>New Production Data</DialogTitle>
         <DialogContent>
           <ProductionSiteDataForm
-            initialData={editingData}
-            onSubmit={handleFormSubmit}
-            onCancel={() => {
-              setDialogOpen(false);
-              setEditingData(null);
+            onSubmit={async (formData) => {
+              await handleFormSubmit(formData);
+              setIsAddDialogOpen(false);
             }}
+            onCancel={() => setIsAddDialogOpen(false)}
           />
         </DialogContent>
       </Dialog>
-    </Box>
-  );
-}
 
-/* eslint-disable */
+      {/* Edit Dialog */}
+      <Dialog
+        open={editDialogOpen}
+        onClose={() => setEditDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>Edit Production Data</DialogTitle>
+        <DialogContent>
+          <ProductionSiteDataForm
+            initialData={selectedData}
+            onSubmit={async (formData) => {
+              try {
+                await handleUpdateData(formData);
+                setEditDialogOpen(false);
+                await loadData();
+              } catch (error) {
+                console.error('Edit submission error:', error);
+                enqueueSnackbar(error.message || 'Failed to update data', {
+                  variant: 'error'
+                });
+              }
+            }}
+            onCancel={() => setEditDialogOpen(false)}
+            startWithReview={true}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Dialog */}
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+      >
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete the production data for{' '}
+            {selectedData ? DateFormatter.formatMonthYear(selectedData.sk) : ''}?
+            This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setDeleteDialogOpen(false)}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConfirmDelete}
+            color="error"
+            variant="contained"
+            disabled={loading}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Box >
+  );
+};
+
 export default ProductionSiteDetails;

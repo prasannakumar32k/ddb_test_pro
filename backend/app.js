@@ -42,11 +42,7 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
-<<<<<<< HEAD
-app.use('/api/productions', productionRoutes);
-=======
 app.use('/api/production-unit', productionRoutes);
->>>>>>> fbc1dea (Initial commit: Production site management application)
 
 // 404 handler
 app.use((req, res, next) => {
@@ -54,6 +50,7 @@ app.use((req, res, next) => {
         error: 'Not Found',
         message: `Route ${req.originalUrl} not found`
     });
+
 });
 
 // Global error handler

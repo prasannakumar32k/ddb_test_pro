@@ -19,26 +19,28 @@ import DateFormatter from '../utils/DateFormatter';
 
 const steps = ['Select Date', 'Unit Matrix', 'Charge Matrix', 'Review'];
 
-const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, isEdit = false }) => {
-  const [activeStep, setActiveStep] = useState(0);
+const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, startWithReview = false }) => {
   const [formData, setFormData] = useState({
-    selectedDate: new Date(),
-    // Unit Matrix
-    c1: '',
-    c2: '',
-    c3: '',
-    c4: '',
-    c5: '',
-    // Charge Matrix
-    c001: '',
-    c002: '',
-    c003: '',
-    c004: '',
-    c005: '',
-    c006: '',
-    c007: '',
-    c008: ''
+    selectedDate: initialData?.sk
+      ? new Date(20 + initialData.sk.slice(2), parseInt(initialData.sk.slice(0, 2)) - 1)
+      : new Date(),
+    c1: initialData?.c1?.toString() || '0',
+    c2: initialData?.c2?.toString() || '0',
+    c3: initialData?.c3?.toString() || '0',
+    c4: initialData?.c4?.toString() || '0',
+    c5: initialData?.c5?.toString() || '0',
+    c001: initialData?.c001?.toString() || '0',
+    c002: initialData?.c002?.toString() || '0',
+    c003: initialData?.c003?.toString() || '0',
+    c004: initialData?.c004?.toString() || '0',
+    c005: initialData?.c005?.toString() || '0',
+    c006: initialData?.c006?.toString() || '0',
+    c007: initialData?.c007?.toString() || '0',
+    c008: initialData?.c008?.toString() || '0',
+    c009: initialData?.c009?.toString() || '0',
+    c010: initialData?.c010?.toString() || '0'
   });
+  const [activeStep, setActiveStep] = useState(startWithReview ? steps.length - 1 : 0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -69,34 +71,50 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, isEdit
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
 
     try {
-      if (!formData.selectedDate) {
-        throw new Error('Please select a valid date');
+      // Validate required fields
+      const requiredFields = ['selectedDate'];
+      const missingFields = requiredFields.filter(field => !formData[field]);
+
+      if (missingFields.length > 0) {
+        throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
       }
 
       // Validate numeric fields
-      const allFields = [...Array(5)].map((_, i) => `c${i + 1}`).concat(
-        [...Array(8)].map((_, i) => `c00${i + 1}`)
-      );
+      const allFields = [
+        ...Array(5).fill().map((_, i) => `c${i + 1}`),
+        ...Array(10).fill().map((_, i) => `c00${i + 1}`)
+      ];
 
       for (const field of allFields) {
-        if (formData[field] && isNaN(formData[field])) {
+        if (formData[field] && isNaN(parseFloat(formData[field]))) {
           throw new Error(`Please enter a valid number for ${field.toUpperCase()}`);
         }
       }
 
-      await onSubmit({
+      // Format payload
+      const payload = {
         ...formData,
-        selectedDate: startOfMonth(formData.selectedDate)
-      });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+        ...allFields.reduce((acc, field) => ({
+          ...acc,
+          [field]: parseFloat(formData[field] || 0)
+        }), {})
+      };
+
+      await onSubmit(payload);
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setError(error.message);
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const renderStepContent = (step) => {
@@ -143,10 +161,7 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, isEdit
                   label={`C${num}`}
                   name={`c${num}`}
                   value={formData[`c${num}`]}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    [`c${num}`]: e.target.value
-                  }))}
+                  onChange={handleChange}
                   type="number"
                   variant="outlined"
                 />
@@ -164,17 +179,14 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, isEdit
               </Typography>
               <Divider sx={{ mb: 2 }} />
             </Grid>
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
               <Grid item xs={12} sm={6} md={4} key={`c00${num}`}>
                 <TextField
                   fullWidth
                   label={`C00${num}`}
                   name={`c00${num}`}
                   value={formData[`c00${num}`]}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    [`c00${num}`]: e.target.value
-                  }))}
+                  onChange={handleChange}
                   type="number"
                   variant="outlined"
                 />
@@ -229,7 +241,7 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, isEdit
                     Charge Matrix Values
                   </Typography>
                   <Grid container spacing={1}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                       <Grid item xs={6} key={`review-c00${num}`}>
                         <Typography variant="caption" color="text.secondary">
                           C00{num}:
@@ -289,27 +301,14 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, isEdit
                   Back
                 </Button>
               )}
-              {activeStep === steps.length - 1 ? (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  disabled={loading}
-                  sx={{
-                    bgcolor: 'primary.main',
-                    '&:hover': { bgcolor: 'primary.dark' }
-                  }}
-                >
-                  Submit
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleNext}
-                  variant="contained"
-                  disabled={loading}
-                >
-                  Next
-                </Button>
-              )}
+              <Button
+                type={activeStep === steps.length - 1 ? 'submit' : 'button'}
+                onClick={activeStep === steps.length - 1 ? undefined : handleNext}
+                variant="contained"
+                disabled={loading}
+              >
+                {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+              </Button>
             </Box>
           </Box>
         </form>

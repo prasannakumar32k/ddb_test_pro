@@ -148,13 +148,13 @@ const DashboardCard = ({
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [sites, setSites] = useState([]); // Add missing state
-  const [productionData, setProductionData] = useState([]); // Add missing state
-  
-  // Initialize productionStats with default values
-  const [productionStats, setProductionStats] = useState({
+  const [sites, setSites] = useState([]);
+  const [productionData, setProductionData] = useState([]);
+
+  // Add default stats function
+  const getDefaultStats = () => ({
     totalSites: 0,
     totalCapacity: 0,
     activeSites: 0,
@@ -162,8 +162,12 @@ const Dashboard = () => {
     solarSites: 0,
     totalProduction: 0,
     windCapacity: 0,
-    solarCapacity: 0
+    solarCapacity: 0,
+    bankedSites: 0,
+    avgInjectionVoltage: 0
   });
+
+  const [productionStats, setProductionStats] = useState(getDefaultStats());
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -204,33 +208,33 @@ const Dashboard = () => {
   // Add helper function to calculate stats
   const calculateProductionStats = (sites, productionData) => {
     if (!Array.isArray(sites)) {
-        console.warn('Sites is not an array:', sites);
-        return getDefaultStats();
+      console.warn('Sites is not an array:', sites);
+      return getDefaultStats();
     }
 
     const windSites = sites.filter(site => (site.Type || site.type) === 'Wind');
     const solarSites = sites.filter(site => (site.Type || site.type) === 'Solar');
-    
+
     return {
-        totalSites: sites.length,
-        totalCapacity: sites.reduce((sum, site) => 
-            sum + parseFloat(site.Capacity_MW || site.capacity_MW || 0), 0),
-        activeSites: sites.filter(site => 
-            (site.Status || site.status) === 'Active').length,
-        windSites: windSites.length,
-        solarSites: solarSites.length,
-        totalProduction: Array.isArray(productionData) 
-            ? productionData.reduce((sum, data) => sum + (parseFloat(data.AnnualProduction || data.annualProduction_L || 0)), 0)
-            : 0,
-        windCapacity: windSites.reduce((sum, site) => 
-            sum + parseFloat(site.Capacity_MW || site.capacity_MW || 0), 0),
-        solarCapacity: solarSites.reduce((sum, site) => 
-            sum + parseFloat(site.Capacity_MW || site.capacity_MW || 0), 0),
-        bankedSites: sites.filter(site => site.Banking || site.banking).length,
-        avgInjectionVoltage: sites.reduce((sum, site) => 
-            sum + parseFloat(site.InjectionValue || site.injectionVoltage_KV || 0), 0) / sites.length || 0,
-        totalAnnualProduction: sites.reduce((sum, site) => 
-            sum + parseFloat(site.AnnualProduction || site.annualProduction_L || 0), 0)
+      totalSites: sites.length,
+      totalCapacity: sites.reduce((sum, site) =>
+        sum + parseFloat(site.Capacity_MW || site.capacity_MW || 0), 0),
+      activeSites: sites.filter(site =>
+        (site.Status || site.status) === 'Active').length,
+      windSites: windSites.length,
+      solarSites: solarSites.length,
+      totalProduction: Array.isArray(productionData)
+        ? productionData.reduce((sum, data) => sum + (parseFloat(data.AnnualProduction || data.annualProduction_L || 0)), 0)
+        : 0,
+      windCapacity: windSites.reduce((sum, site) =>
+        sum + parseFloat(site.Capacity_MW || site.capacity_MW || 0), 0),
+      solarCapacity: solarSites.reduce((sum, site) =>
+        sum + parseFloat(site.Capacity_MW || site.capacity_MW || 0), 0),
+      bankedSites: sites.filter(site => site.Banking || site.banking).length,
+      avgInjectionVoltage: sites.reduce((sum, site) =>
+        sum + parseFloat(site.InjectionValue || site.injectionVoltage_KV || 0), 0) / sites.length || 0,
+      totalAnnualProduction: sites.reduce((sum, site) =>
+        sum + parseFloat(site.AnnualProduction || site.annualProduction_L || 0), 0)
     };
   };
 

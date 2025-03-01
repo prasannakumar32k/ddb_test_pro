@@ -1,37 +1,29 @@
 {
-  "name": "backend",
+  "name": "production-site-management-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-<<<<<<< HEAD
-    "init-db": "node scripts/initDb.js",
-    "create-table": "node scripts/createDynamoTable.js"
-=======
-    "setup": "node scripts/setupTables.js"
->>>>>>> fbc1dea (Initial commit: Production site management application)
+    "setup": "node scripts/setupTables.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-  "description": "",
+  "description": "Backend service for production site management system",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.749.0",
     "@aws-sdk/lib-dynamodb": "^3.749.0",
     "@aws-sdk/util-dynamodb": "^3.749.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
-    "dotenv": "^16.x",
-<<<<<<< HEAD
-    "express": "^4.x"
-=======
-    "express": "^4.x",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "winston": "^3.11.0"
->>>>>>> fbc1dea (Initial commit: Production site management application)
   },
   "devDependencies": {
-    "nodemon": "^2.x"
+    "nodemon": "^2.0.22"
   }
 }

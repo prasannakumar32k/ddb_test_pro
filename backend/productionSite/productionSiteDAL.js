@@ -1,301 +1,217 @@
-<<<<<<< HEAD
 // productionSiteDAL.js
-const BaseDAL = require("../common/baseDAL");
+const { QueryCommand, ScanCommand, PutCommand, DeleteCommand, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
+const { ListTablesCommand } = require("@aws-sdk/client-dynamodb");
+const logger = require('../utils/logger');
 
-class ProductionSiteDAL extends BaseDAL {
+class ProductionSiteDAL {
   constructor() {
-    super("ProductionSiteTable");
+    this.tableName = 'ProductionSiteTable'; // Changed from 'ProductionSites' to match initialization scripts
+  }
+
+  async checkTableExists() {
+    try {
+      const { TableNames } = await global.dynamoDb.send(new ListTablesCommand({}));
+      return TableNames.includes(this.tableName);
+    } catch (error) {
+      logger.error('[ProductionSiteDAL] checkTableExists Error:', error);
+      throw error;
+    }
   }
 
   async getAllItems() {
     try {
-      console.log('[ProductionSiteDAL] Scanning DynamoDB table');
-      const items = await this.scanTable();
-
-      if (!items || items.length === 0) {
-        console.log('[ProductionSiteDAL] No items found in DynamoDB');
-        return [];
+      if (!(await this.checkTableExists())) {
+        throw new Error(`Table ${this.tableName} does not exist. Please run initialization script.`);
       }
 
-      // Transform DynamoDB items to match frontend format
-      const transformedItems = items.map(item => ({
+      const command = new ScanCommand({
+        TableName: this.tableName,
+        ProjectionExpression: "companyId, productionSiteId, #name, #location, #type, #status, banking, capacity_MW, annualProduction_L, htscNo, injectionVoltage_KV, createdAt, updatedAt",
+        ExpressionAttributeNames: {
+          "#name": "name",
+          "#location": "location",
+          "#type": "type",
+          "#status": "status"
+        }
+      });
+
+      const result = await global.dynamoDb.send(command);
+      return (result.Items || []).map(item => ({
         companyId: parseInt(item.companyId),
         productionSiteId: parseInt(item.productionSiteId),
         name: item.name,
         location: item.location,
         type: item.type,
-        banking: item.banking === 1,
+        status: item.status,
+        banking: parseInt(item.banking || 0),
         capacity_MW: parseFloat(item.capacity_MW || 0),
-        annualProduction_L: parseInt(item.annualProduction_L || 0),
+        annualProduction_L: parseFloat(item.annualProduction_L || 0),
         htscNo: item.htscNo,
-        injectionVoltage_KV: parseInt(item.injectionVoltage_KV || 0),
-        status: item.status
+        injectionVoltage_KV: parseFloat(item.injectionVoltage_KV || 0),
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt
       }));
-
-      console.log(`[ProductionSiteDAL] Transformed ${transformedItems.length} items`);
-      return transformedItems;
     } catch (error) {
-      console.error('[ProductionSiteDAL] Error scanning DynamoDB:', error);
+      logger.error('[ProductionSiteDAL] getAllItems Error:', error);
       throw error;
     }
   }
 
   async getItem(companyId, productionSiteId) {
     try {
-      if (!companyId || !productionSiteId) {
-        throw new Error('Missing required parameters');
-      }
+      const command = new QueryCommand({
+        TableName: this.tableName,
+        KeyConditionExpression: 'companyId = :companyId AND productionSiteId = :productionSiteId',
+        ExpressionAttributeValues: {
+          ':companyId': parseInt(companyId),
+          ':productionSiteId': parseInt(productionSiteId)
+        },
+        ProjectionExpression: "companyId, productionSiteId, #name, #location, #type, #status, banking, capacity_MW, annualProduction_L, htscNo, injectionVoltage_KV, createdAt, updatedAt",
+        ExpressionAttributeNames: {
+          "#name": "name",
+          "#location": "location",
+          "#type": "type",
+          "#status": "status"
+        }
+      });
 
-      const key = {
+      const result = await global.dynamoDb.send(command);
+      const item = result.Items?.[0];
+
+      if (!item) return null;
+
+      // Return with consistent field names matching the sample data
+      return {
         companyId: parseInt(companyId),
-        productionSiteId: parseInt(productionSiteId)
+        productionSiteId: parseInt(productionSiteId),
+        name: item.name || '',
+        location: item.location || '',
+        type: item.type || '',
+        status: item.status || 'Active',
+        banking: parseInt(item.banking || 0),
+        capacity_MW: parseFloat(item.capacity_MW || 0),
+        annualProduction_L: parseFloat(item.annualProduction_L || 0),
+        htscNo: item.htscNo || '',
+        injectionVoltage_KV: parseFloat(item.injectionVoltage_KV || 0),
+        createdAt: item.createdAt || new Date().toISOString(),
+        updatedAt: item.updatedAt || new Date().toISOString()
       };
-
-      console.log('[ProductionSiteDAL] Getting item from DynamoDB:', key);
-      const item = await super.getItem(key);
-
-      if (!item) {
-        console.log('[ProductionSiteDAL] Item not found in DynamoDB');
-        return null;
-      }
-
-      return item;
     } catch (error) {
-      console.error('[ProductionSiteDAL] Error getting item:', error);
+      logger.error('[ProductionSiteDAL] getItem Error:', error);
       throw error;
     }
   }
 
-  async putItem(item) {
+  async createItem(item) {
     try {
-      if (!item) {
-        throw new Error('No item provided');
+      if (!item.companyId || !item.productionSiteId) {
+        throw new Error('Missing required fields: companyId and productionSiteId');
       }
 
-      const validatedItem = {
+      const now = new Date().toISOString();
+      // Map incoming fields to database fields
+      const newItem = {
         companyId: parseInt(item.companyId),
         productionSiteId: parseInt(item.productionSiteId),
-        name: item.name,
-        location: item.location,
-        type: item.type,
-        banking: item.banking ? 1 : 0,
-        capacity_MW: parseFloat(item.capacity_MW || 0),
-        htscNo: item.htscNo,
-        status: item.status
+        name: item.name || item.Name || '',
+        location: item.location || item.Location || '',
+        type: item.type || item.Type || '',
+        status: item.status || item.Status || 'Active',
+        banking: parseInt(item.banking || item.Banking || 0),
+        capacity_MW: parseFloat(item.capacity_MW || item.Capacity_MW || 0),
+        annualProduction_L: parseFloat(item.annualProduction_L || item.AnnualProduction || 0),
+        htscNo: item.htscNo || item.HtscNo || '',
+        injectionVoltage_KV: parseFloat(item.injectionVoltage_KV || item.InjectionValue || 0),
+        createdAt: now,
+        updatedAt: now
       };
 
-      console.log('[ProductionSiteDAL] Putting item to DynamoDB:', validatedItem);
-      return await super.putItem(validatedItem);
+      const command = new PutCommand({
+        TableName: this.tableName,
+        Item: newItem
+      });
+
+      await global.dynamoDb.send(command);
+
+      // Return consistent field names for the API
+      return {
+        companyId: newItem.companyId,
+        productionSiteId: newItem.productionSiteId,
+        name: newItem.name,
+        location: newItem.location,
+        type: newItem.type,
+        status: newItem.status,
+        banking: newItem.banking,
+        capacity_MW: newItem.capacity_MW,
+        annualProduction_L: newItem.annualProduction_L,
+        htscNo: newItem.htscNo,
+        injectionVoltage_KV: newItem.injectionVoltage_KV,
+        createdAt: newItem.createdAt,
+        updatedAt: newItem.updatedAt
+      };
     } catch (error) {
-      console.error('[ProductionSiteDAL] Error putting item:', error);
+      logger.error('[ProductionSiteDAL] createItem Error:', error);
       throw error;
     }
   }
 
-  async updateItem(companyId, productionSiteId, updateItems) {
+  async updateItem(companyId, productionSiteId, updates) {
     try {
-      if (!companyId || !productionSiteId || !updateItems) {
-        throw new Error('Missing required parameters');
-      }
+      // Build update expression dynamically
+      const updateExpressions = [];
+      const expressionAttributeNames = {};
+      const expressionAttributeValues = {};
 
-      const key = {
-        companyId: parseInt(companyId),
-        productionSiteId: parseInt(productionSiteId)
-      };
+      Object.entries(updates).forEach(([key, value]) => {
+        if (key !== 'companyId' && key !== 'productionSiteId') {
+          updateExpressions.push(`#${key} = :${key}`);
+          expressionAttributeNames[`#${key}`] = key;
+          expressionAttributeValues[`:${key}`] = value;
+        }
+      });
 
-      console.log('[ProductionSiteDAL] Updating item in DynamoDB:', { key, updateItems });
-      return await super.updateItem(key, updateItems);
+      // Add updatedAt timestamp
+      updateExpressions.push('#updatedAt = :updatedAt');
+      expressionAttributeNames['#updatedAt'] = 'updatedAt';
+      expressionAttributeValues[':updatedAt'] = new Date().toISOString();
+
+      const command = new UpdateCommand({
+        TableName: this.tableName,
+        Key: {
+          companyId: parseInt(companyId),
+          productionSiteId: parseInt(productionSiteId)
+        },
+        UpdateExpression: `SET ${updateExpressions.join(', ')}`,
+        ExpressionAttributeNames: expressionAttributeNames,
+        ExpressionAttributeValues: expressionAttributeValues,
+        ReturnValues: "ALL_NEW",
+        ConditionExpression: 'attribute_exists(companyId) AND attribute_exists(productionSiteId)'
+      });
+
+      const result = await global.dynamoDb.send(command);
+      return result.Attributes;
     } catch (error) {
-      console.error('[ProductionSiteDAL] Error updating item:', error);
+      logger.error('[ProductionSiteDAL] updateItem Error:', error);
       throw error;
     }
   }
 
   async deleteItem(companyId, productionSiteId) {
     try {
-      if (!companyId || !productionSiteId) {
-        throw new Error('Missing required parameters');
-      }
-
-      const key = {
-        companyId: parseInt(companyId),
-        productionSiteId: parseInt(productionSiteId)
-      };
-
-      console.log('[ProductionSiteDAL] Deleting item from DynamoDB:', key);
-      return await super.deleteItem(key);
+      const command = new DeleteCommand({
+        TableName: this.tableName,
+        Key: {
+          companyId: parseInt(companyId),
+          productionSiteId: parseInt(productionSiteId)
+        },
+        ConditionExpression: 'attribute_exists(companyId) AND attribute_exists(productionSiteId)'
+      });
+      await global.dynamoDb.send(command);
     } catch (error) {
-      console.error('[ProductionSiteDAL] Error deleting item:', error);
+      logger.error('[ProductionSiteDAL] deleteItem Error:', error);
       throw error;
     }
   }
-=======
-const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
-const { 
-    DynamoDBDocumentClient, 
-    ScanCommand,
-    GetCommand,
-    PutCommand,
-    UpdateCommand,
-    DeleteCommand 
-} = require("@aws-sdk/lib-dynamodb");
-const logger = require('../utils/logger');
-
-class ProductionSiteDAL {
-    constructor() {
-        this.tableName = 'ProductionSiteTable';
-        this.client = new DynamoDBClient({
-            region: process.env.AWS_REGION || 'us-west-2',
-            endpoint: process.env.DYNAMODB_ENDPOINT || 'http://localhost:8000',
-            credentials: {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'dummy',
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'dummy'
-            }
-        });
-        this.docClient = DynamoDBDocumentClient.from(this.client);
-    }
-
-    async getAllItems() {
-        try {
-            logger.info('[ProductionSiteDAL] Scanning table for all items');
-            
-            const command = new ScanCommand({
-                TableName: this.tableName
-            });
-
-            const { Items = [] } = await this.docClient.send(command);
-            
-            logger.info(`[ProductionSiteDAL] Found ${Items.length} items`);
-
-            // Transform the data to ensure consistent format
-            const normalizedItems = Items.map(item => ({
-                companyId: Number(item.companyId),
-                productionSiteId: Number(item.productionSiteId),
-                name: item.name || '',
-                location: item.location || '',
-                type: item.type || '',
-                capacity_MW: Number(item.capacity_MW || 0),
-                banking: Boolean(item.banking),
-                status: item.status || 'Active',
-                htscNo: item.htscNo || '',
-                injectionVoltage_KV: Number(item.injectionVoltage_KV || 0),
-                annualProduction_L: Number(item.annualProduction_L || 0)
-            }));
-
-            logger.debug('[ProductionSiteDAL] Normalized items:', normalizedItems);
-            return normalizedItems;
-
-        } catch (error) {
-            logger.error('[ProductionSiteDAL] Error in getAllItems:', error);
-            throw error;
-        }
-    }
-
-    async getSiteById(companyId, productionSiteId) {
-        try {
-            const command = new GetCommand({
-                TableName: this.tableName,
-                Key: {
-                    companyId: parseInt(companyId),
-                    productionSiteId: parseInt(productionSiteId)
-                }
-            });
-
-            const { Item } = await this.docClient.send(command);
-            return Item;
-        } catch (error) {
-            console.error('[ProductionSiteDAL] Error in getSiteById:', error);
-            throw error;
-        }
-    }
-
-    async createSite(site) {
-        try {
-            const command = new PutCommand({
-                TableName: this.tableName,
-                Item: {
-                    companyId: parseInt(site.companyId),
-                    productionSiteId: parseInt(site.productionSiteId),
-                    name: site.name,
-                    location: site.location,
-                    type: site.type,
-                    banking: site.banking ? 1 : 0,
-                    capacity_MW: parseFloat(site.capacity_MW || 0),
-                    annualProduction_L: parseFloat(site.annualProduction_L || 0),
-                    htscNo: site.htscNo,
-                    injectionVoltage_KV: parseFloat(site.injectionVoltage_KV || 0),
-                    status: site.status || 'Active'
-                }
-            });
-
-            await this.docClient.send(command);
-            return site;
-        } catch (error) {
-            console.error('[ProductionSiteDAL] Error in createSite:', error);
-            throw error;
-        }
-    }
-
-    async updateSite(companyId, productionSiteId, updates) {
-        try {
-            const command = new UpdateCommand({
-                TableName: this.tableName,
-                Key: {
-                    companyId: parseInt(companyId),
-                    productionSiteId: parseInt(productionSiteId)
-                },
-                UpdateExpression: 'set #n = :name, #l = :location, #t = :type, #b = :banking, #c = :capacity, #a = :annual, #h = :htsc, #i = :injection, #s = :status',
-                ExpressionAttributeNames: {
-                    '#n': 'name',
-                    '#l': 'location',
-                    '#t': 'type',
-                    '#b': 'banking',
-                    '#c': 'capacity_MW',
-                    '#a': 'annualProduction_L',
-                    '#h': 'htscNo',
-                    '#i': 'injectionVoltage_KV',
-                    '#s': 'status'
-                },
-                ExpressionAttributeValues: {
-                    ':name': updates.name,
-                    ':location': updates.location,
-                    ':type': updates.type,
-                    ':banking': updates.banking ? 1 : 0,
-                    ':capacity': parseFloat(updates.capacity_MW || 0),
-                    ':annual': parseFloat(updates.annualProduction_L || 0),
-                    ':htsc': updates.htscNo,
-                    ':injection': parseFloat(updates.injectionVoltage_KV || 0),
-                    ':status': updates.status || 'Active'
-                },
-                ReturnValues: 'ALL_NEW'
-            });
-
-            const { Attributes } = await this.docClient.send(command);
-            return Attributes;
-        } catch (error) {
-            console.error('[ProductionSiteDAL] Error in updateSite:', error);
-            throw error;
-        }
-    }
-
-    async deleteSite(companyId, productionSiteId) {
-        try {
-            const command = new DeleteCommand({
-                TableName: this.tableName,
-                Key: {
-                    companyId: parseInt(companyId),
-                    productionSiteId: parseInt(productionSiteId)
-                }
-            });
-
-            await this.docClient.send(command);
-            return { companyId, productionSiteId };
-        } catch (error) {
-            console.error('[ProductionSiteDAL] Error in deleteSite:', error);
-            throw error;
-        }
-    }
->>>>>>> fbc1dea (Initial commit: Production site management application)
 }
 
 module.exports = new ProductionSiteDAL();

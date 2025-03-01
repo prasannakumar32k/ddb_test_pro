@@ -10,6 +10,7 @@ const {
 
 const docClient = require('../config/db');
 const PRODUCTIONS_TABLE = 'ProductionTable'; // Updated table name
+const logger = require('../utils/logger');
 
 // Get all productions
 const getAllProductions = async (req, res) => {
@@ -18,17 +19,10 @@ const getAllProductions = async (req, res) => {
         const params = {
             TableName: PRODUCTIONS_TABLE
         };
-<<<<<<< HEAD
 
         const command = new ScanCommand(params);
         const result = await docClient.send(command);
 
-        console.log('[ProductionController] Found items:', result.Items?.length);
-        return res.json(result.Items || []);
-=======
-        const command = new ScanCommand(params);
-        const result = await docClient.send(command);
-        
         // Transform and validate the data before sending
         const transformedItems = (result.Items || []).map(item => ({
             companyId: parseInt(item.companyId),
@@ -43,7 +37,6 @@ const getAllProductions = async (req, res) => {
 
         console.log('[ProductionController] Found items:', transformedItems.length);
         return res.json(transformedItems);
->>>>>>> fbc1dea (Initial commit: Production site management application)
     } catch (error) {
         console.error('[ProductionController] Error in getAllProductions:', error);
         return res.status(500).json({
@@ -53,66 +46,28 @@ const getAllProductions = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-// Get production history by company and site
-const getProductionHistory = async (req, res) => {
-    try {
-        const { companyId, productionSiteId } = req.params;
-        console.log(`[ProductionController] Getting history for ${companyId}_${productionSiteId}`);
-=======
 // Get production history by company and production-site
 const getProductionHistory = async (req, res) => {
     try {
         const { companyId, productionSiteId } = req.params;
-        console.log('[ProductionController] Getting history for:', { companyId, productionSiteId });
->>>>>>> fbc1dea (Initial commit: Production site management application)
+        logger.info('[ProductionController] Getting history:', { companyId, productionSiteId });
 
-        const params = {
+        const command = new QueryCommand({
             TableName: PRODUCTIONS_TABLE,
             KeyConditionExpression: 'pk = :pk',
             ExpressionAttributeValues: {
                 ':pk': `${companyId}_${productionSiteId}`
             }
-        };
+        });
 
-        const command = new QueryCommand(params);
-        const result = await docClient.send(command);
+        const result = await global.dynamoDb.send(command);
 
-<<<<<<< HEAD
-        console.log('[ProductionController] Found items:', result.Items?.length);
-        return res.json(result.Items || []);
+        return res.json({
+            data: result.Items || [],
+            message: result.Items?.length ? '' : 'No production history available'
+        });
     } catch (error) {
-        console.error('[ProductionController] Error in getProductionHistory:', error);
-=======
-        // Transform and validate including both unit and charge matrix data
-        const transformedItems = (result.Items || []).map(item => ({
-            companyId: parseInt(item.companyId),
-            productionSiteId: parseInt(item.productionSiteId),
-            sk: item.sk,
-            // Unit Matrix
-            c1: parseInt(item.c1 || 0),
-            c2: parseInt(item.c2 || 0),
-            c3: parseInt(item.c3 || 0),
-            c4: parseInt(item.c4 || 0),
-            c5: parseInt(item.c5 || 0),
-            // Charge Matrix
-            c001: parseInt(item.c001 || 0),
-            c002: parseInt(item.c002 || 0),
-            c003: parseInt(item.c003 || 0),
-            c004: parseInt(item.c004 || 0),
-            c005: parseInt(item.c005 || 0),
-            c006: parseInt(item.c006 || 0),
-            c007: parseInt(item.c007 || 0),
-            c008: parseInt(item.c008 || 0),
-            month: item.sk,
-            matrixType: item.matrixType || 'both'
-        }));
-
-        console.log('[ProductionController] Found history items:', transformedItems.length);
-        return res.json(transformedItems);
-    } catch (error) {
-        console.error('[ProductionController] Error:', error);
->>>>>>> fbc1dea (Initial commit: Production site management application)
+        logger.error('[ProductionController] Error:', error);
         return res.status(500).json({
             error: 'Failed to fetch production history',
             details: error.message
@@ -168,21 +123,12 @@ const createProduction = async (req, res) => {
 // Update production data
 const updateProduction = async (req, res) => {
     try {
-<<<<<<< HEAD
         const { companyId, productionSiteId, mmYY } = req.params;
         const updateData = req.body;
         console.log('[ProductionController] Updating production:', { companyId, productionSiteId, mmYY, updateData });
 
         // Validate input
         if (!companyId || !productionSiteId || !mmYY) {
-=======
-        const { companyId, productionSiteIdSiteId, mmYY } = req.params;
-        const updateData = req.body;
-        console.log('[ProductionController] Updating production:', { companyId, productionSiteIdSiteId, mmYY, updateData });
-
-        // Validate input
-        if (!companyId || !productionSiteId-productionSiteId || !mmYY) {
->>>>>>> fbc1dea (Initial commit: Production site management application)
             return res.status(400).json({
                 error: 'Missing required parameters'
             });
@@ -191,11 +137,7 @@ const updateProduction = async (req, res) => {
         const params = {
             TableName: PRODUCTIONS_TABLE,
             Key: {
-<<<<<<< HEAD
                 pk: `${companyId}_${productionSiteId}`,
-=======
-                pk: `${companyId}_${productionSiteIdSiteId}`,
->>>>>>> fbc1dea (Initial commit: Production site management application)
                 sk: mmYY
             },
             UpdateExpression: 'SET c1 = :c1, c2 = :c2, c3 = :c3, c4 = :c4, c5 = :c5, updatedAt = :updatedAt',
@@ -229,34 +171,36 @@ const updateProduction = async (req, res) => {
 // Delete production data
 const deleteProduction = async (req, res) => {
     try {
-<<<<<<< HEAD
-        const { companyId, productionSiteId, mmYY } = req.params;
-        console.log('[ProductionController] Deleting production data:', { companyId, productionSiteId, mmYY });
-=======
-        const { companyId, productionSiteIdSiteId, mmYY } = req.params;
-        console.log('[ProductionController] Deleting production data:', { companyId, productionSiteIdSiteId, mmYY });
->>>>>>> fbc1dea (Initial commit: Production site management application)
+        const { companyId, productionSiteId, sk } = req.params;
+        console.log('[ProductionController] Deleting production:', { companyId, productionSiteId, sk });
+
+        // Validate parameters
+        if (!companyId || !productionSiteId || !sk) {
+            return res.status(400).json({
+                error: 'Missing required parameters',
+                details: 'companyId, productionSiteId and sk are required'
+            });
+        }
 
         const params = {
-            TableName: PRODUCTIONS_TABLE,
+            TableName: 'ProductionTable',
             Key: {
-<<<<<<< HEAD
                 pk: `${companyId}_${productionSiteId}`,
-=======
-                pk: `${companyId}_${productionSiteIdSiteId}`,
->>>>>>> fbc1dea (Initial commit: Production site management application)
-                sk: mmYY
+                sk: sk
             }
         };
 
+        console.log('[ProductionController] Delete params:', params);
         const command = new DeleteCommand(params);
         await docClient.send(command);
 
-        console.log('[ProductionController] Deleted successfully');
-        res.json({ success: true });
+        res.status(200).json({ success: true });
     } catch (error) {
-        console.error('[ProductionController] Error in deleteProduction:', error);
-        res.status(500).json({ error: 'Failed to delete production data' });
+        console.error('[ProductionController] Delete error:', error);
+        res.status(500).json({
+            error: 'Failed to delete production data',
+            details: error.message
+        });
     }
 };
 
@@ -272,11 +216,7 @@ const getProductionUnits = async (req, res) => {
 
         const units = result.Items.map(unit => ({
             CompanyId: parseInt(unit.pk.split('_')[0]),
-<<<<<<< HEAD
-            ProductionUnitId: parseInt(unit.pk.split('_')[1]),
-=======
             productionSiteId: parseInt(unit.pk.split('_')[1]),
->>>>>>> fbc1dea (Initial commit: Production site management application)
             Name: unit.Name,
             Type: unit.Type,
             Location: unit.Location,

@@ -36,7 +36,8 @@ import {
   WbSunny as SolarIcon,
   Air as WindIcon,
   AccountBalance as BankingIcon,
-  PlayArrow as StatusIcon
+  PlayArrow as StatusIcon,
+  Assignment as AssignmentIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -52,14 +53,15 @@ import {
   createProductionData
 } from '../services/productionapi';
 
-// Component to display label-value pairs
-const DetailItem = ({ label, value, color = 'text.secondary' }) => (
-  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+// Update the DetailItem component
+const DetailItem = ({ icon: Icon, label, value, color = 'text.secondary' }) => (
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <Icon sx={{ color }} />
     <Typography variant="body2" color="text.secondary">
-      {label}
-    </Typography>
-    <Typography variant="body2" color={color} fontWeight="medium">
-      {value || 'Not specified'}
+      {label}:{' '}
+      <Box component="span" sx={{ color: 'text.primary', fontWeight: 500 }}>
+        {value}
+      </Box>
     </Typography>
   </Box>
 );
@@ -67,11 +69,11 @@ const DetailItem = ({ label, value, color = 'text.secondary' }) => (
 const getTypeIcon = (type) => {
   switch (type?.toLowerCase()) {
     case 'wind':
-      return <WindIcon sx={{ color: '#1976D2' }} />;
+      return <WindIcon sx={{ fontSize: 24, color: '#1976D2' }} />;
     case 'solar':
-      return <SolarIcon sx={{ color: '#FFC107' }} />;
+      return <SolarIcon sx={{ fontSize: 24, color: '#FFC107' }} />;
     default:
-      return <PowerIcon />;
+      return <PowerIcon sx={{ fontSize: 24, color: 'text.secondary' }} />;
   }
 };
 
@@ -97,18 +99,18 @@ const ProductionSiteCard = ({ site, onEdit, onDelete }) => {
           </Typography>
           <Box>
             {site.banking && (
-              <BankingIcon 
-                sx={{ 
+              <BankingIcon
+                sx={{
                   color: 'success.main',
-                  mr: 1 
-                }} 
+                  mr: 1
+                }}
                 titleAccess="Banking Enabled"
               />
             )}
-            <StatusIcon 
-              sx={{ 
+            <StatusIcon
+              sx={{
                 color: site.status === 'Active' ? 'success.main' : 'error.main'
-              }} 
+              }}
               titleAccess={site.status}
             />
           </Box>
@@ -146,15 +148,15 @@ const ProductionSiteCard = ({ site, onEdit, onDelete }) => {
       </CardContent>
 
       <CardActions sx={{ mt: 'auto', justifyContent: 'flex-end' }}>
-        <Button 
-          size="small" 
+        <Button
+          size="small"
           onClick={() => onEdit(site)}
           startIcon={<EditIcon />}
         >
           Edit
         </Button>
-        <Button 
-          size="small" 
+        <Button
+          size="small"
           color="error"
           onClick={() => onDelete(site)}
           startIcon={<DeleteIcon />}
@@ -170,145 +172,97 @@ const ProductionSiteCard = ({ site, onEdit, onDelete }) => {
 const SiteCard = ({ site, onEdit, onDelete }) => {
   const navigate = useNavigate();
 
-  const handleClick = useCallback(() => {
+  const handleClick = () => {
     if (site?.companyId && site?.productionSiteId) {
       navigate(`/production/${site.companyId}/${site.productionSiteId}`);
     }
-  }, [site, navigate]);
-
-  const handleCardClick = (e) => {
-    e.stopPropagation();
-    handleClick();
   };
 
-  if (!site) return null;
-
-  // Get the color scheme based on site type
-  const getTypeStyles = (type) => {
+  const getCardColor = (type) => {
     switch (type?.toLowerCase()) {
       case 'wind':
-        return {
-          color: '#1976D2',
-          bgColor: 'rgba(25, 118, 210, 0.08)',
-          icon: <WindIcon sx={{ fontSize: 24, color: '#1976D2' }} />
-        };
+        return 'rgba(25, 118, 210, 0.08)'; // Light blue for wind
       case 'solar':
-        return {
-          color: '#FFC107',
-          bgColor: 'rgba(255, 193, 7, 0.08)',
-          icon: <SolarIcon sx={{ fontSize: 24, color: '#FFC107' }} />
-        };
+        return 'rgba(255, 193, 7, 0.08)'; // Light yellow for solar
       default:
-        return {
-          color: 'text.primary',
-          bgColor: 'grey.100',
-          icon: <PowerIcon sx={{ fontSize: 24, color: 'text.secondary' }} />
-        };
+        return 'transparent';
     }
   };
 
-  const typeStyles = getTypeStyles(site.Type);
-
   return (
     <Paper
-      elevation={2}
+      elevation={1}
       sx={{
-        p: 2.5,
-        borderRadius: 2,
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
+        p: 3,
         cursor: 'pointer',
-        borderLeft: 3,
-        borderColor: typeStyles.color,
-        backgroundColor: typeStyles.bgColor,
+        backgroundColor: getCardColor(site.type),
         '&:hover': {
-          boxShadow: 3,
           transform: 'translateY(-2px)',
-          transition: 'all 0.2s'
-        }
+          boxShadow: 3,
+          backgroundColor: (theme) =>
+            site.type?.toLowerCase() === 'wind'
+              ? 'rgba(25, 118, 210, 0.15)'
+              : site.type?.toLowerCase() === 'solar'
+                ? 'rgba(255, 193, 7, 0.15)'
+                : 'rgba(0, 0, 0, 0.05)'
+        },
+        transition: 'all 0.2s'
       }}
-      onClick={handleCardClick}
+      onClick={handleClick}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {typeStyles.icon}
-          <Typography variant="h6" component="h2">
-            {site.Name || 'Unnamed Site'}
-          </Typography>
+          {getTypeIcon(site.type)}
+          <Typography variant="h6">{site.name || 'Unnamed Site'}</Typography>
         </Box>
-        <Box>
-          {site.Banking && (
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          {Boolean(site.banking) && (
             <Tooltip title="Banking Enabled">
-              <BankingIcon sx={{ color: 'success.main', mr: 1 }} />
+              <BankingIcon
+                sx={{
+                  color: '#2E7D32', // Dark green
+                  fontSize: 22
+                }}
+              />
             </Tooltip>
           )}
-          <IconButton
-            size="small"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit(site);
+          <Box
+            sx={{
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              bgcolor: site.status === 'Active' ? '#4CAF50' : '#F44336',
+              boxShadow: 1
             }}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            size="small"
-            color="error"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(site);
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      </Box>
-
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-        <LocationIcon sx={{ fontSize: '1rem', mr: 1, color: 'text.secondary' }} />
-        <Typography variant="body2" color="text.secondary">
-          {site.Location || 'No location specified'}
-        </Typography>
-      </Box>
-
-      <Box sx={{ mt: 'auto', display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <CapacityIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-          <Typography variant="body2" color="text.secondary">
-            Capacity: {site.Capacity_MW ? `${site.Capacity_MW} MW` : 'Not specified'}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <VoltageIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-          <Typography variant="body2" color="text.secondary">
-            Injection: {site.InjectionValue ? `${site.InjectionValue} KV` : 'Not specified'}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <DateIcon sx={{ mr: 1, color: 'text.secondary', fontSize: 20 }} />
-          <Typography variant="body2" color="text.secondary">
-            Production: {site.AnnualProduction ? `${site.AnnualProduction.toLocaleString()} L` : 'Not specified'}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <StatusIcon 
-            sx={{ 
-              mr: 1, 
-              color: site.Status === 'Active' ? 'success.main' : 'error.main',
-              fontSize: 20 
-            }} 
           />
-          <Typography 
-            variant="body2" 
-            color={site.Status === 'Active' ? 'success.main' : 'error.main'}
-          >
-            {site.Status || 'Status not specified'}
-          </Typography>
         </Box>
+      </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <DetailItem
+          icon={LocationIcon}
+          label="Location"
+          value={site.location || 'Location not specified'}
+          color="#FF9800" // Orange
+        />
+        <DetailItem
+          icon={VoltageIcon}
+          label="Injection Voltage"
+          value={`${parseFloat(site.injectionVoltage_KV || 0).toFixed(1)} kV`}
+          color="#2196F3" // Blue
+        />
+        <DetailItem
+          icon={PowerIcon}
+          label="Capacity"
+          value={`${parseFloat(site.capacity_MW || 0).toFixed(1)} MW`}
+          color="#4CAF50" // Green
+        />
+        <DetailItem
+          icon={AssignmentIcon}
+          label="HTSC No"
+          value={site.htscNo || 'Not specified'}
+          color="#9C27B0" // Purple
+        />
       </Box>
     </Paper>
   );
@@ -346,19 +300,18 @@ export const Production = () => {
           return;
         }
 
-        // Transform data with proper number formatting
         const transformedData = data.map(unit => ({
           companyId: parseInt(unit.companyId),
           productionSiteId: parseInt(unit.productionSiteId),
-          Name: unit.name,
-          Location: unit.location,
-          Type: unit.type,
-          Banking: unit.banking,
-          Capacity_MW: parseFloat(unit.capacity_MW) || 0,
-          AnnualProduction_L: parseFloat(unit.annualProduction_L) || 0,
-          HtscNo: unit.htscNo,
-          InjectionVoltage_KV: parseFloat(unit.injectionVoltage_KV) || 0,
-          Status: unit.status
+          name: unit.name || unit.Name || 'Unnamed Site',
+          location: unit.location || unit.Location || 'Location not specified',
+          type: unit.type || unit.Type || 'Unknown',
+          banking: parseInt(unit.banking || unit.Banking || 0),
+          capacity_MW: parseFloat(unit.capacity_MW || unit.Capacity_MW || 0),
+          annualProduction_L: parseFloat(unit.annualProduction_L || unit.AnnualProduction || 0),
+          htscNo: unit.htscNo || unit.HtscNo || 'Not specified',
+          injectionVoltage_KV: parseFloat(unit.injectionVoltage_KV || unit.InjectionValue || 0),
+          status: unit.status || unit.Status || 'Inactive'
         }));
 
         setProductionUnits(transformedData);

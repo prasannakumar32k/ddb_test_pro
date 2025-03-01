@@ -1,5 +1,7 @@
 const BaseDAL = require("../common/baseDAL");
 const productionDTO = require("./productionDTO");
+const { QueryCommand } = require("@aws-sdk/lib-dynamodb");
+const logger = require('../utils/logger');
 
 const PRODUCTION_SITE_TABLE = "ProductionTable";
 
@@ -49,6 +51,30 @@ class ProductionDAL extends BaseDAL {
       return items;
     } catch (error) {
       console.error('[ProductionDAL] Query error:', error);
+      throw error;
+    }
+  }
+
+  async getProductionData(companyId, productionSiteId) {
+    try {
+      const command = new QueryCommand({
+        TableName: this.tableName,
+        KeyConditionExpression: 'pk = :pk',
+        ExpressionAttributeValues: {
+          ':pk': `${companyId}_${productionSiteId}`
+        }
+      });
+
+      const result = await global.dynamoDb.send(command);
+
+      if (!result.Items || result.Items.length === 0) {
+        logger.info(`No production data found for site ${companyId}_${productionSiteId}`);
+        return [];
+      }
+
+      return result.Items;
+    } catch (error) {
+      logger.error('[ProductionDAL] getProductionData Error:', error);
       throw error;
     }
   }

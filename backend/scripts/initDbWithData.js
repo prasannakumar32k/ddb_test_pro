@@ -1,4 +1,4 @@
-const { DynamoDBClient, CreateTableCommand, ListTablesCommand, DeleteTableCommand } = require("@aws-sdk/client-dynamodb");
+const { DynamoDBClient, CreateTableCommand, ListTablesCommand, DeleteTableCommand, ScanCommand } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, PutCommand } = require("@aws-sdk/lib-dynamodb");
 
 // Configure DynamoDB Client
@@ -61,41 +61,59 @@ const sampleData = {
             banking: 1,
             capacity_MW: 0.6,
             annualProduction_L: 9,
-            htscNo: 79204721131,
+            htscNo: "79204721131",
             injectionVoltage_KV: 33,
-            status: "Active"
-        },
-        {
-            companyId: 1,
-            productionSiteId: 2,
-            name: "DVN_Keelathur_1WM",
-            location: "Pudukkottai, Keelathur",
-            type: "Solar",
-            banking: 0,
-            capacity_MW: 1.0,
-            annualProduction_L: 18,
-            htscNo: 69534460069,
-            injectionVoltage_KV: 22,
-            status: "Active"
+            status: "Active",
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
         }
     ],
     ProductionTable: [
         {
             pk: "1_1",
-            sk: "122024",
-            c1: 1, c2: 2, c3: 3, c4: 4, c5: 5,
-            c001: 6, c002: 7, c003: 8, c004: 9, c005: 10,
-            c006: 11, c007: 12, c008: 13, c009: 14, c010: 15
-        },
-        {
-            pk: "1_2",
             sk: "112024",
             c1: 1, c2: 2, c3: 3, c4: 4, c5: 5,
             c001: 6, c002: 7, c003: 8, c004: 9, c005: 10,
-            c006: 11, c007: 12, c008: 13, c009: 14, c010: 15
+            c006: 11, c007: 12, c008: 13, c009: 14, c010: 15,
+            companyId: 1,
+            productionSiteId: 1
         }
     ]
 };
+
+// Add this helper function to check if data exists
+async function checkExistingData(docClient, tableName) {
+    const command = new ScanCommand({
+        TableName: tableName,
+        Limit: 1
+    });
+    const result = await docClient.send(command);
+    return (result.Items || []).length > 0;
+}
+
+// Modify insertData function
+async function insertData() {
+    for (const [tableName, items] of Object.entries(sampleData)) {
+        console.log(`\nPopulating ${tableName}:`);
+        const hasExistingData = await checkExistingData(ddbDocClient, tableName);
+
+        if (!hasExistingData) {
+            for (const item of items) {
+                try {
+                    await ddbDocClient.send(new PutCommand({
+                        TableName: tableName,
+                        Item: item
+                    }));
+                    console.log(`Added item to ${tableName}:`, JSON.stringify(item, null, 2));
+                } catch (error) {
+                    console.error(`Error adding item to ${tableName}:`, error);
+                }
+            }
+        } else {
+            console.log(`${tableName} already has data, skipping...`);
+        }
+    }
+}
 
 async function deleteExistingTables() {
     try {
@@ -130,36 +148,19 @@ async function createTables() {
     await new Promise(resolve => setTimeout(resolve, 2000));
 }
 
-async function insertData() {
-    for (const [tableName, items] of Object.entries(sampleData)) {
-        console.log(`\nPopulating ${tableName}:`);
-        for (const item of items) {
-            try {
-                await ddbDocClient.send(new PutCommand({
-                    TableName: tableName,
-                    Item: item
-                }));
-                console.log(`Added item to ${tableName}:`, JSON.stringify(item, null, 2));
-            } catch (error) {
-                console.error(`Error adding item to ${tableName}:`, error);
-            }
-        }
-    }
-}
-
 async function initializeDatabase() {
     try {
         console.log('Starting database initialization...');
-        
+
         // Delete existing tables
         await deleteExistingTables();
-        
+
         // Create fresh tables
         await createTables();
-        
+
         // Insert sample data
         await insertData();
-        
+
         console.log('\nDatabase initialization completed successfully');
     } catch (error) {
         console.error('Database initialization failed:', error);

@@ -1,46 +1,53 @@
-<<<<<<< HEAD
 const productionSiteDAL = require("./productionSiteDAL");
 
-// Create (POST) a new item
-exports.createProductionSite = async (req, res) => {
-    try {
-        const newItem = {
-            ...req.body,
-            companyId: parseInt(req.body.CompanyId || 1),
-            productionSiteId: Date.now(), // Use timestamp as unique ID
-            name: req.body.Name,
-            location: req.body.Location,
-            type: req.body.Type,
-            banking: req.body.Banking ? 1 : 0,
-            capacity_MW: parseFloat(req.body.Capacity_MW || 0),
-            htscNo: req.body.HtscNo,
-            status: req.body.Status
-        };
+// Helper function for robust data parsing
+const parseValue = (value, type = 'string', defaultValue = null) => {
+    if (value === undefined || value === null) return defaultValue;
 
-        const result = await productionSiteDAL.putItem(newItem);
-        res.status(201).json(result);
-    } catch (error) {
-        console.error('Error creating production site:', error);
-        res.status(500).json({ error: 'Failed to create production site' });
+    switch (type) {
+        case 'int':
+            const parsedInt = parseInt(value);
+            return isNaN(parsedInt) ? (defaultValue || 0) : parsedInt;
+        case 'float':
+            const parsedFloat = parseFloat(value);
+            return isNaN(parsedFloat) ? (defaultValue || 0) : parsedFloat;
+        case 'boolean':
+            return value === true || value === 1 || value === '1';
+        default:
+            return value;
     }
 };
 
 // Read (GET) all items
 exports.getAllProductionSites = async (req, res) => {
     try {
-        console.log('Fetching all production sites from DynamoDB');
-        const items = await productionSiteDAL.getAllItems();
+        console.log('[ProductionSiteController] Fetching all production sites');
+        console.log('[ProductionSiteController] Table Name:', productionSiteDAL.tableName);
 
-        if (!items || items.length === 0) {
-            console.log('No items found in DynamoDB');
-            return res.json([]);
+        // More robust table existence check
+        const tables = await productionSiteDAL.docClient.listTables().promise();
+        console.log('[ProductionSiteController] Available Tables:', tables.TableNames);
+
+        if (!tables.TableNames.includes(productionSiteDAL.tableName)) {
+            console.error(`[ProductionSiteController] Table ${productionSiteDAL.tableName} not found`);
+            return res.status(500).json({
+                error: 'Database setup required',
+                details: `Table ${productionSiteDAL.tableName} does not exist. Please run npm run create-table to set up the database`,
+                availableTables: tables.TableNames
+            });
         }
 
-        console.log(`Found ${items.length} items in DynamoDB`);
+        const items = await productionSiteDAL.getAllItems();
+        console.log(`[ProductionSiteController] Found ${items.length} items`);
         res.json(items);
+
     } catch (error) {
-        console.error('Error getting production sites:', error);
-        res.status(500).json({ error: 'Failed to get production sites' });
+        console.error('[ProductionSiteController] Error:', error);
+        res.status(500).json({
+            error: 'Failed to get production sites',
+            details: error.message,
+            stack: error.stack
+        });
     }
 };
 
@@ -51,13 +58,13 @@ exports.getProductionSite = async (req, res) => {
         const productionSiteId = parseInt(req.params.productionSiteId);
 
         if (isNaN(companyId) || isNaN(productionSiteId)) {
-            return res.status(400).json({ 
-                error: 'Invalid parameters: companyId and productionSiteId must be numbers' 
+            return res.status(400).json({
+                error: 'Invalid parameters: companyId and productionSiteId must be numbers'
             });
         }
 
         const item = await productionSiteDAL.getItem(companyId, productionSiteId);
-        
+
         if (!item) {
             return res.status(404).json({ error: 'Production site not found' });
         }
@@ -99,133 +106,4 @@ exports.deleteProductionSite = async (req, res) => {
         console.error('Error deleting production site:', error);
         res.status(500).json({ error: 'Failed to delete production site' });
     }
-=======
-const logger = require('../utils/logger');
-const ProductionSiteDAL = require('./productionSiteDAL');
-
-const getAllProductionSites = async (req, res) => {
-    try {
-        logger.info('[ProductionSiteController] Fetching all production sites');
-        
-        const items = await ProductionSiteDAL.getAllItems();
-        
-        if (!items) {
-            logger.warn('[ProductionSiteController] No items found');
-            return res.json([]);
-        }
-
-        logger.info(`[ProductionSiteController] Successfully retrieved ${items.length} sites`);
-        return res.json(items);
-
-    } catch (error) {
-        logger.error('[ProductionSiteController] Error:', error);
-        return res.status(500).json({
-            error: 'Failed to get production sites',
-            message: error.message
-        });
-    }
-};
-
-const getProductionSiteById = async (req, res) => {
-    try {
-        const { companyId, productionSiteId } = req.params;
-        logger.info('[ProductionSiteController] Getting site:', { companyId, productionSiteId });
-        
-        const site = await ProductionSiteDAL.getSiteById(companyId, productionSiteId);
-        if (!site) {
-            return res.status(404).json({
-                error: 'Site not found',
-                details: `No site found with ID ${productionSiteId} for company ${companyId}`
-            });
-        }
-
-        res.json(site);
-    } catch (error) {
-        logger.error('[ProductionSiteController] Error getting site:', error);
-        res.status(500).json({
-            error: 'Failed to fetch production site',
-            details: error.message
-        });
-    }
-};
-
-const createProductionSite = async (req, res) => {
-    try {
-        const siteData = req.body;
-        logger.info('[ProductionSiteController] Creating site:', siteData);
-
-        // Add timestamps
-        siteData.createdAt = new Date().toISOString();
-        siteData.updatedAt = new Date().toISOString();
-
-        const site = await ProductionSiteDAL.createSite(siteData);
-        res.status(201).json(site);
-    } catch (error) {
-        logger.error('[ProductionSiteController] Error creating site:', error);
-        res.status(500).json({
-            error: 'Failed to create production site',
-            details: error.message
-        });
-    }
-};
-
-const updateProductionSite = async (req, res) => {
-    try {
-        const { companyId, productionSiteId } = req.params;
-        const updates = req.body;
-        logger.info('[ProductionSiteController] Updating site:', { companyId, productionSiteId, updates });
-
-        // Add update timestamp
-        updates.updatedAt = new Date().toISOString();
-
-        const site = await ProductionSiteDAL.getSiteById(companyId, productionSiteId);
-        if (!site) {
-            return res.status(404).json({
-                error: 'Site not found',
-                details: `No site found with ID ${productionSiteId} for company ${companyId}`
-            });
-        }
-
-        const updatedSite = await ProductionSiteDAL.updateSite(companyId, productionSiteId, updates);
-        res.json(updatedSite);
-    } catch (error) {
-        logger.error('[ProductionSiteController] Error updating site:', error);
-        res.status(500).json({
-            error: 'Failed to update production site',
-            details: error.message
-        });
-    }
-};
-
-const deleteProductionSite = async (req, res) => {
-    try {
-        const { companyId, productionSiteId } = req.params;
-        logger.info('[ProductionSiteController] Deleting site:', { companyId, productionSiteId });
-
-        const site = await ProductionSiteDAL.getSiteById(companyId, productionSiteId);
-        if (!site) {
-            return res.status(404).json({
-                error: 'Site not found',
-                details: `No site found with ID ${productionSiteId} for company ${companyId}`
-            });
-        }
-
-        await ProductionSiteDAL.deleteSite(companyId, productionSiteId);
-        res.json({ success: true, message: 'Production site deleted successfully' });
-    } catch (error) {
-        logger.error('[ProductionSiteController] Error deleting site:', error);
-        res.status(500).json({
-            error: 'Failed to delete production site',
-            details: error.message
-        });
-    }
-};
-
-module.exports = {
-    getAllProductionSites,
-    getProductionSiteById,
-    createProductionSite,
-    updateProductionSite,
-    deleteProductionSite
->>>>>>> fbc1dea (Initial commit: Production site management application)
 };

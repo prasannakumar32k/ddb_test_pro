@@ -7,6 +7,90 @@ class DateFormatter {
   ];
 
   // Convert to display format (e.g., "Jan 2025")
+  static formatMonthYear(sk) {
+    try {
+      if (!sk || typeof sk !== 'string') {
+        return 'Invalid Date';
+      }
+
+      // Handle both MMYY and MMYYYY formats
+      const normalizedSk = sk.length === 4 ? `20${sk}` : sk;
+
+      if (normalizedSk.length !== 6) {
+        return 'Invalid Date';
+      }
+
+      const month = parseInt(normalizedSk.substring(0, 2)) - 1;
+      const year = parseInt('20' + normalizedSk.substring(4, 6));
+
+      return new Date(year, month).toLocaleString('en-US', {
+        month: 'short',
+        year: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Invalid Date';
+    }
+  }
+
+  // Convert Date to API format (MMYYYY)
+  static toApiFormat(date) {
+    try {
+      if (!date || !(date instanceof Date)) {
+        return null;
+      }
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = String(date.getFullYear()).slice(-2);
+      return `${month}20${year}`; // Ensure MMYYYY format
+    } catch (error) {
+      console.error('Error in toApiFormat:', error);
+      return null;
+    }
+  }
+
+  // Parse API format to Date object
+  static fromApiFormat(sk) {
+    try {
+      if (!sk || typeof sk !== 'string') {
+        return null;
+      }
+
+      // Normalize SK to MMYYYY format
+      const normalizedSK = sk.length === 4 ? sk + '20' : sk;
+
+      if (normalizedSK.length !== 6) {
+        return null;
+      }
+
+      const month = parseInt(normalizedSK.substring(0, 2)) - 1;
+      const year = parseInt('20' + normalizedSK.substring(4, 6));
+      const date = new Date(year, month);
+
+      return isValid(date) ? date : null;
+    } catch (error) {
+      console.error('Error parsing date:', error);
+      return null;
+    }
+  }
+
+  // Sort dates in descending order
+  static sortDatesDesc(a, b) {
+    try {
+      if (!a?.sk || !b?.sk) return 0;
+
+      const dateA = DateFormatter.fromApiFormat(a.sk);
+      const dateB = DateFormatter.fromApiFormat(b.sk);
+
+      if (!dateA || !dateB) return 0;
+
+      return dateB.getTime() - dateA.getTime();
+    } catch (error) {
+      console.error('Error sorting dates:', error);
+      return 0;
+    }
+  }
+
+  // Convert to display format (e.g., "Jan 2025")
   static toDisplayFormat(date) {
     if (!date || !isValid(date)) return '';
     try {
@@ -18,106 +102,16 @@ class DateFormatter {
     }
   }
 
-  // Convert to API format (e.g., "012025")
-  static toApiFormat(date) {
-    try {
-      let parsedDate;
-      
-      // If date is a string, try to parse it
-      if (typeof date === 'string') {
-        // Try parsing different formats
-        const formats = [
-          'yyyy-MM-dd', 
-          'MM/dd/yyyy', 
-          'dd/MM/yyyy', 
-          'yyyy/MM/dd'
-        ];
-        
-        for (let format of formats) {
-          parsedDate = parse(date, format, new Date());
-          if (isValid(parsedDate)) break;
-        }
-        
-        // If no valid parse found, use current date
-        if (!isValid(parsedDate)) {
-          console.warn('[DateFormatter] Could not parse date:', date);
-          parsedDate = new Date();
-        }
-      } else if (date instanceof Date) {
-        // If already a Date object
-        parsedDate = date;
-      } else {
-        // If not a string or Date, use current date
-        console.warn('[DateFormatter] Invalid date type:', date);
-        parsedDate = new Date();
-      }
-
-      // Ensure we have a valid date
-      if (!isValid(parsedDate)) {
-        console.warn('[DateFormatter] Invalid date:', parsedDate);
-        parsedDate = new Date();
-      }
-
-      const month = (parsedDate.getMonth() + 1).toString().padStart(2, '0');
-      const year = parsedDate.getFullYear().toString().slice(-2);
-      return `${month}${year}`; // Returns format: MMYY (e.g., "0224" for February 2024)
-    } catch (error) {
-      console.error('[DateFormatter] Error in toApiFormat:', error);
-      return null;
-    }
-  }
-
-  // Parse API format (MMYYYY) to Date
-  static fromApiFormat(dateStr) {
-    if (!dateStr || typeof dateStr !== 'string') {
-      console.warn('Invalid date string in fromApiFormat:', dateStr);
-      return null;
-    }
-
-    try {
-      // Handle both MMYYYY and MMYY formats
-      const month = parseInt(dateStr.substring(0, 2)) - 1; // 0-based month
-      const yearStr = dateStr.length === 6 ? dateStr.substring(2) : dateStr.substring(2, 4);
-      const year = parseInt(`20${yearStr}`);
-
-      if (month < 0 || month > 11 || isNaN(year)) {
-        console.warn('Invalid month or year:', month, year);
-        return null;
-      }
-
-      const date = new Date(year, month, 1);
-      return isValid(date) ? date : null;
-    } catch (error) {
-      console.error('Error in fromApiFormat:', error);
-      return null;
-    }
-  }
-
-  // Sort dates in descending order
-  static sortDatesDesc(a, b) {
-    try {
-      if (!a?.sk || !b?.sk) return 0;
-      
-      const dateA = new Date(a.sk.substring(0, 2) + '/01/' + '20' + a.sk.substring(2));
-      const dateB = new Date(b.sk.substring(0, 2) + '/01/' + '20' + b.sk.substring(2));
-      
-      return dateB.getTime() - dateA.getTime();
-    } catch (error) {
-      console.error('Error in sortDatesDesc:', error);
-      return 0;
-    }
-  }
-
   // Format from API format to display format
   static formatForTable(dateStr) {
     try {
       if (!dateStr) return 'Invalid Date';
-      
+
       const month = parseInt(dateStr.substring(0, 2)) - 1;
       const year = '20' + dateStr.substring(2);
-      
+
       if (month < 0 || month > 11) return 'Invalid Date';
-      
+
       return `${this.monthNames[month]} ${year}`;
     } catch (error) {
       console.error('Error in formatForTable:', error);
@@ -154,5 +148,4 @@ class DateFormatter {
   }
 }
 
-// Export only the DateFormatter class
 export default DateFormatter;
