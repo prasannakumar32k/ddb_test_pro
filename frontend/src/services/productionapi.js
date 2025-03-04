@@ -317,6 +317,34 @@ export const productionApi = {
       console.error('[ProductionAPI] Delete error:', error);
       throw new Error(error.response?.data?.message || 'Failed to delete production data');
     }
+  },
+
+  checkExisting: async (companyId, productionSiteId, date) => {
+    try {
+      if (!companyId || !productionSiteId || !date) {
+        throw new Error('Missing required parameters for checking existing data');
+      }
+
+      console.log('[ProductionAPI] Checking existing data:', {
+        companyId,
+        productionSiteId,
+        date
+      });
+
+      const response = await api.get(
+        `/production-unit/${companyId}/${productionSiteId}/${date}`
+      );
+
+      console.log('[ProductionAPI] Check existing response:', response.data);
+      return response.data?.data || null;
+    } catch (error) {
+      if (error.response?.status === 404) {
+        console.log('[ProductionAPI] No existing data found');
+        return null;
+      }
+      console.error('[ProductionAPI] Check existing error:', error);
+      throw new Error(error.response?.data?.message || 'Failed to check existing data');
+    }
   }
 };
 

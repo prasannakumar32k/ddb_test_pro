@@ -8,6 +8,9 @@ router.get('/', productionController.getAllProductions);
 // GET /api/production-unit/:companyId/:productionSiteId
 router.get('/:companyId/:productionSiteId', productionController.getProductionHistory);
 
+// GET /api/production-unit/:companyId/:productionSiteId/:month
+router.get('/:companyId/:productionSiteId/:month', productionController.checkExistingProduction);
+
 // POST /api/production-unit/:companyId/:productionSiteId
 router.post('/:companyId/:productionSiteId', productionController.createProduction);
 

@@ -136,16 +136,33 @@ const SiteCard = ({ site, onEdit, onDelete, userRole }) => {
 const ProductionSiteList = ({ sites, onEdit, onDelete, userRole }) => {
   return (
     <Grid container spacing={3}>
-      {sites.map((site) => (
-        <Grid item xs={12} sm={6} md={4} key={`${site.companyId}_${site.productionSiteId}`}>
-          <SiteCard
-            site={site}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            userRole={userRole}
-          />
-        </Grid>
-      ))}
+      {sites.map((site, index) => {
+        const companyId = site.companyId || 1; // Default companyId to 1
+        const productionSiteId = site.productionSiteId || `site-${index + 1}`; // Generate productionSiteId if null
+        const uniqueKey = `${companyId}_${productionSiteId}`;
+
+        return (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            key={uniqueKey}
+          >
+            <SiteCard
+              site={{
+                ...site,
+                companyId,
+                productionSiteId,
+                pk: uniqueKey
+              }}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              userRole={userRole}
+            />
+          </Grid>
+        );
+      })}
     </Grid>
   );
 };

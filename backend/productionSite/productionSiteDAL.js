@@ -2,10 +2,11 @@
 const { QueryCommand, ScanCommand, PutCommand, DeleteCommand, UpdateCommand } = require("@aws-sdk/lib-dynamodb");
 const { ListTablesCommand } = require("@aws-sdk/client-dynamodb");
 const logger = require('../utils/logger');
+const db = require('../utils/db');
 
 class ProductionSiteDAL {
   constructor() {
-    this.tableName = 'ProductionSiteTable'; // Changed from 'ProductionSites' to match initialization scripts
+    this.tableName = process.env.PRODUCTION_SITES_TABLE || 'ProductionSiteTable';
   }
 
   async checkTableExists() {
@@ -109,7 +110,6 @@ class ProductionSiteDAL {
       }
 
       const now = new Date().toISOString();
-      // Map incoming fields to database fields
       const newItem = {
         companyId: parseInt(item.companyId),
         productionSiteId: parseInt(item.productionSiteId),
@@ -131,24 +131,8 @@ class ProductionSiteDAL {
         Item: newItem
       });
 
-      await global.dynamoDb.send(command);
-
-      // Return consistent field names for the API
-      return {
-        companyId: newItem.companyId,
-        productionSiteId: newItem.productionSiteId,
-        name: newItem.name,
-        location: newItem.location,
-        type: newItem.type,
-        status: newItem.status,
-        banking: newItem.banking,
-        capacity_MW: newItem.capacity_MW,
-        annualProduction_L: newItem.annualProduction_L,
-        htscNo: newItem.htscNo,
-        injectionVoltage_KV: newItem.injectionVoltage_KV,
-        createdAt: newItem.createdAt,
-        updatedAt: newItem.updatedAt
-      };
+      await db.send(command);
+      return newItem;
     } catch (error) {
       logger.error('[ProductionSiteDAL] createItem Error:', error);
       throw error;

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTitle,
-  DialogContent
+  DialogContent,
+  Paper
 } from '@mui/material';
 import ProductionSiteDataForm from './ProductionSiteDataForm';
 import { updateProductionData } from '../services/productionapi';
@@ -16,76 +17,37 @@ const ProductionSiteDialog = ({
   productionSiteId,
   onUpdateSuccess
 }) => {
-  const handleSubmit = async (data) => {
-    try {
-      if (editingData) {
-        // Handle update
-        await updateProductionData(companyId, productionSiteId, data);
-        onUpdateSuccess?.();
-      } else {
-        // Handle create
-        await onSubmit(data);
-      }
-      onClose();
-    } catch (error) {
-      console.error('Dialog submission error:', error);
-      throw error;
-    }
-  };
-
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      maxWidth="sm"
+      maxWidth="md"
       fullWidth
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+        }
+      }}
     >
-      <DialogTitle>
-        {editingData ? 'Edit Production Data' : 'Add Production Data'}
+      <DialogTitle sx={{
+        borderBottom: 1,
+        borderColor: 'divider',
+        px: 3,
+        py: 2
+      }}>
+        {editingData ? 'Edit Production Site' : 'Add Production Site'}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ p: 3 }}>
         <ProductionSiteDataForm
           initialData={editingData}
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
           onCancel={onClose}
-          isEdit={!!editingData}
+          companyId={companyId}
+          productionSiteId={productionSiteId}
         />
       </DialogContent>
     </Dialog>
-  );
-};
-
-// Example usage in parent component
-const ParentComponent = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingData, setEditingData] = useState(null);
-
-  const handleSubmit = async (data) => {
-    try {
-      // Handle form submission
-      await submitData(data);
-      setDialogOpen(false);
-      setEditingData(null);
-    } catch (error) {
-      console.error('Submit error:', error);
-    }
-  };
-
-  return (
-    <>
-      {/* Your other components */}
-      <ProductionSiteDialog
-        open={dialogOpen}
-        onClose={() => {
-          setDialogOpen(false);
-          setEditingData(null);
-        }}
-        onSubmit={handleSubmit}
-        editingData={editingData}
-        companyId={companyId}
-        productionSiteId={productionSiteId}
-      />
-    </>
   );
 };
 

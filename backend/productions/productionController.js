@@ -5,7 +5,8 @@ const {
     ScanCommand,
     PutCommand,
     UpdateCommand,
-    DeleteCommand
+    DeleteCommand,
+    GetCommand
 } = require("@aws-sdk/lib-dynamodb");
 
 const docClient = require('../config/db');
@@ -299,11 +300,53 @@ const getProductionUnits = async (req, res) => {
     }
 };
 
+const checkExistingProduction = async (req, res) => {
+    try {
+        const { companyId, productionSiteId, month } = req.params;
+
+        if (!companyId || !productionSiteId || !month) {
+            return res.status(400).json({
+                error: 'Missing required parameters',
+                details: 'CompanyId, ProductionSiteId and month are required'
+            });
+        }
+
+        const params = {
+            TableName: PRODUCTIONS_TABLE,
+            Key: {
+                pk: `${companyId}_${productionSiteId}`,
+                sk: month
+            }
+        };
+
+        console.log('[ProductionController] Checking existing:', params);
+
+        const command = new GetCommand(params);
+        const result = await docClient.send(command);
+
+        if (!result.Item) {
+            return res.status(404).json({
+                message: 'Data not found'
+            });
+        }
+
+        res.json(result.Item);
+
+    } catch (error) {
+        console.error('[ProductionController] Check existing error:', error);
+        res.status(500).json({
+            error: 'Failed to check existing data',
+            details: error.message
+        });
+    }
+};
+
 module.exports = {
     getAllProductions,
     getProductionHistory,
     createProduction,
     updateProduction,
     deleteProduction,
-    getProductionUnits
+    getProductionUnits,
+    checkExistingProduction
 };

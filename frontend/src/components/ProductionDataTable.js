@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
   Paper,
   Table,
@@ -9,27 +9,22 @@ import {
   TableRow,
   Box,
   Typography,
+  IconButton,
+  Tooltip,
   ToggleButtonGroup,
   ToggleButton,
-  IconButton,
-  Tooltip
+  useTheme
 } from '@mui/material';
 import {
-  Power as PowerIcon,
-  ElectricBolt as VoltageIcon,
   Edit as EditIcon,
-  Delete as DeleteIcon
+  Delete as DeleteIcon,
+  Power as PowerIcon,
+  ElectricBolt as VoltageIcon
 } from '@mui/icons-material';
 import DateFormatter from '../utils/DateFormatter';
 
-const ProductionDataTable = ({ data = [], onEdit, onDelete }) => {
-  const [matrixType, setMatrixType] = useState('unit');
-
-  const handleMatrixTypeChange = (event, newValue) => {
-    if (newValue !== null) {
-      setMatrixType(newValue);
-    }
-  };
+const ProductionDataTable = ({ data = [], matrixType = 'unit', onEdit, onDelete }) => {
+  const theme = useTheme();
 
   const calculateTotal = (row, type) => {
     try {
@@ -106,86 +101,133 @@ const ProductionDataTable = ({ data = [], onEdit, onDelete }) => {
         alignItems: 'center',
         mb: 2
       }}>
-        <Typography variant="h6">
-          Historical Production Data
+        <Typography variant="h6" color="primary.main">
+          Production Data
         </Typography>
-        <ToggleButtonGroup
-          value={matrixType}
-          exclusive
-          onChange={handleMatrixTypeChange}
-          size="small"
-        >
-          <ToggleButton value="unit">
-            <PowerIcon sx={{ mr: 1 }} />
-            Unit Matrix
-          </ToggleButton>
-          <ToggleButton value="charge">
-            <VoltageIcon sx={{ mr: 1 }} />
-            Charge Matrix
-          </ToggleButton>
-        </ToggleButtonGroup>
       </Box>
 
       <TableContainer>
-        <Table size="small">
+        <Table
+          size="small"
+          sx={{
+            '& .MuiTableHead-root': {
+              bgcolor: theme.palette.primary.lighter,
+            },
+            '& .MuiTableCell-head': {
+              fontWeight: 'bold',
+              color: theme.palette.primary.main
+            }
+          }}
+        >
           <TableHead>
             <TableRow>
               {getColumns().map((column) => (
-                <TableCell key={column.id}>
+                <TableCell
+                  key={column.id}
+                  align={column.id === 'actions' || column.id === 'total' ? 'right' : 'left'}
+                  sx={{
+                    whiteSpace: 'nowrap',
+                    fontSize: '0.875rem',
+                    padding: '12px 16px'  // Consistent padding
+                  }}
+                >
                   {column.label}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedData.map((row) => (
-              <TableRow key={row.sk} hover>
-                <TableCell>{DateFormatter.formatMonthYear(row.sk)}</TableCell>
-                {matrixType === 'unit' ? (
-                  <>
-                    <TableCell>{row.c1.toFixed(2)}</TableCell>
-                    <TableCell>{row.c2.toFixed(2)}</TableCell>
-                    <TableCell>{row.c3.toFixed(2)}</TableCell>
-                    <TableCell>{row.c4.toFixed(2)}</TableCell>
-                    <TableCell>{row.c5.toFixed(2)}</TableCell>
-                  </>
-                ) : (
-                  <>
-                    <TableCell>{row.c001.toFixed(2)}</TableCell>
-                    <TableCell>{row.c002.toFixed(2)}</TableCell>
-                    <TableCell>{row.c003.toFixed(2)}</TableCell>
-                    <TableCell>{row.c004.toFixed(2)}</TableCell>
-                    <TableCell>{row.c005.toFixed(2)}</TableCell>
-                    <TableCell>{row.c006.toFixed(2)}</TableCell>
-                    <TableCell>{row.c007.toFixed(2)}</TableCell>
-                    <TableCell>{row.c008.toFixed(2)}</TableCell>
-                    <TableCell>{row.c009.toFixed(2)}</TableCell>
-                    <TableCell>{row.c010.toFixed(2)}</TableCell>
-                  </>
-                )}
-                <TableCell align="right">
-                  {calculateTotal(row, matrixType)}
-                </TableCell>
-                <TableCell align="right">
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <IconButton
-                      size="small"
-                      onClick={() => onEdit(row)}
-                      sx={{ color: 'primary.main' }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={() => onDelete(row)}
-                      sx={{ color: 'error.main' }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
+            {sortedData.length > 0 ? (
+              sortedData.map((row) => (
+                <TableRow
+                  key={row.sk}
+                  hover
+                  sx={{
+                    '&:last-child td, &:last-child th': { border: 0 },
+                    '&:hover': {
+                      bgcolor: theme.palette.action.hover
+                    }
+                  }}
+                >
+                  <TableCell sx={{ fontWeight: 'medium' }}>
+                    {DateFormatter.formatMonthYear(row.sk)}
+                  </TableCell>
+                  {matrixType === 'unit' ? (
+                    <>
+                      <TableCell>{row.c1.toFixed(2)}</TableCell>
+                      <TableCell>{row.c2.toFixed(2)}</TableCell>
+                      <TableCell>{row.c3.toFixed(2)}</TableCell>
+                      <TableCell>{row.c4.toFixed(2)}</TableCell>
+                      <TableCell>{row.c5.toFixed(2)}</TableCell>
+                    </>
+                  ) : (
+                    <>
+                      <TableCell>{row.c001.toFixed(2)}</TableCell>
+                      <TableCell>{row.c002.toFixed(2)}</TableCell>
+                      <TableCell>{row.c003.toFixed(2)}</TableCell>
+                      <TableCell>{row.c004.toFixed(2)}</TableCell>
+                      <TableCell>{row.c005.toFixed(2)}</TableCell>
+                      <TableCell>{row.c006.toFixed(2)}</TableCell>
+                      <TableCell>{row.c007.toFixed(2)}</TableCell>
+                      <TableCell>{row.c008.toFixed(2)}</TableCell>
+                      <TableCell>{row.c009.toFixed(2)}</TableCell>
+                      <TableCell>{row.c010.toFixed(2)}</TableCell>
+                    </>
+                  )}
+                  <TableCell align="right" sx={{ color: theme.palette.primary.main }}>
+                    {calculateTotal(row, matrixType)}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Box sx={{
+                      display: 'flex',
+                      gap: 1,
+                      justifyContent: 'flex-end'
+                    }}>
+                      <Tooltip title="Edit">
+                        <IconButton
+                          size="small"
+                          onClick={() => onEdit(row)}
+                          sx={{
+                            color: theme.palette.primary.main,
+                            '&:hover': {
+                              backgroundColor: theme.palette.primary.lighter
+                            }
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Delete">
+                        <IconButton
+                          size="small"
+                          onClick={() => onDelete(row)}
+                          sx={{
+                            color: theme.palette.error.main,
+                            '&:hover': {
+                              backgroundColor: theme.palette.error.lighter
+                            }
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={matrixType === 'unit' ? 8 : 13}
+                  align="center"
+                  sx={{ py: 3 }}
+                >
+                  <Typography variant="body2" color="text.secondary">
+                    No production data available
+                  </Typography>
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>

@@ -26,9 +26,8 @@ import {
 } from '@mui/icons-material';
 import DateFormatter from '../utils/DateFormatter';
 
-const ProductionChart = ({ data }) => {
+const ProductionChart = ({ data, matrixType = 'unit' }) => {
   const [chartType, setChartType] = useState('line');
-  const [matrixType, setMatrixType] = useState('unit');
 
   const chartColors = matrixType === 'unit'
     ? {
@@ -55,10 +54,6 @@ const ProductionChart = ({ data }) => {
     if (newValue !== null) setChartType(newValue);
   };
 
-  const handleMatrixTypeChange = (event, newValue) => {
-    if (newValue !== null) setMatrixType(newValue);
-  };
-
   const transformedData = data.map(item => ({
     month: DateFormatter.formatMonthYear(item.sk),
     ...Object.keys(chartColors).reduce((acc, key) => ({
@@ -76,46 +71,26 @@ const ProductionChart = ({ data }) => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        mb: 2,
-        flexWrap: 'wrap',
-        gap: 2
+        mb: 2
       }}>
         <Typography variant="h6">
           Production Analysis
         </Typography>
-        <Box sx={{ display: 'flex', gap: 2 }}>
-          <ToggleButtonGroup
-            value={matrixType}
-            exclusive
-            onChange={handleMatrixTypeChange}
-            size="small"
-          >
-            <ToggleButton value="unit">
-              <PowerIcon sx={{ mr: 1 }} />
-              Unit Matrix
-            </ToggleButton>
-            <ToggleButton value="charge">
-              <VoltageIcon sx={{ mr: 1 }} />
-              Charge Matrix
-            </ToggleButton>
-          </ToggleButtonGroup>
-
-          <ToggleButtonGroup
-            value={chartType}
-            exclusive
-            onChange={handleChartTypeChange}
-            size="small"
-          >
-            <ToggleButton value="line">
-              <TimelineIcon sx={{ mr: 1 }} />
-              Line
-            </ToggleButton>
-            <ToggleButton value="bar">
-              <BarChartIcon sx={{ mr: 1 }} />
-              Bar
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Box>
+        <ToggleButtonGroup
+          value={chartType}
+          exclusive
+          onChange={handleChartTypeChange}
+          size="small"
+        >
+          <ToggleButton value="line">
+            <TimelineIcon sx={{ mr: 1 }} />
+            Line
+          </ToggleButton>
+          <ToggleButton value="bar">
+            <BarChartIcon sx={{ mr: 1 }} />
+            Bar
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
 
       <Box sx={{ height: 400, mb: 3 }}>

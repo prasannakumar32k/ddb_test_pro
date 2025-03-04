@@ -1,19 +1,21 @@
 const logger = require('../utils/logger');
 
 const requestLogger = (req, res, next) => {
-    // Log request
-    logger.logRequest(req);
+    try {
+        logger.logRequest(req);
 
-    // Get start time
-    const start = Date.now();
+        // Log response
+        const originalEnd = res.end;
+        res.end = function (...args) {
+            logger.logResponse(req, res);
+            originalEnd.apply(res, args);
+        };
 
-    // Log response when finished
-    res.on('finish', () => {
-        const responseTime = Date.now() - start;
-        logger.logResponse(req, res, responseTime);
-    });
-
-    next();
+        next();
+    } catch (error) {
+        logger.logError(error, req);
+        next();
+    }
 };
 
 module.exports = requestLogger;

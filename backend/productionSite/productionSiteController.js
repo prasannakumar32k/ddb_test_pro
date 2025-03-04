@@ -1,17 +1,65 @@
-const productionSiteDAL = require("./productionSiteDAL");
-const productionDAL = require("../productions/productionDAL");
+const productionSiteDAL = require('./productionSiteDAL');
+const productionDAL = require('../productions/productionDAL');
 const logger = require('../utils/logger');
 
 // Create new production site
 exports.createProductionSite = async (req, res) => {
     try {
-        const newSite = await productionSiteDAL.createItem(req.body);
-        res.status(201).json(newSite);
+        const {
+            companyId,
+            productionSiteId,
+            name,
+            location,
+            type,
+            status,
+            capacity_MW,
+            banking,
+            htscNo,
+            injectionVoltage_KV,
+            annualProduction_L
+        } = req.body;
+
+        // Validate required fields
+        if (!name || !location || !type) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing required fields: name, location, and type are required'
+            });
+        }
+
+        // Format data for creation
+        const siteData = {
+            companyId: companyId || 1,
+            productionSiteId: productionSiteId || `site-${Date.now()}`,
+            name,
+            location,
+            type,
+            status: status || 'Active',
+            capacity_MW: Number(capacity_MW) || 0,
+            banking: Boolean(banking),
+            htscNo: htscNo || '',
+            injectionVoltage_KV: Number(injectionVoltage_KV) || 0,
+            annualProduction_L: Number(annualProduction_L) || 0,
+            sk: `${companyId || 1}_${productionSiteId || `site-${Date.now()}`}`
+        };
+
+        logger.info(`Creating production site with data:`, siteData);
+
+        const result = await productionSiteDAL.createItem(siteData);
+
+        logger.info(`Production site created successfully:`, result);
+
+        return res.status(201).json({
+            success: true,
+            data: result
+        });
+
     } catch (error) {
-        logger.error('[ProductionSiteController] Create Error:', error);
-        res.status(500).json({
-            error: 'Failed to create production site',
-            details: error.message
+        logger.error(`Error creating production site:`, error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || 'Failed to create production site',
+            error: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 };

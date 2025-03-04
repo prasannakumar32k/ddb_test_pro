@@ -56,6 +56,8 @@ import {
 } from '../services/productionapi';
 
 import ProductionSiteList from '../components/ProductionSiteList';
+import ProductionSiteDialog from './ProductionSiteDialog';
+import { productionApi } from '../services/productionapi';
 
 // Update the DetailItem component
 const DetailItem = ({ icon: Icon, label, value, color = 'text.secondary' }) => (
@@ -300,7 +302,7 @@ const SiteCard = ({ site, onEdit, onDelete, userRole }) => {
 };
 
 // Update the main Production component
-export const Production = () => {
+const Production = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar(); // Add this hook
@@ -322,112 +324,64 @@ export const Production = () => {
   const [selectedSite, setSelectedSite] = useState(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingData, setEditingData] = useState(null);
+
+  // Add loadData function
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const data = await productionApi.fetchAll();
+      setProductionUnits(data);
+    } catch (error) {
+      enqueueSnackbar('Failed to load production sites', { variant: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadData = async () => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const loadSites = async () => {
       try {
         setLoading(true);
-        setError(null);
-
         const data = await fetchProductionSites();
-
-        if (!data || !Array.isArray(data)) {
-          setProductionUnits([]);
-          return;
-        }
-
-        const transformedData = data.map(unit => ({
-          companyId: parseInt(unit.companyId),
-          productionSiteId: parseInt(unit.productionSiteId),
-          name: unit.name || unit.Name || 'Unnamed Site',
-          location: unit.location || unit.Location || 'Location not specified',
-          type: unit.type || unit.Type || 'Unknown',
-          banking: parseInt(unit.banking || unit.Banking || 0),
-          capacity_MW: parseFloat(unit.capacity_MW || unit.Capacity_MW || 0),
-          annualProduction_L: parseFloat(unit.annualProduction_L || unit.AnnualProduction || 0),
-          htscNo: unit.htscNo || unit.HtscNo || 'Not specified',
-          injectionVoltage_KV: parseFloat(unit.injectionVoltage_KV || unit.InjectionValue || 0),
-          status: unit.status || unit.Status || 'Inactive'
-        }));
-
-        setProductionUnits(transformedData);
-      } catch (error) {
-        console.error('Failed to load production units:', error);
-        setError(error.message || 'Failed to load data from database');
+        setProductionUnits(data);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    loadData();
+    loadSites();
   }, []);
 
   // Update the handleSubmit function
-  const handleSubmit = async (data) => {
+  const handleSubmit = async (formData) => {
     try {
       setLoading(true);
-      setError(null);
 
-      // Calculate next productionSiteId
-      const nextSiteId = productionUnits.length > 0
-        ? Math.max(...productionUnits.map(unit => parseInt(unit.productionSiteId || 0))) + 1
-        : 1;
+      const result = editingData
+        ? await updateProductionUnit(formData)
+        : await createProductionUnit(formData);
 
-      // Format data consistently
-      const formData = {
-        companyId: 1,
-        productionSiteId: nextSiteId,
-        name: data.Name,                  // Changed from Name to name
-        location: data.Location,          // Changed from Location to location
-        type: data.Type,                  // Changed from Type to type
-        banking: data.Banking ? 1 : 0,    // Convert boolean to number
-        capacity_MW: parseFloat(data.Capacity_MW || 0),
-        annualProduction_L: parseFloat(data.AnnualProduction || 0),
-        htscNo: data.HtscNo,
-        injectionVoltage_KV: parseFloat(data.InjectionValue || 0),
-        status: data.Status || 'Active'
-      };
-
-      // Validate data before sending
-      if (!formData.name || !formData.location || !formData.type) {
-        throw new Error('Name, Location and Type are required fields');
+      if (result) {
+        enqueueSnackbar(
+          `Production site ${editingData ? 'updated' : 'created'} successfully`,
+          { variant: 'success' }
+        );
+        setOpenDialog(false);
+        setEditingData(null);
+        await loadData(); // Refresh the list
       }
-
-      console.log('[Production] Submitting data:', formData);
-      const result = await createProductionUnit(formData);
-
-      if (!result) {
-        throw new Error('Failed to create production unit');
-      }
-
-      // Transform result to match frontend format
-      const newUnit = {
-        companyId: result.companyId,
-        productionSiteId: result.productionSiteId,
-        Name: result.name,
-        Location: result.location,
-        Type: result.type,
-        Banking: result.banking === 1,
-        Capacity_MW: parseFloat(result.capacity_MW),
-        AnnualProduction: parseFloat(result.annualProduction_L),
-        HtscNo: result.htscNo,
-        InjectionValue: parseFloat(result.injectionVoltage_KV),
-        Status: result.status
-      };
-
-      setProductionUnits(prev => [...prev, newUnit]);
-      setOpenDialog(false);
-      setSnackbar({
-        open: true,
-        message: 'Production site created successfully',
-        severity: 'success'
-      });
     } catch (error) {
       console.error('Submit error:', error);
-      setError(error.message);
-      setSnackbar({
-        open: true,
-        message: `Failed to create production site: ${error.message}`,
-        severity: 'error'
+      enqueueSnackbar(error.message || 'Failed to process request', {
+        variant: 'error'
       });
     } finally {
       setLoading(false);
@@ -501,50 +455,63 @@ export const Production = () => {
   };
 
   // Add handlers for edit and delete
-  const handleEdit = async (site) => {
-    if (user?.role !== 'admin') {
-      enqueueSnackbar('You do not have permission to edit sites', {
-        variant: 'warning'
-      });
-      return;
-    }
-
+  const handleEdit = (site) => {
     try {
-      const siteData = await fetchProductionSiteDetails(site.companyId, site.productionSiteId);
-      setSelectedSite(siteData);
+      if (!site || !site.companyId || !site.productionSiteId) {
+        throw new Error('Invalid site data');
+      }
+
+      const formattedData = {
+        companyId: site.companyId,
+        productionSiteId: site.productionSiteId,
+        Name: site.name,
+        Location: site.location,
+        Type: site.type,
+        Status: site.status,
+        Capacity_MW: site.capacity_MW?.toString() || '0',
+        Banking: Boolean(site.banking),
+        HtscNo: site.htscNo || '',
+        InjectionValue: site.injectionVoltage_KV?.toString() || '0',
+        AnnualProduction: site.annualProduction_L?.toString() || '0'
+      };
+
+      setEditingData(formattedData);
       setEditDialogOpen(true);
     } catch (error) {
-      console.error('Error fetching site details:', error);
-      enqueueSnackbar('Failed to load site details', {
-        variant: 'error'
-      });
+      console.error('Error preparing edit form:', error);
+      enqueueSnackbar('Failed to prepare edit form', { variant: 'error' });
     }
   };
 
   const handleUpdate = async (formData) => {
     try {
-      setLoading(true);
-      await updateProductionUnit(formData.CompanyId, formData.productionSiteId, formData);
-      setSnackbar({
-        open: true,
-        message: 'Site updated successfully',
-        severity: 'success'
-      });
-      setEditDialogOpen(false);
+      if (!editingData?.companyId || !editingData?.productionSiteId) {
+        throw new Error('Missing site identification data');
+      }
 
-      // Refresh the data
-      const updatedSites = await fetchProductionSites();
-      setProductionUnits(updatedSites);
+      const updateData = {
+        ...formData,
+        companyId: editingData.companyId,
+        productionSiteId: editingData.productionSiteId
+      };
+
+      await updateProductionUnit(updateData);
+      enqueueSnackbar('Site updated successfully', { variant: 'success' });
+      setEditDialogOpen(false);
+      setEditingData(null);
+      await loadData();
     } catch (error) {
       console.error('Error updating site:', error);
-      setSnackbar({
-        open: true,
-        message: 'Failed to update site',
-        severity: 'error'
-      });
-    } finally {
-      setLoading(false);
+      enqueueSnackbar(error.message || 'Failed to update site', { variant: 'error' });
     }
+  };
+
+
+  const handleUpdateSuccess = () => {
+    enqueueSnackbar('Production data updated successfully', {
+      variant: 'success'
+    });
+    loadData(); // Refresh the data after update
   };
 
   // Remove the old Add New Site card from renderProductionUnits
@@ -704,6 +671,19 @@ export const Production = () => {
           />
         </Box>
       </Dialog>
+
+      <ProductionSiteDialog
+        open={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          setEditingData(null);
+        }}
+        onSubmit={handleSubmit}
+        editingData={editingData}
+        companyId={editingData?.companyId}
+        productionSiteId={editingData?.productionSiteId}
+        onUpdateSuccess={handleUpdateSuccess}
+      />
     </Box>
   );
 }

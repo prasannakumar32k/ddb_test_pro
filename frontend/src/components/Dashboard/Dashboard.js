@@ -45,23 +45,18 @@ const DashboardCard = ({
   <Card
     sx={{
       height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
+      borderRadius: 3,
       transition: 'all 0.3s ease',
-      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
       '&:hover': {
-        transform: 'translateY(-5px)',
-        boxShadow: '0 8px 12px rgba(0,0,0,0.15)',
-        bgcolor: 'rgba(0,0,0,0.02)'
+        transform: 'translateY(-8px)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.15)'
       }
     }}
   >
     <CardActionArea
       onClick={onClick}  // Fixed: Removed incorrect parenthesis
       sx={{
-        flexGrow: 1,
-        display: 'flex',
-        flexDirection: 'column',
+        height: '100%',
         p: 3
       }}
     >

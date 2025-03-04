@@ -62,6 +62,7 @@ import ProductionSiteDataForm from './ProductionSiteDataForm';
 import ProductionDataTable from './ProductionDataTable';  // Keep this import
 import ProductionChart from './ProductionChart';
 import {
+  productionApi,
   createProductionData,
   deleteProductionData,
   fetchProductionData,
@@ -141,27 +142,26 @@ const DetailCard = ({ icon: Icon, label, value, color = 'primary.main' }) => (
   <Paper
     elevation={2}
     sx={{
-      p: 2.5,
-      height: '110px',
+      p: 3,
+      height: '100%',
       borderRadius: 2,
-      bgcolor: 'white',
+      backgroundColor: 'background.paper',
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'space-between',
+      gap: 2,
+      transition: 'all 0.3s ease',
       '&:hover': {
-        boxShadow: 3,
-        transform: 'translateY(-2px)',
-        transition: 'all 0.2s'
+        transform: 'translateY(-4px)',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.1)'
       }
     }}
   >
-    <Typography variant="body2" color="text.secondary" sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
-      <Icon sx={{ fontSize: 20, mr: 1, color: color }} />
-      {label}
-    </Typography>
-    <Typography variant="h6" fontWeight="600" color="text.primary">
-      {value}
-    </Typography>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+      <Icon sx={{ fontSize: 28, color }} />
+      <Typography variant="body1" color="text.primary" fontWeight={500}>
+        {value}
+      </Typography>
+    </Box>
   </Paper>
 );
 
@@ -221,71 +221,6 @@ const ProductionDataCard = ({ data, onMenuOpen }) => (
   </Paper>
 );
 
-// Update ProductionTable component
-const ProductionTable = ({ data, onEdit, onDelete }) => {
-  return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            {/* Unit Matrix */}
-            <TableCell align="right">C1</TableCell>
-            <TableCell align="right">C2</TableCell>
-            <TableCell align="right">C3</TableCell>
-            <TableCell align="right">C4</TableCell>
-            <TableCell align="right">C5</TableCell>
-            {/* Charge Matrix */}
-            <TableCell align="right">C001</TableCell>
-            <TableCell align="right">C002</TableCell>
-            <TableCell align="right">C003</TableCell>
-            <TableCell align="right">C004</TableCell>
-            <TableCell align="right">C005</TableCell>
-            <TableCell align="right">C006</TableCell>
-            <TableCell align="right">C007</TableCell>
-            <TableCell align="right">C008</TableCell>
-            <TableCell align="right">C009</TableCell>
-            <TableCell align="right">C010</TableCell>
-            <TableCell>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow key={row.sk}>
-              <TableCell>{DateFormatter.formatMonthYear(row.sk)}</TableCell>
-              {/* Unit Matrix */}
-              <TableCell align="right">{row.c1.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c2.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c3.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c4.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c5.toFixed(2)}</TableCell>
-              {/* Charge Matrix */}
-              <TableCell align="right">{row.c001.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c002.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c003.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c004.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c005.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c006.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c007.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c008.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c009.toFixed(2)}</TableCell>
-              <TableCell align="right">{row.c010.toFixed(2)}</TableCell>
-              <TableCell>
-                <IconButton onClick={() => onEdit(row)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton onClick={() => onDelete(row.sk)}>
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-};
-
 // Add the getTypeIcon function before the ProductionSiteDetails component
 const getTypeIcon = (type) => {
   switch (type?.toLowerCase()) {
@@ -298,7 +233,7 @@ const getTypeIcon = (type) => {
   }
 };
 
-// Update the main ProductionSiteDetails component
+// Update ProductionSiteDetails styles
 const ProductionSiteDetails = () => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -314,18 +249,15 @@ const ProductionSiteDetails = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [chartType, setChartType] = useState('line');
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [existingDataDialogOpen, setExistingDataDialogOpen] = useState(false);
+  const [pendingFormData, setPendingFormData] = useState(null);
   const [matrixType, setMatrixType] = useState('unit');
 
   // Handler functions
   const handleChartTypeChange = (event, newType) => {
     if (newType !== null) {
       setChartType(newType);
-    }
-  };
-
-  const handleMatrixTypeChange = (event, newType) => {
-    if (newType !== null) {
-      setMatrixType(newType);
     }
   };
 
@@ -395,29 +327,65 @@ const ProductionSiteDetails = () => {
   // Update the handleFormSubmit function
   const handleFormSubmit = async (formData) => {
     try {
-      if (!formData.selectedDate) {
-        throw new Error('Please select a date');
+      const apiDate = DateFormatter.toApiFormat(formData.selectedDate);
+      if (!formData.selectedDate || !(formData.selectedDate instanceof Date)) {
+        throw new Error('Please select a valid date');
       }
 
-      console.log('[ProductionSiteDetails] Submitting data:', formData);
+      const sk = DateFormatter.formatToSK(formData.selectedDate);
+      const dataToSubmit = {
+        ...formData,
+        sk
+      };
 
-      const result = await createProductionData(
-        parseInt(companyId),
-        parseInt(productionSiteId),
-        formData
+      // Check for existing data first
+      const existingData = await productionApi.checkExisting(
+        companyId,
+        productionSiteId,
+        sk
       );
 
-      enqueueSnackbar('Production data added successfully', { variant: 'success' });
-      setIsAddDialogOpen(false);
+      if (existingData) {
+        setPendingFormData(dataToSubmit);
+        setExistingDataDialogOpen(true);
+        return false;
+      }
+
+      // Create new data if no existing data found
+      await productionApi.create(companyId, productionSiteId, dataToSubmit);
+      enqueueSnackbar('Production data created successfully', {
+        variant: 'success'
+      });
       await loadData();
       return true;
+
     } catch (error) {
-      console.error('Failed to add production data:', error);
-      enqueueSnackbar(error.message || 'Failed to add data', {
-        variant: 'error',
-        autoHideDuration: 5000
+      console.error('[ProductionSiteDetails] Submit error:', error);
+      enqueueSnackbar(error.message || 'Failed to process data', {
+        variant: 'error'
       });
       return false;
+    }
+  };
+
+  // Add this function to handle the update confirmation
+  const handleUpdateConfirm = async () => {
+    try {
+      if (!pendingFormData) return;
+
+      await productionApi.update(companyId, productionSiteId, pendingFormData);
+      enqueueSnackbar('Production data updated successfully', {
+        variant: 'success'
+      });
+      await loadData();
+      setExistingDataDialogOpen(false);
+      setIsAddDialogOpen(false);
+      setPendingFormData(null);
+    } catch (error) {
+      console.error('[ProductionSiteDetails] Update error:', error);
+      enqueueSnackbar(error.message || 'Failed to update data', {
+        variant: 'error'
+      });
     }
   };
 
@@ -490,46 +458,205 @@ const ProductionSiteDetails = () => {
       }));
   };
 
+  // Add the handleCreate function inside the component
+  const handleCreate = async (formData) => {
+    try {
+      setLoading(true);
+
+      // Check for existing data
+      const existingData = await productionApi.checkExisting(
+        companyId,
+        productionSiteId,
+        formData.sk
+      );
+
+      if (existingData) {
+        const confirmed = window.confirm(
+          'Data already exists for this month. Do you want to update it?'
+        );
+
+        if (confirmed) {
+          await productionApi.update(companyId, productionSiteId, formData);
+          enqueueSnackbar('Production data updated successfully', {
+            variant: 'success'
+          });
+        } else {
+          enqueueSnackbar('Operation cancelled', { variant: 'info' });
+          return;
+        }
+      } else {
+        await productionApi.create(companyId, productionSiteId, formData);
+        enqueueSnackbar('Production data created successfully', {
+          variant: 'success'
+        });
+      }
+
+      await loadData(); // Refresh data
+      setCreateDialogOpen(false);
+
+    } catch (error) {
+      console.error('[ProductionSiteDetails] Create/Update error:', error);
+      enqueueSnackbar(error.message || 'Failed to process data', {
+        variant: 'error'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMatrixTypeChange = (event, newValue) => {
+    if (newValue !== null) {
+      setMatrixType(newValue);
+    }
+  };
+
   // Remove SiteDetailsSection and update the return section
   return (
-    <Box sx={{ p: 3 }}>
-      {/* Header Section */}
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        mb: 4
-      }}>
+    <Box sx={{ p: { xs: 2, sm: 3 }, backgroundColor: '#f8fafc', minHeight: '100vh' }}>
+      {/* Back Button - Moved outside */}
+      <Box sx={{ mb: 3 }}>
         <Button
           startIcon={<ArrowBackIcon />}
-          onClick={() => navigate('/production-sites')}
-          variant="outlined"
+          onClick={() => navigate('/production')}
+          variant="contained"
+          sx={{
+            backgroundColor: 'white',
+            color: 'primary.main',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+            borderRadius: 2,
+            '&:hover': {
+              backgroundColor: 'primary.main',
+              color: 'white',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+            },
+            transition: 'all 0.3s ease',
+            fontWeight: 500,
+            px: 3,
+            py: 1
+          }}
         >
           Back to Sites
         </Button>
-        {site && (
-          <Typography variant="h5" sx={{ flex: 1, textAlign: 'center', mx: 2 }}>
-            {site.name}
-          </Typography>
-        )}
-        <Button
-          startIcon={<AddIcon />}
-          onClick={() => setIsAddDialogOpen(true)}
-          variant="contained"
-          color="primary"
-        >
-          Add Production Data
-        </Button>
       </Box>
 
-      {/* Production Chart */}
-      <ProductionChart data={productionData} />
-
-      {/* Production Data Table */}
-      <Paper sx={{ p: 3 }}>
-        <Box sx={{ mb: 2 }}>
-          <Typography variant="h6">Historical Production Data</Typography>
+      {/* Header Section */}
+      <Paper
+        elevation={3}
+        sx={{
+          p: 3,
+          mb: 3,
+          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+          color: 'white',
+          borderRadius: 2
+        }}
+      >
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 2
+        }}>
+          {site && (
+            <Typography variant="h5" sx={{
+              flex: 1,
+              textAlign: 'center',
+              fontWeight: 600,
+              letterSpacing: '0.25px'
+            }}>
+              {site.name}
+            </Typography>
+          )}
+          <Button
+            startIcon={<AddIcon />}
+            onClick={() => setIsAddDialogOpen(true)}
+            variant="contained"
+            sx={{
+              bgcolor: 'white',
+              color: 'primary.main',
+              '&:hover': {
+                bgcolor: 'rgba(255, 255, 255, 0.9)'
+              }
+            }}
+          >
+            Add Production Data
+          </Button>
         </Box>
+      </Paper>
+
+      {/* Remove Grid container with DetailCards */}
+
+      {/* Rest of the components remain the same */}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+        <ToggleButtonGroup
+          value={matrixType}
+          exclusive
+          onChange={handleMatrixTypeChange}
+          size="small"
+          sx={{
+            backgroundColor: 'white',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+            '& .MuiToggleButton-root': {
+              px: 3,
+              py: 1,
+              borderColor: 'divider',
+              '&.Mui-selected': {
+                backgroundColor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'primary.dark'
+                }
+              }
+            }
+          }}
+        >
+          <ToggleButton value="unit">
+            <PowerIcon sx={{ mr: 1 }} />
+            Unit Matrix
+          </ToggleButton>
+          <ToggleButton value="charge">
+            <VoltageIcon sx={{ mr: 1 }} />
+            Charge Matrix
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+
+      <Paper
+        elevation={3}
+        sx={{
+          p: 3,
+          mb: 4,
+          borderRadius: 2,
+          backgroundColor: 'white',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.06)'
+        }}
+      >
+        <ProductionChart
+          data={productionData}
+          chartType={chartType}
+          matrixType={matrixType}
+        />
+      </Paper>
+
+      <Paper
+        elevation={3}
+        sx={{
+          p: 3,
+          borderRadius: 2,
+          backgroundColor: 'white',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.06)'
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 3,
+            fontWeight: 600,
+            color: 'text.primary'
+          }}
+        >
+          Historical Production Data
+        </Typography>
         <ProductionDataTable
           data={productionData}
           matrixType={matrixType}
@@ -545,13 +672,28 @@ const ProductionSiteDetails = () => {
         onClose={() => setIsAddDialogOpen(false)}
         maxWidth="md"
         fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+          }
+        }}
       >
-        <DialogTitle>New Production Data</DialogTitle>
+        <DialogTitle sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          px: 3,
+          py: 2
+        }}>
+          New Production Data
+        </DialogTitle>
         <DialogContent>
           <ProductionSiteDataForm
             onSubmit={async (formData) => {
-              await handleFormSubmit(formData);
-              setIsAddDialogOpen(false);
+              const success = await handleFormSubmit(formData);
+              if (success) {
+                setIsAddDialogOpen(false);
+              }
             }}
             onCancel={() => setIsAddDialogOpen(false)}
           />
@@ -617,8 +759,38 @@ const ProductionSiteDetails = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Existing Data Dialog */}
+      <ExistingDataDialog
+        open={existingDataDialogOpen}
+        onClose={() => {
+          setExistingDataDialogOpen(false);
+          setPendingFormData(null);
+        }}
+        onConfirm={handleUpdateConfirm}
+        month={pendingFormData ? DateFormatter.formatMonthYear(pendingFormData.sk) : ''}
+      />
     </Box >
   );
 };
+
+// Add ExistingDataDialog component
+const ExistingDataDialog = ({ open, onClose, onConfirm, month }) => (
+  <Dialog open={open} onClose={onClose}>
+    <DialogTitle>Existing Data Found</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Production data already exists for {month}.
+        Do you want to update the existing data?
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose}>Cancel</Button>
+      <Button onClick={onConfirm} color="primary" variant="contained">
+        Update Existing
+      </Button>
+    </DialogActions>
+  </Dialog>
+);
 
 export default ProductionSiteDetails;

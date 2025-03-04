@@ -38,46 +38,52 @@ apiInstance.interceptors.response.use(
   }
 );
 
-// Normalize site data to ensure consistent property names
-const normalizeSiteData = (site) => {
-    if (!site) return null;
-    
-    return {
-        companyId: Number(site.companyId),
-        productionSiteId: Number(site.productionSiteId),
-        name: site.name || '',
-        location: site.location || '',
-        type: site.type || '',
-        capacity_MW: Number(site.capacity_MW || 0),
-        banking: Boolean(site.banking),
-        status: site.status || 'Active',
-        htscNo: site.htscNo || '',
-        injectionVoltage_KV: Number(site.injectionVoltage_KV || 0),
-        annualProduction_L: Number(site.annualProduction_L || 0)
-    };
+// Add utility function to generate productionSiteId
+let lastGeneratedId = 0;
+const generateProductionSiteId = () => {
+  lastGeneratedId += 1;
+  return lastGeneratedId;
 };
 
+// Update the normalizeSiteData function to handle IDs better
+const normalizeSiteData = (site) => {
+  if (!site) return null;
+
+  return {
+    companyId: site.companyId || 1, // Default to company 1
+    productionSiteId: site.productionSiteId || generateProductionSiteId(), // Generate if missing
+    name: site.name || '',
+    location: site.location || '',
+    type: site.type || '',
+    capacity_MW: Number(site.capacity_MW || 0),
+    banking: Boolean(site.banking),
+    status: site.status || 'Active',
+    htscNo: site.htscNo || '',
+    injectionVoltage_KV: Number(site.injectionVoltage_KV || 0),
+    annualProduction_L: Number(site.annualProduction_L || 0)
+  };
+};
+
+// Update the fetch function to handle IDs properly
 export const fetchProductionSites = async () => {
-    try {
-        console.log('[ProductionSiteAPI] Fetching sites');
-        const response = await api.get('/api/production-site');
-        
-        if (!response.data) {
-            console.warn('[ProductionSiteAPI] No data received');
-            return [];
-        }
+  try {
+    const response = await api.get('/api/production-site');
 
-        const normalizedSites = Array.isArray(response.data) 
-            ? response.data.map(normalizeSiteData).filter(Boolean)
-            : [];
-
-        console.log('[ProductionSiteAPI] Normalized sites:', normalizedSites);
-        return normalizedSites;
-
-    } catch (error) {
-        console.error('[ProductionSiteAPI] Error:', error);
-        throw new Error('Failed to fetch production sites');
+    if (!response.data) {
+      return [];
     }
+
+    // Transform data to ensure proper IDs
+    return response.data.map((site, index) => ({
+      ...site,
+      companyId: site.companyId || 1,
+      productionSiteId: site.productionSiteId || `site-${index + 1}`,
+      pk: site.pk || `1_site-${index + 1}`
+    }));
+  } catch (error) {
+    console.error('[ProductionSiteAPI] Fetch error:', error);
+    throw error;
+  }
 };
 
 export const fetchProductionSiteDetails = async (companyId, productionSiteId) => {
@@ -90,64 +96,67 @@ export const fetchProductionSiteDetails = async (companyId, productionSiteId) =>
   }
 };
 
+// Update create function to handle IDs consistently
 export const createProductionUnit = async (data) => {
   try {
-    console.log('[ProductionSiteAPI] Creating production unit:', data);
+    // Get the next site ID
+    const sites = await fetchProductionSites();
+    const nextId = sites.length > 0
+      ? Math.max(...sites.map(site => parseInt(site.productionSiteId) || 0)) + 1
+      : 1;
 
-    // Ensure all required fields are present
-    const requestData = {
-      companyId: parseInt(data.companyId),
-      productionSiteId: parseInt(data.productionSiteId),
-      name: data.name,
-      location: data.location,
-      type: data.type,
-      banking: parseInt(data.banking),
-      capacity_MW: parseFloat(data.capacity_MW),
-      annualProduction_L: parseFloat(data.annualProduction_L),
-      htscNo: data.htscNo,
-      injectionVoltage_KV: parseFloat(data.injectionVoltage_KV),
-      status: data.status
+    // Format the data
+    const payload = {
+      companyId: 1, // Fixed company ID
+      productionSiteId: nextId,
+      name: data.Name,
+      location: data.Location,
+      type: data.Type,
+      status: data.Status || 'Active',
+      capacity_MW: Number(data.Capacity_MW) || 0,
+      banking: Boolean(data.Banking),
+      htscNo: data.HtscNo || '',
+      injectionVoltage_KV: Number(data.InjectionValue) || 0,
+      annualProduction_L: Number(data.AnnualProduction) || 0
     };
 
-    // Validate data
-    if (!requestData.name || !requestData.location || !requestData.type) {
-      throw new Error('Missing required fields');
-    }
-
-    console.log('[ProductionSiteAPI] Sending request data:', requestData);
-    const response = await api.post('/api/production-site', requestData);
-
-    if (!response.data) {
-      throw new Error('No data received from server');
-    }
-
-    console.log('[ProductionSiteAPI] Response data:', response.data);
+    console.log('Creating production site with payload:', payload);
+    const response = await api.post('/api/production-site', payload);
     return response.data;
   } catch (error) {
-    console.error('[ProductionSiteAPI] Error creating production unit:', error);
-    if (error.response) {
-      // Server returned an error
-      throw new Error(error.response.data.message || 'Server error occurred');
-    }
+    console.error('[ProductionSiteAPI] Create error:', error);
     throw error;
   }
 };
 
 export const updateProductionUnit = async (data) => {
   try {
-    if (!data.CompanyId || !data.productionSiteId) {
-      throw new Error('Missing required IDs for update');
+    if (!data.companyId || !data.productionSiteId) {
+      throw new Error('Missing required fields: companyId and productionSiteId');
     }
-    const response = await apiInstance.put(
-      `/api/production-site/${data.CompanyId}/${data.productionSiteId}`,
-      data
+
+    const payload = {
+      companyId: data.companyId,
+      productionSiteId: data.productionSiteId,
+      name: data.Name,
+      location: data.Location,
+      type: data.Type,
+      status: data.Status,
+      capacity_MW: Number(data.Capacity_MW),
+      banking: Boolean(data.Banking),
+      htscNo: data.HtscNo,
+      injectionVoltage_KV: Number(data.InjectionValue),
+      annualProduction_L: Number(data.AnnualProduction)
+    };
+
+    const response = await api.put(
+      `/api/production-site/${data.companyId}/${data.productionSiteId}`,
+      payload
     );
-    if (!response.data || !response.data.CompanyId || !response.data.productionSiteId) {
-      throw new Error('Invalid response: Missing CompanyId or productionSiteId');
-    }
+
     return response.data;
   } catch (error) {
-    console.error('[ProductionSiteAPI] Update production unit error:', error);
+    console.error('[ProductionSiteAPI] Update error:', error);
     throw error;
   }
 };
