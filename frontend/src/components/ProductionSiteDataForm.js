@@ -16,29 +16,29 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { startOfMonth } from 'date-fns';
 import DateFormatter from '../utils/DateFormatter';
+import PropTypes from 'prop-types';
 
 const steps = ['Select Date', 'Unit Matrix', 'Charge Matrix', 'Review'];
 
-const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, startWithReview = false }) => {
+const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithReview = false }) => {
   const [formData, setFormData] = useState({
-    selectedDate: initialData?.sk
-      ? new Date(20 + initialData.sk.slice(2), parseInt(initialData.sk.slice(0, 2)) - 1)
-      : new Date(),
-    c1: initialData?.c1?.toString() || '0',
-    c2: initialData?.c2?.toString() || '0',
-    c3: initialData?.c3?.toString() || '0',
-    c4: initialData?.c4?.toString() || '0',
-    c5: initialData?.c5?.toString() || '0',
-    c001: initialData?.c001?.toString() || '0',
-    c002: initialData?.c002?.toString() || '0',
-    c003: initialData?.c003?.toString() || '0',
-    c004: initialData?.c004?.toString() || '0',
-    c005: initialData?.c005?.toString() || '0',
-    c006: initialData?.c006?.toString() || '0',
-    c007: initialData?.c007?.toString() || '0',
-    c008: initialData?.c008?.toString() || '0',
-    c009: initialData?.c009?.toString() || '0',
-    c010: initialData?.c010?.toString() || '0'
+    selectedDate: initialData?.selectedDate ? new Date(initialData.selectedDate) : new Date(),
+    sk: initialData?.sk || '',
+    c1: Number(initialData?.c1) || 0,
+    c2: Number(initialData?.c2) || 0,
+    c3: Number(initialData?.c3) || 0,
+    c4: Number(initialData?.c4) || 0,
+    c5: Number(initialData?.c5) || 0,
+    c001: Number(initialData?.c001) || 0,
+    c002: Number(initialData?.c002) || 0,
+    c003: Number(initialData?.c003) || 0,
+    c004: Number(initialData?.c004) || 0,
+    c005: Number(initialData?.c005) || 0,
+    c006: Number(initialData?.c006) || 0,
+    c007: Number(initialData?.c007) || 0,
+    c008: Number(initialData?.c008) || 0,
+    c009: Number(initialData?.c009) || 0,
+    c010: Number(initialData?.c010) || 0
   });
   const [activeStep, setActiveStep] = useState(startWithReview ? steps.length - 1 : 0);
   const [error, setError] = useState(null);
@@ -71,41 +71,10 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, startW
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Validate required fields
-      const requiredFields = ['selectedDate'];
-      const missingFields = requiredFields.filter(field => !formData[field]);
-
-      if (missingFields.length > 0) {
-        throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
-      }
-
-      // Validate numeric fields
-      const allFields = [
-        ...Array(5).fill().map((_, i) => `c${i + 1}`),
-        ...Array(10).fill().map((_, i) => `c00${i + 1}`)
-      ];
-
-      for (const field of allFields) {
-        if (formData[field] && isNaN(parseFloat(formData[field]))) {
-          throw new Error(`Please enter a valid number for ${field.toUpperCase()}`);
-        }
-      }
-
-      // Format payload
-      const payload = {
-        ...formData,
-        ...allFields.reduce((acc, field) => ({
-          ...acc,
-          [field]: parseFloat(formData[field] || 0)
-        }), {})
-      };
-
-      await onSubmit(payload);
+      await onSubmit(formData);
     } catch (error) {
       console.error('Form submission error:', error);
-      setError(error.message);
     }
   };
 
@@ -315,6 +284,13 @@ const ProductionSiteDataForm = ({ onSubmit, onCancel, initialData = null, startW
       </Box>
     </Box>
   );
+};
+
+ProductionSiteDataForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  initialData: PropTypes.object,
+  startWithReview: PropTypes.bool
 };
 
 export default ProductionSiteDataForm;

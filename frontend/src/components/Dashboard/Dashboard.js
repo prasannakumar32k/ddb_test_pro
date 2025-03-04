@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  fetchProductionSites,
+  fetchProductionSiteDetails
+} from "../../services/productionSiteapi";
+import { fetchProductionData } from "../../services/productionapi";
 import {
   Box,
   Grid,
@@ -26,9 +32,6 @@ import {
   Air as WindIcon,
   ElectricBolt as VoltageIcon
 } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
-import { fetchProductionSites } from "../../services/productionSiteapi";
-import { fetchProductionData } from "../../services/productionapi";
 
 // Update the DashboardCard component
 const DashboardCard = ({

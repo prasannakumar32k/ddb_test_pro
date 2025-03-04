@@ -18,6 +18,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login';
 import Layout from "./Layout";
 import ErrorBoundary from "./components/ErrorBoundary";
+import theme from './theme';
 
 // Lazy load components
 const Dashboard = lazy(() => import("./components/Dashboard/Dashboard"));
@@ -25,28 +26,6 @@ const Production = lazy(() => import("./components/Production"));
 const ProductionSiteDetails = lazy(() => import("./components/ProductionSiteDetails"));
 const Consumption = lazy(() => import("./components/Consumption"));
 const Reports = lazy(() => import("./components/Reports"));
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1E3A8A',
-    },
-    secondary: {
-      main: '#1E40AF',
-    },
-  },
-  typography: {
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif'
-    ].join(','),
-  },
-});
 
 function App() {
   const navigate = useNavigate();

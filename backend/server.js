@@ -23,9 +23,17 @@ const docClient = DynamoDBDocumentClient.from(client);
 global.dynamoDb = docClient;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true
+}));
 app.use(express.json());
 app.use(requestLogger);
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
 
 // Routes
 const productionSiteRoutes = require('./productionSite/productionSiteRoutes');
@@ -44,15 +52,11 @@ app.use((req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-    logger.error('Server error:', err);
-    const statusCode = err.statusCode || 500;
-    const errorResponse = {
-        error: err.status || 'Internal server error',
-        message: process.env.NODE_ENV === 'production'
-            ? 'An error occurred'
-            : err.message
-    };
-    res.status(statusCode).json(errorResponse);
+    logger.error('Unhandled Error:', err);
+    res.status(500).json({
+        error: 'Internal Server Error',
+        message: err.message
+    });
 });
 
 // Start server

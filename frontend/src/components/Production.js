@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { useSnackbar } from 'notistack'; // Add this import
 import {
   Box,
   Typography,
@@ -46,12 +47,15 @@ import {
   fetchProductionSites,
   createProductionUnit,
   updateProductionUnit,
-  deleteProductionUnit
+  deleteProductionUnit,
+  fetchProductionSiteDetails // Changed from fetchProductionSite
 } from '../services/productionSiteapi';
 
 import {
   createProductionData
 } from '../services/productionapi';
+
+import ProductionSiteList from '../components/ProductionSiteList';
 
 // Update the DetailItem component
 const DetailItem = ({ icon: Icon, label, value, color = 'text.secondary' }) => (
@@ -169,7 +173,7 @@ const ProductionSiteCard = ({ site, onEdit, onDelete }) => {
 };
 
 // Update the SiteCard component
-const SiteCard = ({ site, onEdit, onDelete }) => {
+const SiteCard = ({ site, onEdit, onDelete, userRole }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -264,6 +268,33 @@ const SiteCard = ({ site, onEdit, onDelete }) => {
           color="#9C27B0" // Purple
         />
       </Box>
+
+      {/* Only show actions for admin role */}
+      {userRole === 'admin' && (
+        <CardActions sx={{ mt: 'auto', justifyContent: 'flex-end' }}>
+          <Button
+            size="small"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(site);
+            }}
+            startIcon={<EditIcon />}
+          >
+            Edit
+          </Button>
+          <Button
+            size="small"
+            color="error"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(site);
+            }}
+            startIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
+        </CardActions>
+      )}
     </Paper>
   );
 };
@@ -272,6 +303,7 @@ const SiteCard = ({ site, onEdit, onDelete }) => {
 export const Production = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar(); // Add this hook
   const [productionUnits, setProductionUnits] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -286,6 +318,9 @@ export const Production = () => {
     message: '',
     severity: 'info'
   });
+
+  const [selectedSite, setSelectedSite] = useState(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -400,6 +435,15 @@ export const Production = () => {
   };
 
   const handleDelete = async (site) => {
+    if (user?.role !== 'admin') {
+      setSnackbar({
+        open: true,
+        message: 'You do not have permission to delete sites',
+        severity: 'warning'
+      });
+      return;
+    }
+
     try {
       if (!site.companyId || !site.productionSiteId) {
         throw new Error('Invalid site data for deletion');
@@ -457,9 +501,50 @@ export const Production = () => {
   };
 
   // Add handlers for edit and delete
-  const handleEdit = (site) => {
-    setEditingSite(site);
-    setOpenDialog(true);
+  const handleEdit = async (site) => {
+    if (user?.role !== 'admin') {
+      enqueueSnackbar('You do not have permission to edit sites', {
+        variant: 'warning'
+      });
+      return;
+    }
+
+    try {
+      const siteData = await fetchProductionSiteDetails(site.companyId, site.productionSiteId);
+      setSelectedSite(siteData);
+      setEditDialogOpen(true);
+    } catch (error) {
+      console.error('Error fetching site details:', error);
+      enqueueSnackbar('Failed to load site details', {
+        variant: 'error'
+      });
+    }
+  };
+
+  const handleUpdate = async (formData) => {
+    try {
+      setLoading(true);
+      await updateProductionUnit(formData.CompanyId, formData.productionSiteId, formData);
+      setSnackbar({
+        open: true,
+        message: 'Site updated successfully',
+        severity: 'success'
+      });
+      setEditDialogOpen(false);
+
+      // Refresh the data
+      const updatedSites = await fetchProductionSites();
+      setProductionUnits(updatedSites);
+    } catch (error) {
+      console.error('Error updating site:', error);
+      setSnackbar({
+        open: true,
+        message: 'Failed to update site',
+        severity: 'error'
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Remove the old Add New Site card from renderProductionUnits
@@ -474,18 +559,14 @@ export const Production = () => {
       );
     }
 
-    return productionUnits.map((unit, index) => {
-      const unitKey = `${unit.companyId || 'default'}-${unit.productionSiteId || index}`;
-      return (
-        <Grid item xs={12} sm={6} md={4} key={unitKey}>
-          <SiteCard
-            site={unit}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        </Grid>
-      );
-    });
+    return (
+      <ProductionSiteList
+        sites={productionUnits}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        userRole={user?.role}
+      />
+    );
   };
 
   // Update the return statement in the Production component
@@ -606,6 +687,23 @@ export const Production = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
+      {/* Edit Dialog */}
+      <Dialog
+        open={editDialogOpen}
+        onClose={() => setEditDialogOpen(false)}
+        maxWidth="md"
+        fullWidth
+      >
+        <Box sx={{ p: 2 }}>
+          <ProductionSiteForm
+            initialData={selectedSite}
+            onSubmit={handleUpdate}
+            onCancel={() => setEditDialogOpen(false)}
+            loading={loading}
+          />
+        </Box>
+      </Dialog>
     </Box>
   );
 }

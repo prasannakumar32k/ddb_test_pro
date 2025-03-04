@@ -10,7 +10,7 @@ import {
   Alert,
   CircularProgress
 } from '@mui/material';
-import { fetchProductionSites } from '../services/productionSiteapi';
+import { fetchProductionSites, fetchProductionSiteDetails } from '../services/productionSiteapi';
 
 const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading }) => {
   const [formData, setFormData] = useState({

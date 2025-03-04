@@ -6,11 +6,12 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@mui/material';
 import {
-  EditOutlined as EditIcon,
-  DeleteOutline as DeleteIcon
+  Edit as EditIcon,
+  Delete as DeleteIcon
 } from '@mui/icons-material';
 import DateFormatter from '../utils/DateFormatter';
 
@@ -50,6 +51,29 @@ const ProductionDataTable = ({ data = [], matrixType, onEdit, onDelete }) => {
       }))
       .sort(DateFormatter.sortDatesDesc);
   }, [data, matrixType]);
+
+  const ActionsCell = ({ row, onEdit, onDelete }) => (
+    <div>
+      <Tooltip title="Edit">
+        <IconButton
+          onClick={() => onEdit(row)}
+          size="small"
+          sx={{ color: 'primary.main' }} // Blue color
+        >
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Delete">
+        <IconButton
+          onClick={() => onDelete(row)}
+          size="small"
+          sx={{ color: 'error.main' }} // Red color
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
 
   return (
     <TableContainer>
@@ -91,12 +115,7 @@ const ProductionDataTable = ({ data = [], matrixType, onEdit, onDelete }) => {
                 {calculateTotal(row, matrixType)}
               </TableCell>
               <TableCell align="right">
-                <IconButton size="small" onClick={() => onEdit(row)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton size="small" onClick={() => onDelete(row)}>
-                  <DeleteIcon />
-                </IconButton>
+                <ActionsCell row={row} onEdit={onEdit} onDelete={onDelete} />
               </TableCell>
             </TableRow>
           ))}

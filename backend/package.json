@@ -4,9 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "setup": "node scripts/setupTables.js",
-    "test": "jest"
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,8 +12,8 @@
   "type": "commonjs",
   "description": "Backend service for production site management system",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.749.0",
-    "@aws-sdk/lib-dynamodb": "^3.749.0",
+    "@aws-sdk/client-dynamodb": "^3.x.x",
+    "@aws-sdk/lib-dynamodb": "^3.x.x",
     "@aws-sdk/util-dynamodb": "^3.749.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",

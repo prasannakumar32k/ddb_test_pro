@@ -60,19 +60,21 @@ import { useAuth } from '../context/AuthContext';
 import ProductionSiteForm from './ProductionSiteForm';
 import ProductionSiteDataForm from './ProductionSiteDataForm';
 import ProductionDataTable from './ProductionDataTable';  // Keep this import
+import ProductionChart from './ProductionChart';
 import {
+  createProductionData,
+  deleteProductionData,
+  fetchProductionData,
+  fetchProductionSiteHistory,
   fetchProductionUnits,
+  updateProductionData
+} from '../services/productionapi';
+import {
   createProductionUnit,
   updateProductionUnit,
   deleteProductionUnit,
   fetchProductionSiteDetails
 } from '../services/productionSiteapi';
-import {
-  createProductionData,
-  fetchProductionSiteHistory,
-  updateProductionData,
-  deleteProductionData,
-} from '../services/productionapi';
 import DateFormatter from '../utils/DateFormatter';
 import { isValid } from 'date-fns';
 import { useSnackbar } from 'notistack';
@@ -220,55 +222,59 @@ const ProductionDataCard = ({ data, onMenuOpen }) => (
 );
 
 // Update ProductionTable component
-const ProductionTable = ({ data = [], matrixType, onEdit, onDelete }) => {
+const ProductionTable = ({ data, onEdit, onDelete }) => {
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Month</TableCell>
-            {matrixType === 'unit' ? (
-              // Unit Matrix Headers
-              Array.from({ length: 5 }, (_, i) => (
-                <TableCell key={`c${i + 1}`} align="right">C{i + 1}</TableCell>
-              ))
-            ) : (
-              // Charge Matrix Headers
-              Array.from({ length: 10 }, (_, i) => (
-                <TableCell key={`c00${i + 1}`} align="right">C00{i + 1}</TableCell>
-              ))
-            )}
-            <TableCell align="right">Total</TableCell>
-            <TableCell align="right">Actions</TableCell>
+            <TableCell>Date</TableCell>
+            {/* Unit Matrix */}
+            <TableCell align="right">C1</TableCell>
+            <TableCell align="right">C2</TableCell>
+            <TableCell align="right">C3</TableCell>
+            <TableCell align="right">C4</TableCell>
+            <TableCell align="right">C5</TableCell>
+            {/* Charge Matrix */}
+            <TableCell align="right">C001</TableCell>
+            <TableCell align="right">C002</TableCell>
+            <TableCell align="right">C003</TableCell>
+            <TableCell align="right">C004</TableCell>
+            <TableCell align="right">C005</TableCell>
+            <TableCell align="right">C006</TableCell>
+            <TableCell align="right">C007</TableCell>
+            <TableCell align="right">C008</TableCell>
+            <TableCell align="right">C009</TableCell>
+            <TableCell align="right">C010</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((row) => (
-            <TableRow key={row.sk} hover>
-              <TableCell>{formatMonthYear(row.sk)}</TableCell>
-              {matrixType === 'unit' ? (
-                // Unit Matrix Values
-                Array.from({ length: 5 }, (_, i) => (
-                  <TableCell key={`c${i + 1}`} align="right">
-                    {row[`c${i + 1}`].toFixed(2)}
-                  </TableCell>
-                ))
-              ) : (
-                // Charge Matrix Values
-                Array.from({ length: 10 }, (_, i) => (
-                  <TableCell key={`c00${i + 1}`} align="right">
-                    {row[`c00${i + 1}`].toFixed(2)}
-                  </TableCell>
-                ))
-              )}
-              <TableCell align="right">
-                {(matrixType === 'unit' ? row.totalUnit : row.totalCharge).toFixed(2)}
-              </TableCell>
-              <TableCell align="right">
-                <IconButton size="small" onClick={() => onEdit(row)}>
+            <TableRow key={row.sk}>
+              <TableCell>{DateFormatter.formatMonthYear(row.sk)}</TableCell>
+              {/* Unit Matrix */}
+              <TableCell align="right">{row.c1.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c2.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c3.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c4.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c5.toFixed(2)}</TableCell>
+              {/* Charge Matrix */}
+              <TableCell align="right">{row.c001.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c002.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c003.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c004.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c005.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c006.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c007.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c008.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c009.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.c010.toFixed(2)}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => onEdit(row)}>
                   <EditIcon />
                 </IconButton>
-                <IconButton size="small" onClick={() => onDelete(row)}>
+                <IconButton onClick={() => onDelete(row.sk)}>
                   <DeleteIcon />
                 </IconButton>
               </TableCell>
@@ -298,45 +304,6 @@ const ChartTypeToggle = ({ chartType, onChartTypeChange }) => (
   </ToggleButtonGroup>
 );
 
-// Update the ChartLegend component (new)
-const ChartLegend = ({ series }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-      gap: 3,
-      mt: 2,
-      pt: 2,
-      borderTop: '1px solid',
-      borderColor: 'divider'
-    }}
-  >
-    {series.map((item) => (
-      <Box
-        key={item.label}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1
-        }}
-      >
-        <Box
-          sx={{
-            width: 12,
-            height: 12,
-            borderRadius: '50%',
-            bgcolor: item.color
-          }}
-        />
-        <Typography variant="body2" color="text.secondary">
-          {item.label}
-        </Typography>
-      </Box>
-    ))}
-  </Box>
-);
-
 // Update the ProductionGraph component
 const ProductionGraph = ({ data, chartType = 'line', matrixType = 'unit' }) => {
   const chartData = useMemo(() => {
@@ -344,25 +311,24 @@ const ProductionGraph = ({ data, chartType = 'line', matrixType = 'unit' }) => {
       date: DateFormatter.formatMonthYear(item.sk),
       ...(matrixType === 'unit'
         ? {
-          c1: Number(parseFloat(item.c1 || 0).toFixed(2)),
-          c2: Number(parseFloat(item.c2 || 0).toFixed(2)),
-          c3: Number(parseFloat(item.c3 || 0).toFixed(2)),
-          c4: Number(parseFloat(item.c4 || 0).toFixed(2)),
-          c5: Number(parseFloat(item.c5 || 0).toFixed(2)),
+          c1: item.c1,
+          c2: item.c2,
+          c3: item.c3,
+          c4: item.c4,
+          c5: item.c5,
         }
         : {
-          c001: Number(parseFloat(item.c001 || 0).toFixed(2)),
-          c002: Number(parseFloat(item.c002 || 0).toFixed(2)),
-          c003: Number(parseFloat(item.c003 || 0).toFixed(2)),
-          c004: Number(parseFloat(item.c004 || 0).toFixed(2)),
-          c005: Number(parseFloat(item.c005 || 0).toFixed(2)),
-          c006: Number(parseFloat(item.c006 || 0).toFixed(2)),
-          c007: Number(parseFloat(item.c007 || 0).toFixed(2)),
-          c008: Number(parseFloat(item.c008 || 0).toFixed(2)),
-          c009: Number(parseFloat(item.c009 || 0).toFixed(2)),
-          c010: Number(parseFloat(item.c010 || 0).toFixed(2)),
-        }
-      )
+          c001: item.c001,
+          c002: item.c002,
+          c003: item.c003,
+          c004: item.c004,
+          c005: item.c005,
+          c006: item.c006,
+          c007: item.c007,
+          c008: item.c008,
+          c009: item.c009,
+          c010: item.c010,
+        })
     }));
   }, [data, matrixType]);
 
@@ -370,14 +336,15 @@ const ProductionGraph = ({ data, chartType = 'line', matrixType = 'unit' }) => {
     return matrixType === 'unit'
       ? Array.from({ length: 5 }, (_, i) => ({
         dataKey: `c${i + 1}`,
-        label: `C${i + 1}`,
-        color: `hsl(${(i * 360) / 5}, 70%, 50%)`
+        label: `C${i + 1}`
       }))
-      : Array.from({ length: 10 }, (_, i) => ({
-        dataKey: `c00${i + 1}`,
-        label: `C00${i + 1}`,
-        color: `hsl(${(i * 360) / 10}, 70%, 50%)`
-      }));
+      : Array.from({ length: 10 }, (_, i) => {
+        const num = String(i + 1).padStart(3, '0');
+        return {
+          dataKey: `c${num}`,
+          label: `C${num}`
+        };
+      });
   }, [matrixType]);
 
   return (
@@ -484,38 +451,33 @@ const ProductionSiteDetails = () => {
   };
 
   const handleConfirmDelete = async () => {
-    if (!selectedData?.sk) {
+    if (!selectedData) {
       enqueueSnackbar('No data selected for deletion', { variant: 'error' });
       return;
     }
 
     try {
       setLoading(true);
-
-      // Ensure sk is in MMYYYY format - keep all 6 digits
-      const sk = selectedData.sk;
-
       console.log('[ProductionSiteDetails] Deleting data:', {
         companyId,
         productionSiteId,
-        sk
+        sk: selectedData.sk
       });
 
       await deleteProductionData(
-        parseInt(companyId),
-        parseInt(productionSiteId),
-        sk
+        companyId,
+        productionSiteId,
+        selectedData.sk
       );
 
       enqueueSnackbar('Production data deleted successfully', { variant: 'success' });
-      setDeleteDialogOpen(false);
-      setSelectedData(null);
-      await loadData();
+      await loadData(); // Refresh data
     } catch (error) {
-      console.error('Failed to delete production data:', error);
+      console.error('[ProductionSiteDetails] Delete error:', error);
       enqueueSnackbar(error.message || 'Failed to delete data', { variant: 'error' });
     } finally {
       setLoading(false);
+      setDeleteDialogOpen(false);
     }
   };
 
@@ -529,7 +491,8 @@ const ProductionSiteDetails = () => {
       ]);
 
       setSite(siteDetails);
-      setProductionData(productionHistory.data || []);
+      // productionHistory is now directly an array of transformed data
+      setProductionData(productionHistory || []);
       setError(null);
     } catch (err) {
       console.error('Error loading data:', err);
@@ -543,50 +506,67 @@ const ProductionSiteDetails = () => {
   // Update the handleFormSubmit function
   const handleFormSubmit = async (formData) => {
     try {
-      const selectedDate = new Date(formData.selectedDate);
-      const sk = DateFormatter.toApiFormat(selectedDate);
-
-      if (!sk) {
-        throw new Error('Invalid date format');
+      if (!formData.selectedDate) {
+        throw new Error('Please select a date');
       }
 
-      const payload = {
-        ...formData,
-        sk,
-        companyId: parseInt(companyId),
-        productionSiteId: parseInt(productionSiteId)
-      };
+      console.log('[ProductionSiteDetails] Submitting data:', formData);
 
-      await createProductionData(
+      const result = await createProductionData(
         parseInt(companyId),
         parseInt(productionSiteId),
-        payload
+        formData
       );
 
       enqueueSnackbar('Production data added successfully', { variant: 'success' });
-      await loadData(); // Refresh data after successful addition
+      setIsAddDialogOpen(false);
+      await loadData();
       return true;
     } catch (error) {
       console.error('Failed to add production data:', error);
-      enqueueSnackbar(error.message || 'Failed to add data', { variant: 'error' });
-      throw error;
+      enqueueSnackbar(error.message || 'Failed to add data', {
+        variant: 'error',
+        autoHideDuration: 5000
+      });
+      return false;
     }
   };
 
   // Update the handleUpdateData function
   const handleUpdateData = async (formData) => {
     try {
-      const selectedDate = new Date(formData.selectedDate);
-      const sk = DateFormatter.toApiFormat(selectedDate);
+      setLoading(true);
 
-      if (!sk) {
-        throw new Error('Invalid date format');
+      if (!companyId || !productionSiteId || !formData.sk) {
+        throw new Error('Missing required parameters');
       }
 
-      // Rest of update logic...
+      console.log('[ProductionSiteDetails] Updating data:', formData);
+
+      const result = await updateProductionData(
+        companyId,
+        productionSiteId,
+        formData
+      );
+
+      console.log('[ProductionSiteDetails] Update successful:', result);
+
+      // Refresh data after update
+      await loadData();
+
+      enqueueSnackbar('Production data updated successfully', {
+        variant: 'success'
+      });
+
+      setEditDialogOpen(false);
+
     } catch (error) {
-      console.error('Update error:', error);
-      throw error;
+      console.error('[ProductionSiteDetails] Update error:', error);
+      enqueueSnackbar(error.message || 'Failed to update data', {
+        variant: 'error'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
