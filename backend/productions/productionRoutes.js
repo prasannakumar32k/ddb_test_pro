@@ -20,4 +20,8 @@ router.put('/:companyId/:productionSiteId/:month', productionController.updatePr
 // DELETE /api/production-unit/:companyId/:productionSiteId/:month
 router.delete('/:companyId/:productionSiteId/:month', productionController.deleteProduction);
 
+
+// Update the route to use checkExistingProduction
+router.get('/check/:companyId/:productionSiteId/:month', productionController.checkExistingProduction);
+
 module.exports = router;

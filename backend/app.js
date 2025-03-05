@@ -9,6 +9,7 @@ const productionController = require('./productions/productionController');
 const validateJson = require('./middleware/validateJson');
 const bodyParser = require('body-parser');
 const logger = require('./utils/logger');
+const productionDataRoutes = require('./routes/productionDataRoutes');
 
 // Initialize express app
 const app = express();

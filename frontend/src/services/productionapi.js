@@ -1,5 +1,6 @@
 import axios from 'axios';
-// Remove unused DateFormatter import
+import api from './api';
+
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3333/api';
 
 // Add the missing utility functions first
@@ -60,7 +61,7 @@ const formatProductionPayload = (data) => {
   };
 };
 
-const api = axios.create({
+const apiInstance = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json'
@@ -70,7 +71,7 @@ const api = axios.create({
 });
 
 // Remove the double /api prefix logic from interceptors
-api.interceptors.request.use(
+apiInstance.interceptors.request.use(
   config => {
     console.log(`[ProductionAPI] ${config.method.toUpperCase()} Request:`, {
       url: config.url,
@@ -85,7 +86,7 @@ api.interceptors.request.use(
 );
 
 // Add response logging
-api.interceptors.response.use(
+apiInstance.interceptors.response.use(
   response => {
     console.log(`[ProductionAPI] Response from ${response.config.url}:`, response.data);
     return response;
@@ -99,7 +100,7 @@ api.interceptors.response.use(
 // Update fetchProductionData
 const fetchProductionData = async () => {
   try {
-    const response = await api.get('/production-unit');
+    const response = await apiInstance.get('/production-unit');
     return response.data;
   } catch (error) {
     console.error('[ProductionAPI] Error fetching data:', error);
@@ -110,7 +111,7 @@ const fetchProductionData = async () => {
 // Update fetchProductionSiteHistory
 const fetchProductionSiteHistory = async (companyId, productionSiteId) => {
   try {
-    const response = await api.get(`/production-unit/${companyId}/${productionSiteId}`);
+    const response = await apiInstance.get(`/production-unit/${companyId}/${productionSiteId}`);
 
     // Extract data from response, removing wrapper
     const rawData = response.data?.data || response.data || [];
@@ -155,7 +156,7 @@ const createProductionData = async (companyId, productionSiteId, data) => {
 
     console.log('[ProductionAPI] Creating production data:', { companyId, productionSiteId, ...payload });
 
-    const response = await api.post(
+    const response = await apiInstance.post(
       `/production-unit/${companyId}/${productionSiteId}`,
       payload
     );
@@ -200,7 +201,7 @@ const updateProductionData = async (companyId, productionSiteId, data) => {
       payload
     });
 
-    const response = await api.put(
+    const response = await apiInstance.put(
       `/production-unit/${companyId}/${productionSiteId}/${data.sk}`,
       payload
     );
@@ -231,7 +232,7 @@ const deleteProductionData = async (companyId, productionSiteId, sk) => {
       sk
     });
 
-    const response = await api.delete(`/production-unit/${companyId}/${productionSiteId}/${sk}`);
+    const response = await apiInstance.delete(`/production-unit/${companyId}/${productionSiteId}/${sk}`);
 
     console.log('[ProductionAPI] Delete successful');
     return response.data;
@@ -246,7 +247,7 @@ const deleteProductionData = async (companyId, productionSiteId, sk) => {
 export const productionApi = {
   fetchAll: async () => {
     try {
-      const response = await api.get('/production-unit');
+      const response = await apiInstance.get('/production-unit');
       return response.data?.data || response.data || [];
     } catch (error) {
       console.error('[ProductionAPI] Error fetching all data:', error);
@@ -256,7 +257,7 @@ export const productionApi = {
 
   fetchHistory: async (companyId, productionSiteId) => {
     try {
-      const response = await api.get(`/production-unit/${companyId}/${productionSiteId}`);
+      const response = await apiInstance.get(`/production-unit/${companyId}/${productionSiteId}`);
       const rawData = response.data?.data || response.data || [];
       return transformProductionData(rawData);
     } catch (error) {
@@ -268,7 +269,7 @@ export const productionApi = {
   create: async (companyId, productionSiteId, data) => {
     try {
       const payload = formatProductionPayload(data);
-      const response = await api.post(
+      const response = await apiInstance.post(
         `/production-unit/${companyId}/${productionSiteId}`,
         payload
       );
@@ -294,7 +295,7 @@ export const productionApi = {
         payload
       });
 
-      const response = await api.put(
+      const response = await apiInstance.put(
         `/production-unit/${companyId}/${productionSiteId}/${data.sk}`,
         payload
       );
@@ -309,7 +310,7 @@ export const productionApi = {
 
   delete: async (companyId, productionSiteId, sk) => {
     try {
-      const response = await api.delete(
+      const response = await apiInstance.delete(
         `/production-unit/${companyId}/${productionSiteId}/${sk}`
       );
       return response.data;
@@ -321,28 +322,14 @@ export const productionApi = {
 
   checkExisting: async (companyId, productionSiteId, date) => {
     try {
-      if (!companyId || !productionSiteId || !date) {
-        throw new Error('Missing required parameters for checking existing data');
-      }
-
-      console.log('[ProductionAPI] Checking existing data:', {
-        companyId,
-        productionSiteId,
-        date
-      });
-
       const response = await api.get(
-        `/production-unit/${companyId}/${productionSiteId}/${date}`
+        `/api/production-data/check/${companyId}/${productionSiteId}/${date}`
       );
-
-      console.log('[ProductionAPI] Check existing response:', response.data);
-      return response.data?.data || null;
+      return response.data.data;
     } catch (error) {
       if (error.response?.status === 404) {
-        console.log('[ProductionAPI] No existing data found');
         return null;
       }
-      console.error('[ProductionAPI] Check existing error:', error);
       throw new Error(error.response?.data?.message || 'Failed to check existing data');
     }
   }

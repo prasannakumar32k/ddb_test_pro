@@ -1,5 +1,5 @@
 const productionSiteDAL = require('./productionSiteDAL');
-const productionDAL = require('../productions/productionDAL');
+const productionDAL = require('../productions/productionsDAL');
 const logger = require('../utils/logger');
 
 // Create new production site

@@ -1,13 +1,15 @@
 const BaseDAL = require("../common/baseDAL");
 const productionDTO = require("./productionDTO");
-const { QueryCommand } = require("@aws-sdk/lib-dynamodb");
+const { QueryCommand, GetItemCommand } = require("@aws-sdk/lib-dynamodb");
 const logger = require('../utils/logger');
+const db = require('../utils/db');
 
 const PRODUCTION_SITE_TABLE = "ProductionTable";
 
 class ProductionDAL extends BaseDAL {
   constructor() {
     super(PRODUCTION_SITE_TABLE);
+    this.tableName = process.env.PRODUCTION_DATA_TABLE;
   }
 
   async getAllItems() {
@@ -75,6 +77,27 @@ class ProductionDAL extends BaseDAL {
       return result.Items;
     } catch (error) {
       logger.error('[ProductionDAL] getProductionData Error:', error);
+      throw error;
+    }
+  }
+
+  async getProductionData(companyId, productionSiteId, sk) {
+    try {
+      const params = {
+        TableName: this.tableName,
+        Key: {
+          companyId: parseInt(companyId),
+          productionSiteId: productionSiteId,
+          sk: sk
+        }
+      };
+
+      const command = new GetItemCommand(params);
+      const result = await db.send(command);
+
+      return result.Item || null;
+    } catch (error) {
+      console.error('[ProductionDAL] Get data error:', error);
       throw error;
     }
   }

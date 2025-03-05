@@ -18,7 +18,9 @@ import {
   Snackbar,
   Card,
   CardContent,
-  CardActions
+  CardActions,
+  Chip,
+  alpha
 } from '@mui/material';
 import {
   WbSunny as WbSunnyIcon,
@@ -38,7 +40,9 @@ import {
   Air as WindIcon,
   AccountBalance as BankingIcon,
   PlayArrow as StatusIcon,
-  Assignment as AssignmentIcon
+  Assignment as AssignmentIcon,
+  ElectricBolt as VoltageIcon,
+  FiberManualRecord as StatusIcon
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -83,93 +87,163 @@ const getTypeIcon = (type) => {
   }
 };
 
-const ProductionSiteCard = ({ site, onEdit, onDelete }) => {
+const ProductionSiteCard = ({ site, onEdit, onDelete, userRole }) => {
   return (
     <Card
+      elevation={2}
       sx={{
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative',
         transition: 'all 0.3s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: 3
-        }
+          boxShadow: (theme) => theme.shadows[8]
+        },
+        borderRadius: 2,
+        overflow: 'visible'
       }}
     >
-      <CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-          <Typography variant="h6" component="div">
-            {getTypeIcon(site.type)}
+      {/* Status Indicator */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 16,
+          right: 16,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1
+        }}
+      >
+        <Tooltip title={`Status: ${site.status}`}>
+          <StatusIcon
+            sx={{
+              color: site.status === 'Active' ? 'success.main' : 'error.main',
+              fontSize: 12
+            }}
+          />
+        </Tooltip>
+      </Box>
+
+      <CardContent sx={{ p: 3, pb: 2 }}>
+        {/* Header with Type Icon */}
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 1 }}>
+          {site.type === 'Solar' ? (
+            <SolarIcon sx={{ color: '#FBC02D', fontSize: 32 }} />
+          ) : (
+            <WindIcon sx={{ color: '#2196F3', fontSize: 32 }} />
+          )}
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
             {site.name}
           </Typography>
-          <Box>
-            {site.banking && (
-              <BankingIcon
+        </Box>
+
+        {/* Site Details */}
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <LocationIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+              <Typography variant="body2" color="text.secondary">
+                {site.location}
+              </Typography>
+            </Box>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+              {/* Capacity */}
+              <Chip
+                icon={<CapacityIcon />}
+                label={`${site.capacity_MW} MW`}
+                size="small"
                 sx={{
-                  color: 'success.main',
-                  mr: 1
+                  bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+                  color: 'primary.main'
                 }}
-                titleAccess="Banking Enabled"
               />
-            )}
-            <StatusIcon
-              sx={{
-                color: site.status === 'Active' ? 'success.main' : 'error.main'
-              }}
-              titleAccess={site.status}
-            />
-          </Box>
-        </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <LocationIcon sx={{ mr: 1, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary">
-              {site.location || 'Location not specified'}
-            </Typography>
-          </Box>
+              {/* Voltage */}
+              <Chip
+                icon={<VoltageIcon />}
+                label={`${site.injectionVoltage_KV} KV`}
+                size="small"
+                sx={{
+                  bgcolor: (theme) => alpha(theme.palette.secondary.main, 0.1),
+                  color: 'secondary.main'
+                }}
+              />
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <CapacityIcon sx={{ mr: 1, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary">
-              Capacity: {site.capacity_MW || 0} MW
-            </Typography>
-          </Box>
+              {/* Banking Status */}
+              <Chip
+                icon={<BankingIcon />}
+                label={site.banking ? 'Banking: Yes' : 'Banking: No'}
+                size="small"
+                sx={{
+                  bgcolor: (theme) => alpha(
+                    site.banking ? theme.palette.success.main : theme.palette.error.main,
+                    0.1
+                  ),
+                  color: site.banking ? 'success.main' : 'error.main'
+                }}
+              />
+            </Box>
+          </Grid>
 
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <VoltageIcon sx={{ mr: 1, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary">
-              Injection: {site.injectionVoltage_KV || 0} KV
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <DateIcon sx={{ mr: 1, color: 'text.secondary' }} />
-            <Typography variant="body2" color="text.secondary">
-              Annual Production: {site.annualProduction_L?.toLocaleString() || 0} L
-            </Typography>
-          </Box>
-        </Box>
+          {/* Production Value */}
+          <Grid item xs={12}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+              <DateIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+              <Typography variant="body2" color="text.secondary">
+                Annual Production: {site.annualProduction_L?.toLocaleString()} L
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </CardContent>
 
-      <CardActions sx={{ mt: 'auto', justifyContent: 'flex-end' }}>
-        <Button
-          size="small"
-          onClick={() => onEdit(site)}
-          startIcon={<EditIcon />}
+      {/* Actions */}
+      {userRole === 'admin' && (
+        <Box
+          sx={{
+            p: 2,
+            pt: 0,
+            mt: 'auto',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 1
+          }}
         >
-          Edit
-        </Button>
-        <Button
-          size="small"
-          color="error"
-          onClick={() => onDelete(site)}
-          startIcon={<DeleteIcon />}
-        >
-          Delete
-        </Button>
-      </CardActions>
+          <Tooltip title="Edit Site">
+            <IconButton
+              size="small"
+              onClick={() => onEdit(site)}
+              sx={{
+                color: 'primary.main',
+                '&:hover': {
+                  bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1)
+                }
+              }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete Site">
+            <IconButton
+              size="small"
+              onClick={() => onDelete(site)}
+              sx={{
+                color: 'error.main',
+                '&:hover': {
+                  bgcolor: (theme) => alpha(theme.palette.error.main, 0.1)
+                }
+              }}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )}
     </Card>
   );
 };

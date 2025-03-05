@@ -12,6 +12,7 @@ const {
 const docClient = require('../config/db');
 const PRODUCTIONS_TABLE = 'ProductionTable'; // Updated table name
 const logger = require('../utils/logger');
+const productionsDAL = require('../productions/productionsDAL');
 
 // Get all productions
 const getAllProductions = async (req, res) => {
@@ -348,5 +349,5 @@ module.exports = {
     updateProduction,
     deleteProduction,
     getProductionUnits,
-    checkExistingProduction
+    checkExistingProduction  // Use this instead of checkExistingData
 };

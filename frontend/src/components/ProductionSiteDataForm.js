@@ -17,6 +17,8 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { startOfMonth } from 'date-fns';
 import DateFormatter from '../utils/DateFormatter';
 import PropTypes from 'prop-types';
+import { useSnackbar } from 'notistack';
+import { productionApi } from '../services/productionapi';
 
 const steps = ['Select Date', 'Unit Matrix', 'Charge Matrix', 'Review'];
 
@@ -43,6 +45,9 @@ const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithRevi
   const [activeStep, setActiveStep] = useState(startWithReview ? steps.length - 1 : 0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [existingData, setExistingData] = useState(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (initialData) {
@@ -61,8 +66,40 @@ const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithRevi
     }
   }, [initialData]);
 
-  const handleNext = () => {
-    setActiveStep((prevStep) => prevStep + 1);
+  const handleNext = async () => {
+    if (activeStep === steps.length - 2) {
+      try {
+        setLoading(true);
+        setError(null);
+
+        if (!initialData?.companyId || !initialData?.productionSiteId) {
+          throw new Error('Missing company or production site ID');
+        }
+
+        const sk = DateFormatter.toApiFormat(formData.selectedDate);
+        const existingData = await productionApi.checkExisting(
+          initialData.companyId,
+          initialData.productionSiteId,
+          sk
+        );
+
+        if (existingData) {
+          setShowConfirmDialog(true);
+          setExistingData(existingData);
+          enqueueSnackbar('Data already exists for this month', { variant: 'warning' });
+        } else {
+          setActiveStep(prevStep => prevStep + 1);
+        }
+      } catch (error) {
+        console.error('Error checking existing data:', error);
+        setError(error.message);
+        enqueueSnackbar(error.message || 'Failed to check existing data', { variant: 'error' });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setActiveStep(prevStep => prevStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -287,9 +324,13 @@ const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithRevi
 };
 
 ProductionSiteDataForm.propTypes = {
+  initialData: PropTypes.shape({
+    companyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    productionSiteId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    // ... other prop validations
+  }).isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
-  initialData: PropTypes.object,
   startWithReview: PropTypes.bool
 };
 
