@@ -3,10 +3,11 @@ const { QueryCommand, ScanCommand, PutCommand, DeleteCommand, UpdateCommand } = 
 const { ListTablesCommand } = require("@aws-sdk/client-dynamodb");
 const logger = require('../utils/logger');
 const db = require('../utils/db');
+const BaseDAL = require('../common/baseDAL');
 
-class ProductionSiteDAL {
+class ProductionSiteDAL extends BaseDAL {
   constructor() {
-    this.tableName = process.env.PRODUCTION_SITES_TABLE || 'ProductionSiteTable';
+    super(process.env.PRODUCTION_SITES_TABLE || 'ProductionSiteTable');
   }
 
   async checkTableExists() {
@@ -195,6 +196,11 @@ class ProductionSiteDAL {
       logger.error('[ProductionSiteDAL] deleteItem Error:', error);
       throw error;
     }
+  }
+
+  // Only implement production-site specific methods
+  async getByCompanyId(companyId) {
+    // Custom implementation
   }
 }
 
