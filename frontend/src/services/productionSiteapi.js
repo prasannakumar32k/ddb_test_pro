@@ -131,33 +131,44 @@ export const createProductionUnit = async (data) => {
 
 export const updateProductionUnit = async (data) => {
   try {
-    if (!data.companyId || !data.productionSiteId) {
-      throw new Error('Missing required fields: companyId and productionSiteId');
-    }
-
-    const payload = {
-      companyId: data.companyId,
-      productionSiteId: data.productionSiteId,
-      name: data.Name,
-      location: data.Location,
-      type: data.Type,
-      status: data.Status,
-      capacity_MW: Number(data.Capacity_MW),
-      banking: Boolean(data.Banking),
-      htscNo: data.HtscNo,
-      injectionVoltage_KV: Number(data.InjectionValue),
-      annualProduction_L: Number(data.AnnualProduction)
+    // Ensure proper data formatting before sending to API
+    const formattedData = {
+      companyId: Number(data.companyId),
+      productionSiteId: Number(data.productionSiteId),
+      name: String(data.name || ''),
+      location: String(data.location || ''),
+      type: String(data.type || 'Wind'),
+      status: String(data.status || 'Active'),
+      capacity_MW: data.capacity_MW !== undefined && data.capacity_MW !== ''
+        ? Number(data.capacity_MW)
+        : 0,
+      banking: Boolean(data.banking),
+      htscNo: data.htscNo !== undefined ? String(data.htscNo) : '',
+      injectionVoltage_KV: data.injectionVoltage_KV !== undefined && data.injectionVoltage_KV !== ''
+        ? Number(data.injectionVoltage_KV)
+        : 0,
+      annualProduction_L: data.annualProduction_L !== undefined && data.annualProduction_L !== ''
+        ? Number(data.annualProduction_L)
+        : 0
     };
 
     const response = await api.put(
-      `/api/production-site/${data.companyId}/${data.productionSiteId}`,
-      payload
+      `/production-site/${data.companyId}/${data.productionSiteId}`,
+      formattedData
     );
 
-    return response.data;
+    // Format response data
+    return {
+      ...response.data,
+      capacity_MW: response.data.capacity_MW !== null ? Number(response.data.capacity_MW) : 0,
+      injectionVoltage_KV: response.data.injectionVoltage_KV !== null ? Number(response.data.injectionVoltage_KV) : 0,
+      annualProduction_L: response.data.annualProduction_L !== null ? Number(response.data.annualProduction_L) : 0,
+      banking: Boolean(response.data.banking),
+      htscNo: response.data.htscNo ? String(response.data.htscNo) : ''
+    };
   } catch (error) {
-    console.error('[ProductionSiteAPI] Update error:', error);
-    throw error;
+    console.error('API Error:', error);
+    throw new Error(error.response?.data?.message || 'Failed to update production site');
   }
 };
 

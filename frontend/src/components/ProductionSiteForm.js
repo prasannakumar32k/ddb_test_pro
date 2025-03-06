@@ -41,8 +41,16 @@ const styles = {
   }
 };
 
-const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }) => {
+const ProductionSiteForm = ({
+  initialData,
+  onSubmit,
+  onCancel,
+  loading = false,
+  disabledFields = []
+}) => {
   const [formData, setFormData] = useState({
+    companyId: '',
+    productionSiteId: '',
     Name: '',
     Location: '',
     Type: 'Wind', // Default value
@@ -75,16 +83,11 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
       try {
         const sites = await fetchProductionSites();
         const maxId = sites.length > 0
-
           ? Math.max(...sites.map(site => {
             if (!site) return 0;
-
-            // Handle numeric productionSiteId
             if (typeof site.productionSiteId === 'number') {
               return site.productionSiteId;
             }
-
-            // Handle string productionSiteId
             const idString = (site.productionSiteId || '').toString();
             const matches = idString.match(/\d+/);
             return matches ? parseInt(matches[0]) : 0;
@@ -104,19 +107,28 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
     if (!initialData) {
       loadSites();
     } else {
-      setFormData({
-        Name: initialData.Name || initialData.name || '',
-        Location: initialData.Location || initialData.location || '',
-        Type: initialData.Type || initialData.type || 'Wind',
-        Status: initialData.Status || initialData.status || 'Active',
-        Capacity_MW: initialData.Capacity_MW?.toString() || initialData.capacity_MW?.toString() || '',
-        Banking: Boolean(initialData.Banking || initialData.banking),
-        HtscNo: initialData.HtscNo || initialData.htscNo || '',
-        InjectionValue: initialData.InjectionValue?.toString() || initialData.injectionVoltage_KV?.toString() || '',
-        AnnualProduction: initialData.AnnualProduction?.toString() || initialData.annualProduction_L?.toString() || ''
-      });
+      // Format the initial data properly
+      const formattedData = {
+        companyId: initialData.companyId || '',
+        productionSiteId: initialData.productionSiteId || '',
+        Name: initialData.name || initialData.Name || '',
+        Location: initialData.location || initialData.Location || '',
+        Type: initialData.type || initialData.Type || 'Wind',
+        Status: initialData.status || initialData.Status || 'Active',
+        Capacity_MW: (initialData.capacity_MW || initialData.Capacity_MW || '0').toString(),
+        Banking: Boolean(initialData.banking || initialData.Banking),
+        HtscNo: initialData.htscNo || initialData.HtscNo || '',
+        InjectionValue: (initialData.injectionVoltage_KV || initialData.InjectionValue || '0').toString(),
+        AnnualProduction: (initialData.annualProduction_L || initialData.AnnualProduction || '0').toString()
+      };
+
+      console.log('Setting initial form data:', formattedData);
+      setFormData(formattedData);
     }
   }, [initialData]);
+
+  // Add this debug log in the render to verify the form data
+  console.log('Current form data:', formData);
 
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
@@ -209,7 +221,7 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
               onChange={handleChange}
               onKeyPress={handleKeyPress}
               required
-              disabled={loading || (initialData && true)} // Disable in edit mode
+              disabled={loading || disabledFields.includes('Name')}
               error={!!errors.Name}
               helperText={errors.Name}
             />
@@ -222,7 +234,9 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
               value={formData.Location}
               onChange={handleChange}
               required
-              disabled={loading}
+              disabled={loading || disabledFields.includes('Location')}
+              error={!!errors.Location}
+              helperText={errors.Location}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -261,9 +275,11 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
               label="Capacity (MW)"
               name="Capacity_MW"
               type="number"
-              value={formData.Capacity_MW}
+              value={formData.Capacity_MW || '0'}
               onChange={handleChange}
               disabled={loading}
+              error={!!errors.Capacity_MW}
+              helperText={errors.Capacity_MW}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -282,9 +298,11 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
               label="Injection Voltage (KV)"
               name="InjectionValue"
               type="number"
-              value={formData.InjectionValue}
+              value={formData.InjectionValue || '0'}
               onChange={handleChange}
               disabled={loading}
+              error={!!errors.InjectionValue}
+              helperText={errors.InjectionValue}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -293,9 +311,11 @@ const ProductionSiteForm = ({ initialData, onSubmit, onCancel, loading = false }
               label="Annual Production (L)"
               name="AnnualProduction"
               type="number"
-              value={formData.AnnualProduction}
+              value={formData.AnnualProduction || '0'}
               onChange={handleChange}
               disabled={loading}
+              error={!!errors.AnnualProduction}
+              helperText={errors.AnnualProduction}
             />
           </Grid>
           <Grid item xs={12}>

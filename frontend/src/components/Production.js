@@ -87,6 +87,14 @@ const getTypeIcon = (type) => {
   }
 };
 
+// Update the getBankingStatus function to a reusable utility
+const getBankingStatus = (banking) => {
+  // Return false for 0, "0", false, "false", null, undefined, or empty string
+  if (!banking || banking === "0" || banking === "false") return false;
+  return banking === true || banking === "true" || banking === 1;
+};
+
+// Update the chip in ProductionSiteCard component
 const ProductionSiteCard = ({ site, onEdit, onDelete, userRole }) => {
   return (
     <Card
@@ -174,17 +182,20 @@ const ProductionSiteCard = ({ site, onEdit, onDelete, userRole }) => {
                 }}
               />
 
-              {/* Banking Status */}
+              {/* Banking Status Chip - Updated */}
               <Chip
                 icon={<BankingIcon />}
-                label={site.banking ? 'Banking: Yes' : 'Banking: No'}
+                label={getBankingStatus(site.banking) ? 'Banking Enabled' : 'No Banking'}
                 size="small"
                 sx={{
                   bgcolor: (theme) => alpha(
-                    site.banking ? theme.palette.success.main : theme.palette.error.main,
+                    getBankingStatus(site.banking) ? theme.palette.success.main : theme.palette.error.main,
                     0.1
                   ),
-                  color: site.banking ? 'success.main' : 'error.main'
+                  color: getBankingStatus(site.banking) ? 'success.main' : 'error.main',
+                  '& .MuiChip-icon': {
+                    color: getBankingStatus(site.banking) ? 'success.main' : 'error.main'
+                  }
                 }}
               />
             </Box>
@@ -248,7 +259,7 @@ const ProductionSiteCard = ({ site, onEdit, onDelete, userRole }) => {
   );
 };
 
-// Update the SiteCard component
+// Also update the SiteCard component's banking icon
 const SiteCard = ({ site, onEdit, onDelete, userRole }) => {
   const navigate = useNavigate();
 
@@ -296,16 +307,36 @@ const SiteCard = ({ site, onEdit, onDelete, userRole }) => {
           <Typography variant="h6">{site.name || 'Unnamed Site'}</Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          {Boolean(site.banking) && (
-            <Tooltip title="Banking Enabled">
+          <Tooltip title={getBankingStatus(site.banking) ? "Banking Enabled" : "No Banking"}>
+            <Box sx={{
+              display: 'flex',
+              alignItems: 'center',
+              bgcolor: (theme) => alpha(
+                getBankingStatus(site.banking) ? theme.palette.success.main : theme.palette.error.main,
+                0.08
+              ),
+              px: 1,
+              py: 0.5,
+              borderRadius: 1
+            }}>
               <BankingIcon
                 sx={{
-                  color: '#2E7D32', // Dark green
-                  fontSize: 22
+                  color: getBankingStatus(site.banking) ? '#2E7D32' : '#D32F2F',
+                  fontSize: 20
                 }}
               />
-            </Tooltip>
-          )}
+              <Typography
+                variant="caption"
+                sx={{
+                  ml: 0.5,
+                  color: getBankingStatus(site.banking) ? '#2E7D32' : '#D32F2F',
+                  fontWeight: 600
+                }}
+              >
+                {getBankingStatus(site.banking) ? "Banking" : "No Banking"}
+              </Typography>
+            </Box>
+          </Tooltip>
           <Box
             sx={{
               width: 10,
@@ -546,7 +577,7 @@ const Production = () => {
         AnnualProduction: site.annualProduction_L?.toString() || '0'
       };
 
-      setEditingData(formattedData);
+      setEditingSite(formattedData);
       setEditDialogOpen(true);
     } catch (error) {
       console.error('Error preparing edit form:', error);
@@ -554,29 +585,66 @@ const Production = () => {
     }
   };
 
+  // Update the handleUpdate function to properly handle banking status
   const handleUpdate = async (formData) => {
     try {
-      if (!editingData?.companyId || !editingData?.productionSiteId) {
+      if (!formData.companyId || !formData.productionSiteId) {
         throw new Error('Missing site identification data');
       }
 
-      const updateData = {
-        ...formData,
-        companyId: editingData.companyId,
-        productionSiteId: editingData.productionSiteId
+      setLoading(true);
+
+      // Convert and validate form data with proper type checking
+      const updatedData = {
+        companyId: Number(formData.companyId),
+        productionSiteId: Number(formData.productionSiteId),
+        name: String(formData.Name || ''),
+        location: String(formData.Location || ''),
+        type: String(formData.Type || 'Wind'),
+        status: String(formData.Status || 'Active'),
+        capacity_MW: formData.Capacity_MW !== undefined && formData.Capacity_MW !== ''
+          ? Number(formData.Capacity_MW)
+          : 0,
+        banking: formData.Banking === true || formData.Banking === 'true' || formData.Banking === 1,
+        htscNo: formData.HtscNo !== undefined ? String(formData.HtscNo) : '',
+        injectionVoltage_KV: formData.InjectionValue !== undefined && formData.InjectionValue !== ''
+          ? Number(formData.InjectionValue)
+          : 0,
+        annualProduction_L: formData.AnnualProduction !== undefined && formData.AnnualProduction !== ''
+          ? Number(formData.AnnualProduction)
+          : 0
       };
 
-      await updateProductionUnit(updateData);
-      enqueueSnackbar('Site updated successfully', { variant: 'success' });
+      // Validate required fields
+      if (!updatedData.name || !updatedData.location) {
+        throw new Error('Name and Location are required fields');
+      }
+
+      const response = await updateProductionUnit(updatedData);
+
+      // Update local state with proper boolean conversion
+      setProductionUnits(prevUnits =>
+        prevUnits.map(unit =>
+          unit.productionSiteId === updatedData.productionSiteId
+            ? {
+              ...response,
+              banking: getBankingStatus(response.banking) // Use the same function for consistency
+            }
+            : unit
+        )
+      );
+
       setEditDialogOpen(false);
-      setEditingData(null);
-      await loadData();
+      setEditingSite(null);
+      enqueueSnackbar('Site updated successfully', { variant: 'success' });
+
     } catch (error) {
       console.error('Error updating site:', error);
       enqueueSnackbar(error.message || 'Failed to update site', { variant: 'error' });
+    } finally {
+      setLoading(false);
     }
   };
-
 
   const handleUpdateSuccess = () => {
     enqueueSnackbar('Production data updated successfully', {
@@ -627,6 +695,63 @@ const Production = () => {
       console.error('Form submission error:', error);
       enqueueSnackbar(error.message || 'Failed to submit data', { variant: 'error' });
     }
+  };
+
+  // Add the EditDialog component
+  const EditDialog = ({ open, onClose, data, onSubmit, loading }) => {
+    return (
+      <Dialog
+        open={open}
+        onClose={onClose}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+          }
+        }}
+      >
+        <DialogTitle sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          pb: 2
+        }}>
+          Edit Production Site
+        </DialogTitle>
+        <DialogContent sx={{ pt: 3 }}>
+          <Box sx={{ mb: 3 }}>
+            <Paper sx={{ p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Site Name
+                  </Typography>
+                  <Typography variant="body1" fontWeight="500">
+                    {data?.Name}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle2" color="text.secondary">
+                    Location
+                  </Typography>
+                  <Typography variant="body1" fontWeight="500">
+                    {data?.Location}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Box>
+          <ProductionSiteForm
+            initialData={data}
+            onSubmit={onSubmit}
+            onCancel={onClose}
+            loading={loading}
+            disabledFields={['Name', 'Location']}
+          />
+        </DialogContent>
+      </Dialog>
+    );
   };
 
   // Update the return statement in the Production component
@@ -749,21 +874,16 @@ const Production = () => {
       </Snackbar>
 
       {/* Edit Dialog */}
-      <Dialog
+      <EditDialog
         open={editDialogOpen}
-        onClose={() => setEditDialogOpen(false)}
-        maxWidth="md"
-        fullWidth
-      >
-        <Box sx={{ p: 2 }}>
-          <ProductionSiteForm
-            initialData={selectedSite}
-            onSubmit={handleUpdate}
-            onCancel={() => setEditDialogOpen(false)}
-            loading={loading}
-          />
-        </Box>
-      </Dialog>
+        onClose={() => {
+          setEditDialogOpen(false);
+          setEditingSite(null);
+        }}
+        data={editingSite}
+        onSubmit={handleUpdate}
+        loading={loading}
+      />
 
       <ProductionSiteDialog
         open={dialogOpen}
