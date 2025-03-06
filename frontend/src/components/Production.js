@@ -521,13 +521,8 @@ const Production = () => {
   };
 
   const handleSiteSelection = (site) => {
-    if (!site || !site.companyId || !site.productionSiteId) {
-      console.warn('Invalid site selection:', site);
-      return;
-    }
-
-    // Navigate to the site details page
-    navigate(`/production/${site.companyId}/${site.productionSiteId}`);
+    setSelectedSite(site);
+    setShowForm(true);
   };
 
   // Add handlers for edit and delete
@@ -615,7 +610,7 @@ const Production = () => {
   const handleFormSubmit = async (formData) => {
     try {
       if (!selectedSite?.companyId || !selectedSite?.productionSiteId) {
-        throw new Error('Missing site information');
+        throw new Error('Missing required site information');
       }
 
       const dataToSubmit = {
@@ -624,15 +619,10 @@ const Production = () => {
         productionSiteId: selectedSite.productionSiteId
       };
 
-      await createProductionData(
-        selectedSite.companyId,
-        selectedSite.productionSiteId,
-        dataToSubmit
-      );
-
+      await createProductionData(dataToSubmit);
       enqueueSnackbar('Data submitted successfully', { variant: 'success' });
       setShowForm(false);
-      loadData(); // Refresh the data
+      loadData();
     } catch (error) {
       console.error('Form submission error:', error);
       enqueueSnackbar(error.message || 'Failed to submit data', { variant: 'error' });
@@ -777,14 +767,11 @@ const Production = () => {
 
       <ProductionSiteDialog
         open={dialogOpen}
-        onClose={() => {
-          setDialogOpen(false);
-          setEditingData(null);
-        }}
+        onClose={() => setDialogOpen(false)}
         onSubmit={handleSubmit}
         editingData={editingData}
-        companyId={editingData?.companyId}
-        productionSiteId={editingData?.productionSiteId}
+        companyId={selectedSite?.companyId || ''}
+        productionSiteId={selectedSite?.productionSiteId || ''}
         onUpdateSuccess={handleUpdateSuccess}
       />
 

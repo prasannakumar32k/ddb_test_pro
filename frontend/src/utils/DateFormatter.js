@@ -2,45 +2,29 @@ import { format, parse, isValid } from 'date-fns';
 
 class DateFormatter {
   static toApiFormat(date) {
-    if (!date || !(date instanceof Date)) return null;
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${month}${year}`;
+    if (!date || !isValid(date)) return null;
+    return format(date, 'MMyyyy');
   }
 
-  static fromApiFormat(dateString) {
-    if (!dateString || typeof dateString !== 'string') return null;
-    try {
-      // Expected format: MMYYYY
-      const month = parseInt(dateString.substring(0, 2)) - 1; // 0-based months
-      const year = parseInt(dateString.substring(2));
-      const date = new Date(year, month, 1);
-      return isNaN(date.getTime()) ? null : date;
-    } catch (error) {
-      console.error('Error parsing date:', error);
-      return null;
-    }
-  }
-
+  // Add this method that was missing and causing the error
   static formatToSK(date) {
     return this.toApiFormat(date);
   }
 
-  static formatMonthYear(dateString) {
-    const date = this.fromApiFormat(dateString);
-    if (!date) return 'Invalid Date';
-    return date.toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric'
-    });
+  static fromApiFormat(dateString) {
+    if (!dateString || typeof dateString !== 'string') return new Date();
+    try {
+      const parsedDate = parse(dateString, 'MMyyyy', new Date());
+      return isValid(parsedDate) ? parsedDate : new Date();
+    } catch (error) {
+      console.error('Date parsing error:', error);
+      return new Date();
+    }
   }
 
-  static toDisplayFormat(date) {
-    if (!date || !(date instanceof Date)) return '';
-    return date.toLocaleDateString('en-US', {
-      month: 'long',
-      year: 'numeric'
-    });
+  static formatMonthYear(dateString) {
+    const date = this.fromApiFormat(dateString);
+    return format(date, 'MMMM yyyy');
   }
 }
 

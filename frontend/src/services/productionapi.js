@@ -322,14 +322,17 @@ export const productionApi = {
 
   checkExisting: async (companyId, productionSiteId, date) => {
     try {
+      console.log('[ProductionAPI] Checking existing data:', { companyId, productionSiteId, date });
+      // Update the endpoint to match backend route
       const response = await api.get(
-        `/api/production-data/check/${companyId}/${productionSiteId}/${date}`
+        `/production-unit/${companyId}/${productionSiteId}/${date}`
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       if (error.response?.status === 404) {
         return null;
       }
+      console.error('[ProductionAPI] Check existing error:', error);
       throw new Error(error.response?.data?.message || 'Failed to check existing data');
     }
   }

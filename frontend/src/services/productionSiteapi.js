@@ -175,3 +175,27 @@ export const deleteProductionUnit = async (companyId, productionSiteId) => {
     throw error;
   }
 };
+
+export const productionSiteApi = {
+  fetchAll: async () => {
+    try {
+      const response = await api.get('/production-site');
+      return response.data;
+    } catch (error) {
+      console.error('[ProductionSiteAPI] Error fetching all sites:', error);
+      throw new Error('Failed to fetch production sites');
+    }
+  },
+
+  fetchOne: async (companyId, siteId) => {
+    try {
+      const response = await api.get(`/production-site/${companyId}/${siteId}`);
+      return response.data;
+    } catch (error) {
+      console.error('[ProductionSiteAPI] Error fetching site:', error);
+      throw new Error('Failed to fetch production site');
+    }
+  }
+};
+
+export default productionSiteApi;

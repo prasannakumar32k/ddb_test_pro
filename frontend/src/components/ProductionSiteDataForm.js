@@ -10,11 +10,15 @@ import {
   StepLabel,
   Typography,
   Paper,
-  Divider
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
-import { startOfMonth } from 'date-fns';
+import { startOfMonth, isValid } from 'date-fns';
 import DateFormatter from '../utils/DateFormatter';
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
@@ -22,27 +26,26 @@ import { productionApi } from '../services/productionapi';
 
 const steps = ['Select Date', 'Unit Matrix', 'Charge Matrix', 'Review'];
 
-const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startWithReview = false }) => {
+const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithReview = false }) => {
+  const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({
     selectedDate: new Date(),
-    sk: '',
-    c1: 0,
-    c2: 0,
-    c3: 0,
-    c4: 0,
-    c5: 0,
-    c001: 0,
-    c002: 0,
-    c003: 0,
-    c004: 0,
-    c005: 0,
-    c006: 0,
-    c007: 0,
-    c008: 0,
-    c009: 0,
-    c010: 0
+    c1: '',
+    c2: '',
+    c3: '',
+    c4: '',
+    c5: '',
+    c001: '',
+    c002: '',
+    c003: '',
+    c004: '',
+    c005: '',
+    c006: '',
+    c007: '',
+    c008: '',
+    c009: '',
+    c010: ''
   });
-  const [activeStep, setActiveStep] = useState(startWithReview ? steps.length - 1 : 0);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -52,53 +55,90 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
   useEffect(() => {
     if (initialData) {
       try {
-        const date = DateFormatter.fromApiFormat(initialData.sk);
-        if (!date) throw new Error('Invalid initial date');
+        const date = initialData.sk ?
+          DateFormatter.fromApiFormat(initialData.sk) :
+          new Date();
+
         setFormData(prev => ({
           ...prev,
           selectedDate: date,
           ...initialData
         }));
+
+        // Add this condition to set review mode
+        if (startWithReview || initialData.isExistingData) {
+          setActiveStep(steps.length - 1);
+        }
       } catch (err) {
         console.error('Error processing initial data:', err);
-        setError('Failed to load initial data');
+        enqueueSnackbar('Failed to load initial data', { variant: 'error' });
       }
     }
-  }, [initialData]);
+  }, [initialData, enqueueSnackbar, startWithReview]);
+
+  const handleDateChange = async (newDate) => {
+    try {
+      if (!newDate || !isValid(newDate)) {
+        enqueueSnackbar('Please select a valid date', { variant: 'error' });
+        return;
+      }
+
+      setLoading(true);
+      const sk = DateFormatter.formatToSK(newDate);
+
+      if (!sk) {
+        throw new Error('Invalid date format');
+      }
+
+      const existingRecord = await productionApi.checkExisting(
+        initialData.companyId,
+        initialData.productionSiteId,
+        sk
+      );
+
+      setFormData(prev => ({
+        ...prev,
+        selectedDate: newDate,
+        sk
+      }));
+
+      if (existingRecord) {
+        setExistingData(existingRecord);
+        setShowConfirmDialog(true);
+      }
+    } catch (error) {
+      console.error('Error checking date:', error);
+      enqueueSnackbar(error.message || 'Failed to check date', { variant: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleNext = async () => {
     if (activeStep === steps.length - 2) {
       try {
         setLoading(true);
-        setError(null);
+        const sk = DateFormatter.formatToSK(formData.selectedDate);
 
-        const sk = DateFormatter.toApiFormat(formData.selectedDate);
-
-        // Get companyId and productionSiteId from parent component or route params
-        const { companyId, productionSiteId } = initialData || {};
-
-        if (!companyId || !productionSiteId) {
-          throw new Error('Missing required site information');
+        if (!sk) {
+          throw new Error('Invalid date format');
         }
 
-        const existingData = await productionApi.checkExisting(
-          companyId,
-          productionSiteId,
+        const existingRecord = await productionApi.checkExisting(
+          initialData.companyId,
+          initialData.productionSiteId,
           sk
         );
 
-        if (existingData) {
-          setExistingData(existingData);
+        if (existingRecord) {
+          setExistingData(existingRecord);
           setShowConfirmDialog(true);
         } else {
           setActiveStep(prevStep => prevStep + 1);
         }
       } catch (error) {
         console.error('Error checking existing data:', error);
-        setError(error.message);
-        enqueueSnackbar(error.message || 'Failed to check existing data', {
-          variant: 'error'
-        });
+        enqueueSnackbar(error.message || 'Failed to check existing data', { variant: 'error' });
       } finally {
         setLoading(false);
       }
@@ -128,6 +168,72 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
     }));
   };
 
+  const handleFieldChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value === '' ? '' : Number(value)
+    }));
+  };
+
+  const handleConfirmUpdate = async () => {
+    try {
+      setShowConfirmDialog(false);
+
+      // Set form data with existing data
+      setFormData(prev => ({
+        ...prev,
+        ...existingData,
+        selectedDate: DateFormatter.fromApiFormat(existingData.sk),
+        isExistingData: true
+      }));
+
+      // Move to review step
+      setActiveStep(steps.length - 1);
+
+      enqueueSnackbar('Ready to update existing data', { variant: 'info' });
+    } catch (error) {
+      console.error('Update preparation error:', error);
+      enqueueSnackbar(error.message || 'Failed to prepare update', { variant: 'error' });
+    }
+  };
+
+  const renderDatePicker = () => (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <DatePicker
+        label="Select Month"
+        views={['year', 'month']}
+        value={formData.selectedDate}
+        onChange={handleDateChange}
+        // Add these props to fix focus management
+        disableAutoFocus
+        PopperProps={{
+          disablePortal: true
+        }}
+        slotProps={{
+          textField: {
+            fullWidth: true,
+            variant: 'outlined',
+            error: Boolean(error),
+            helperText: error
+          },
+          popper: {
+            modifiers: [{
+              name: 'preventOverflow',
+              enabled: true,
+              options: {
+                altAxis: true,
+                altBoundary: true,
+                tether: false,
+                rootBoundary: 'document',
+                padding: 8
+              }
+            }]
+          }
+        }}
+      />
+    </LocalizationProvider>
+  );
+
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
@@ -136,19 +242,13 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 label="Select Month"
-                views={['year', 'month']}
                 value={formData.selectedDate}
-                onChange={(newDate) => {
-                  if (newDate) {
-                    setFormData(prev => ({ ...prev, selectedDate: newDate }));
-                  }
-                }}
+                onChange={handleDateChange}
+                views={['year', 'month']}
                 slotProps={{
                   textField: {
                     fullWidth: true,
-                    variant: 'outlined',
-                    error: Boolean(error),
-                    helperText: error
+                    variant: 'outlined'
                   }
                 }}
               />
@@ -159,22 +259,14 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
       case 1:
         return (
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" color="primary" gutterBottom>
-                Unit Matrix Data
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-            </Grid>
-            {[1, 2, 3, 4, 5].map((num) => (
-              <Grid item xs={12} sm={6} md={4} key={`c${num}`}>
+            {['c1', 'c2', 'c3', 'c4', 'c5'].map((field) => (
+              <Grid item xs={12} sm={6} md={4} key={field}>
                 <TextField
                   fullWidth
-                  label={`C${num}`}
-                  name={`c${num}`}
-                  value={formData[`c${num}`]}
-                  onChange={handleChange}
+                  label={`Unit ${field.toUpperCase()}`}
                   type="number"
-                  variant="outlined"
+                  value={formData[field] || ''}
+                  onChange={(e) => handleFieldChange(field, e.target.value)}
                 />
               </Grid>
             ))}
@@ -184,22 +276,14 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
       case 2:
         return (
           <Grid container spacing={2} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" color="primary" gutterBottom>
-                Charge Matrix Data
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-            </Grid>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-              <Grid item xs={12} sm={6} md={4} key={`c00${num}`}>
+            {['c001', 'c002', 'c003', 'c004', 'c005','c006','c007','coo8','c009','c010'].map((field) => (
+              <Grid item xs={12} sm={6} md={4} key={field}>
                 <TextField
                   fullWidth
-                  label={`C00${num}`}
-                  name={`c00${num}`}
-                  value={formData[`c00${num}`]}
-                  onChange={handleChange}
+                  label={`Charge ${field.toUpperCase()}`}
                   type="number"
-                  variant="outlined"
+                  value={formData[field] || ''}
+                  onChange={(e) => handleFieldChange(field, e.target.value)}
                 />
               </Grid>
             ))}
@@ -209,62 +293,23 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
       case 3:
         return (
           <Box sx={{ mt: 2 }}>
-            <Typography variant="subtitle1" color="primary" gutterBottom>
+            <Typography variant="h6" gutterBottom>
               Review Data
             </Typography>
-            <Divider sx={{ mb: 2 }} />
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Selected Date
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    {formData.selectedDate.toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long'
-                    })}
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Unit Matrix Values
-                  </Typography>
-                  <Grid container spacing={1}>
-                    {[1, 2, 3, 4, 5].map((num) => (
-                      <Grid item xs={6} key={`review-c${num}`}>
-                        <Typography variant="caption" color="text.secondary">
-                          C{num}:
-                        </Typography>
-                        <Typography variant="body2">
-                          {formData[`c${num}`] || '0'}
-                        </Typography>
-                      </Grid>
-                    ))}
+            <Grid container spacing={2}>
+              {Object.entries(formData)
+                .filter(([key]) => key !== 'selectedDate' && key !== 'sk')
+                .map(([key, value]) => (
+                  <Grid item xs={12} sm={6} md={4} key={key}>
+                    <TextField
+                      fullWidth
+                      label={key.toUpperCase()}
+                      value={value || ''}
+                      disabled
+                      variant="filled"
+                    />
                   </Grid>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
-                  <Typography variant="subtitle2" gutterBottom>
-                    Charge Matrix Values
-                  </Typography>
-                  <Grid container spacing={1}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                      <Grid item xs={6} key={`review-c00${num}`}>
-                        <Typography variant="caption" color="text.secondary">
-                          C00{num}:
-                        </Typography>
-                        <Typography variant="body2">
-                          {formData[`c00${num}`] || '0'}
-                        </Typography>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Paper>
-              </Grid>
+                ))}
             </Grid>
           </Box>
         );
@@ -274,8 +319,101 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
     }
   };
 
+  const renderConfirmationDialog = () => (
+    <Dialog
+      open={showConfirmDialog}
+      onClose={() => setShowConfirmDialog(false)}
+      maxWidth="md"
+      fullWidth
+      // Add these props to fix the focus trap issue
+      keepMounted
+      disableEnforceFocus
+      PaperProps={{
+        sx: {
+          borderRadius: 2,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+        }
+      }}
+    >
+      <DialogTitle>
+        Existing Data Found
+      </DialogTitle>
+      <DialogContent>
+        <Alert severity="warning" sx={{ mb: 2 }}>
+          Data already exists for {DateFormatter.formatMonthYear(existingData?.sk)}
+        </Alert>
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Paper sx={{ p: 2, bgcolor: 'grey.50' }}>
+              <Typography variant="subtitle2" gutterBottom>
+                Existing Data
+              </Typography>
+              <Grid container spacing={1}>
+                {existingData && Object.entries(existingData)
+                  .filter(([key]) => !['sk', 'companyId', 'productionSiteId'].includes(key))
+                  .map(([key, value]) => (
+                    <Grid item xs={6} key={`existing-${key}`}>
+                      <Typography variant="caption" color="text.secondary">
+                        {key}:
+                      </Typography>
+                      <Typography variant="body2">
+                        {value || '0'}
+                      </Typography>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Paper>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Paper sx={{ p: 2, bgcolor: 'primary.light' }}>
+              <Typography variant="subtitle2" gutterBottom color="white">
+                New Data
+              </Typography>
+              <Grid container spacing={1}>
+                {Object.entries(formData)
+                  .filter(([key]) => !['selectedDate', 'sk', 'companyId', 'productionSiteId'].includes(key))
+                  .map(([key, value]) => (
+                    <Grid item xs={6} key={`new-${key}`}>
+                      <Typography variant="caption" color="white" sx={{ opacity: 0.8 }}>
+                        {key}:
+                      </Typography>
+                      <Typography variant="body2" color="white">
+                        {value || '0'}
+                      </Typography>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Paper>
+          </Grid>
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          onClick={() => setShowConfirmDialog(false)}
+          color="inherit"
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={handleConfirmUpdate}
+          variant="contained"
+          color="primary"
+          autoFocus
+        >
+          View & Update Existing Data
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
   return (
-    <Box sx={{ width: '100%', mt: 2 }}>
+    <Box
+      sx={{ width: '100%', mt: 2 }}
+      // Add this to prevent focus trap issues
+      tabIndex={-1}
+    >
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label) => (
           <Step key={label}>
@@ -324,6 +462,7 @@ const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startW
           </Box>
         </form>
       </Box>
+      {renderConfirmationDialog()}
     </Box>
   );
 };

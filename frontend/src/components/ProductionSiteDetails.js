@@ -253,6 +253,7 @@ const ProductionSiteDetails = () => {
   const [existingDataDialogOpen, setExistingDataDialogOpen] = useState(false);
   const [pendingFormData, setPendingFormData] = useState(null);
   const [matrixType, setMatrixType] = useState('unit');
+  const [editingExistingData, setEditingExistingData] = useState(null);
 
   // Handler functions
   const handleChartTypeChange = (event, newType) => {
@@ -327,65 +328,53 @@ const ProductionSiteDetails = () => {
   // Update the handleFormSubmit function
   const handleFormSubmit = async (formData) => {
     try {
-      const apiDate = DateFormatter.toApiFormat(formData.selectedDate);
-      if (!formData.selectedDate || !(formData.selectedDate instanceof Date)) {
-        throw new Error('Please select a valid date');
+      const sk = DateFormatter.formatToSK(formData.selectedDate);
+
+      if (formData.isUpdate) {
+        // Handle update case
+        await productionApi.update(
+          companyId,
+          productionSiteId,
+          {
+            ...formData,
+            sk
+          }
+        );
+      } else {
+        // Handle create case
+        await productionApi.create(
+          companyId,
+          productionSiteId,
+          {
+            ...formData,
+            sk
+          }
+        );
       }
 
-      const sk = DateFormatter.formatToSK(formData.selectedDate);
-      const dataToSubmit = {
-        ...formData,
-        sk
-      };
-
-      // Check for existing data first
-      const existingData = await productionApi.checkExisting(
-        companyId,
-        productionSiteId,
-        sk
+      enqueueSnackbar(
+        formData.isUpdate ? 'Data updated successfully' : 'Data created successfully',
+        { variant: 'success' }
       );
 
-      if (existingData) {
-        setPendingFormData(dataToSubmit);
-        setExistingDataDialogOpen(true);
-        return false;
-      }
-
-      // Create new data if no existing data found
-      await productionApi.create(companyId, productionSiteId, dataToSubmit);
-      enqueueSnackbar('Production data created successfully', {
-        variant: 'success'
-      });
-      await loadData();
-      return true;
-
+      setIsAddDialogOpen(false); // Close the dialog
+      await loadData(); // Refresh the data
     } catch (error) {
       console.error('[ProductionSiteDetails] Submit error:', error);
-      enqueueSnackbar(error.message || 'Failed to process data', {
-        variant: 'error'
-      });
-      return false;
+      enqueueSnackbar(error.message || 'Failed to submit data', { variant: 'error' });
     }
   };
 
   // Add this function to handle the update confirmation
-  const handleUpdateConfirm = async () => {
+  const handleUpdateConfirm = async (formData) => {
     try {
-      if (!pendingFormData) return;
-
-      await productionApi.update(companyId, productionSiteId, pendingFormData);
-      enqueueSnackbar('Production data updated successfully', {
-        variant: 'success'
-      });
-      await loadData();
+      await handleUpdateData(formData);
       setExistingDataDialogOpen(false);
-      setIsAddDialogOpen(false);
-      setPendingFormData(null);
+      await loadData();
+      enqueueSnackbar('Data updated successfully', { variant: 'success' });
     } catch (error) {
-      console.error('[ProductionSiteDetails] Update error:', error);
-      enqueueSnackbar(error.message || 'Failed to update data', {
-        variant: 'error'
-      });
+      console.error('Update error:', error);
+      enqueueSnackbar(error.message || 'Failed to update data', { variant: 'error' });
     }
   };
 
@@ -672,6 +661,8 @@ const ProductionSiteDetails = () => {
         onClose={() => setIsAddDialogOpen(false)}
         maxWidth="md"
         fullWidth
+        keepMounted
+        disableEnforceFocus
         PaperProps={{
           sx: {
             borderRadius: 2,
@@ -690,9 +681,9 @@ const ProductionSiteDetails = () => {
         <DialogContent>
           <ProductionSiteDataForm
             initialData={{
-              companyId,
-              productionSiteId,
-              ...selectedData
+              companyId: companyId,
+              productionSiteId: productionSiteId,
+              selectedDate: new Date()
             }}
             onSubmit={handleFormSubmit}
             onCancel={() => setIsAddDialogOpen(false)}
@@ -703,18 +694,33 @@ const ProductionSiteDetails = () => {
       {/* Edit Dialog */}
       <Dialog
         open={editDialogOpen}
-        onClose={() => setEditDialogOpen(false)}
+        onClose={() => {
+          setEditDialogOpen(false);
+          setSelectedData(null);
+          setEditingExistingData(null);
+        }}
         maxWidth="md"
         fullWidth
+        keepMounted
+        disableEnforceFocus
       >
-        <DialogTitle>Edit Production Data</DialogTitle>
+        <DialogTitle>
+          {editingExistingData ? 'Update Existing Data' : 'Edit Production Data'}
+        </DialogTitle>
         <DialogContent>
           <ProductionSiteDataForm
-            initialData={selectedData}
+            initialData={{
+              ...selectedData,
+              companyId,
+              productionSiteId,
+              isExistingData: Boolean(editingExistingData)
+            }}
             onSubmit={async (formData) => {
               try {
                 await handleUpdateData(formData);
                 setEditDialogOpen(false);
+                setSelectedData(null);
+                setEditingExistingData(null);
                 await loadData();
               } catch (error) {
                 console.error('Edit submission error:', error);
@@ -723,7 +729,11 @@ const ProductionSiteDetails = () => {
                 });
               }
             }}
-            onCancel={() => setEditDialogOpen(false)}
+            onCancel={() => {
+              setEditDialogOpen(false);
+              setSelectedData(null);
+              setEditingExistingData(null);
+            }}
             startWithReview={true}
           />
         </DialogContent>
@@ -733,6 +743,8 @@ const ProductionSiteDetails = () => {
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
+        keepMounted
+        disableEnforceFocus
       >
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
@@ -768,29 +780,108 @@ const ProductionSiteDetails = () => {
           setPendingFormData(null);
         }}
         onConfirm={handleUpdateConfirm}
-        month={pendingFormData ? DateFormatter.formatMonthYear(pendingFormData.sk) : ''}
+        existingData={pendingFormData}
+        onUpdate={async (formData) => {
+          try {
+            await handleUpdateData(formData);
+            setExistingDataDialogOpen(false);
+            setEditDialogOpen(false);
+            await loadData();
+            enqueueSnackbar('Data updated successfully', { variant: 'success' });
+          } catch (error) {
+            console.error('Update error:', error);
+            enqueueSnackbar(error.message || 'Failed to update data', { variant: 'error' });
+          }
+        }}
       />
     </Box >
   );
 };
 
-// Add ExistingDataDialog component
-const ExistingDataDialog = ({ open, onClose, onConfirm, month }) => (
-  <Dialog open={open} onClose={onClose}>
-    <DialogTitle>Existing Data Found</DialogTitle>
-    <DialogContent>
-      <DialogContentText>
-        Production data already exists for {month}.
-        Do you want to update the existing data?
-      </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={onClose}>Cancel</Button>
-      <Button onClick={onConfirm} color="primary" variant="contained">
-        Update Existing
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
+// Update the ExistingDataDialog component
+const ExistingDataDialog = ({ open, onClose, onConfirm, existingData, onUpdate }) => {
+  const [showReviewForm, setShowReviewForm] = useState(false);
+
+  return (
+    <>
+      <Dialog
+        open={open && !showReviewForm}
+        onClose={onClose}
+        maxWidth="md"
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 2,
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+          }
+        }}
+      >
+        <DialogTitle>
+          Existing Data Found
+        </DialogTitle>
+        <DialogContent>
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            Production data already exists for {DateFormatter.formatMonthYear(existingData?.sk)}
+          </Alert>
+          <DialogContentText sx={{ mb: 2 }}>
+            Would you like to view and update the existing data?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            onClick={() => setShowReviewForm(true)}
+            color="primary"
+            variant="contained"
+            startIcon={<EditIcon />}
+          >
+            View & Update
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={showReviewForm}
+        onClose={() => {
+          setShowReviewForm(false);
+          onClose();
+        }}
+        maxWidth="md"
+        fullWidth
+        keepMounted
+        disableEnforceFocus
+      >
+        <DialogTitle>
+          Update Existing Production Data
+        </DialogTitle>
+        <DialogContent>
+          <ProductionSiteDataForm
+            initialData={{
+              ...existingData,
+              selectedDate: DateFormatter.fromApiFormat(existingData?.sk),
+              isExistingData: true
+            }}
+            onSubmit={async (formData) => {
+              try {
+                await onUpdate(formData);
+                setShowReviewForm(false);
+                onClose();
+              } catch (error) {
+                console.error('Update error:', error);
+              }
+            }}
+            onCancel={() => {
+              setShowReviewForm(false);
+              onClose();
+            }}
+            startWithReview={true}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
 
 export default ProductionSiteDetails;
