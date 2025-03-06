@@ -689,12 +689,12 @@ const ProductionSiteDetails = () => {
         </DialogTitle>
         <DialogContent>
           <ProductionSiteDataForm
-            onSubmit={async (formData) => {
-              const success = await handleFormSubmit(formData);
-              if (success) {
-                setIsAddDialogOpen(false);
-              }
+            initialData={{
+              companyId,
+              productionSiteId,
+              ...selectedData
             }}
+            onSubmit={handleFormSubmit}
             onCancel={() => setIsAddDialogOpen(false)}
           />
         </DialogContent>

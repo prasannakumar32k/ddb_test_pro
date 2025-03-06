@@ -34,7 +34,6 @@ import {
   LocationOn as LocationIcon,
   Power as PowerIcon,
   Speed as CapacityIcon,
-  Bolt as VoltageIcon,
   CalendarToday as DateIcon,
   WbSunny as SolarIcon,
   Air as WindIcon,
@@ -42,7 +41,7 @@ import {
   PlayArrow as StatusIcon,
   Assignment as AssignmentIcon,
   ElectricBolt as VoltageIcon,
-  FiberManualRecord as StatusIcon
+  FiberManualRecord as StatusDotIcon // Renamed to avoid conflict
 } from '@mui/icons-material';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -62,6 +61,7 @@ import {
 import ProductionSiteList from '../components/ProductionSiteList';
 import ProductionSiteDialog from './ProductionSiteDialog';
 import { productionApi } from '../services/productionapi';
+import ProductionSiteDataForm from './ProductionSiteDataForm';
 
 // Update the DetailItem component
 const DetailItem = ({ icon: Icon, label, value, color = 'text.secondary' }) => (
@@ -117,7 +117,7 @@ const ProductionSiteCard = ({ site, onEdit, onDelete, userRole }) => {
         }}
       >
         <Tooltip title={`Status: ${site.status}`}>
-          <StatusIcon
+          <StatusDotIcon
             sx={{
               color: site.status === 'Active' ? 'success.main' : 'error.main',
               fontSize: 12
@@ -401,6 +401,8 @@ const Production = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingData, setEditingData] = useState(null);
 
+  const [showForm, setShowForm] = useState(false);
+
   // Add loadData function
   const loadData = async () => {
     try {
@@ -610,6 +612,33 @@ const Production = () => {
     );
   };
 
+  const handleFormSubmit = async (formData) => {
+    try {
+      if (!selectedSite?.companyId || !selectedSite?.productionSiteId) {
+        throw new Error('Missing site information');
+      }
+
+      const dataToSubmit = {
+        ...formData,
+        companyId: selectedSite.companyId,
+        productionSiteId: selectedSite.productionSiteId
+      };
+
+      await createProductionData(
+        selectedSite.companyId,
+        selectedSite.productionSiteId,
+        dataToSubmit
+      );
+
+      enqueueSnackbar('Data submitted successfully', { variant: 'success' });
+      setShowForm(false);
+      loadData(); // Refresh the data
+    } catch (error) {
+      console.error('Form submission error:', error);
+      enqueueSnackbar(error.message || 'Failed to submit data', { variant: 'error' });
+    }
+  };
+
   // Update the return statement in the Production component
   return (
     <Box sx={{ p: 4, maxWidth: 1600, margin: '0 auto' }}>
@@ -758,6 +787,28 @@ const Production = () => {
         productionSiteId={editingData?.productionSiteId}
         onUpdateSuccess={handleUpdateSuccess}
       />
+
+      {/* Production Site Data Form Dialog */}
+      {showForm && (
+        <Dialog
+          open={showForm}
+          onClose={() => setShowForm(false)}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogTitle>Add Production Data</DialogTitle>
+          <DialogContent>
+            <ProductionSiteDataForm
+              initialData={{
+                companyId: selectedSite?.companyId,
+                productionSiteId: selectedSite?.productionSiteId
+              }}
+              onSubmit={handleFormSubmit}
+              onCancel={() => setShowForm(false)}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </Box>
   );
 }

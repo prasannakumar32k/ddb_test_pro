@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Dialog,
   DialogTitle,
@@ -40,15 +41,30 @@ const ProductionSiteDialog = ({
       </DialogTitle>
       <DialogContent sx={{ p: 3 }}>
         <ProductionSiteDataForm
-          initialData={editingData}
+          initialData={editingData ? {
+            companyId,
+            productionSiteId,
+            ...editingData
+          } : {
+            companyId,
+            productionSiteId
+          }}
           onSubmit={onSubmit}
           onCancel={onClose}
-          companyId={companyId}
-          productionSiteId={productionSiteId}
         />
       </DialogContent>
     </Dialog>
   );
+};
+
+ProductionSiteDialog.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  editingData: PropTypes.object,
+  companyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  productionSiteId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onUpdateSuccess: PropTypes.func
 };
 
 export default ProductionSiteDialog;

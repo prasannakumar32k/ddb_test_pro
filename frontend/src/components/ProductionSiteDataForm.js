@@ -22,25 +22,25 @@ import { productionApi } from '../services/productionapi';
 
 const steps = ['Select Date', 'Unit Matrix', 'Charge Matrix', 'Review'];
 
-const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithReview = false }) => {
+const ProductionSiteDataForm = ({ initialData = null, onSubmit, onCancel, startWithReview = false }) => {
   const [formData, setFormData] = useState({
-    selectedDate: initialData?.selectedDate ? new Date(initialData.selectedDate) : new Date(),
-    sk: initialData?.sk || '',
-    c1: Number(initialData?.c1) || 0,
-    c2: Number(initialData?.c2) || 0,
-    c3: Number(initialData?.c3) || 0,
-    c4: Number(initialData?.c4) || 0,
-    c5: Number(initialData?.c5) || 0,
-    c001: Number(initialData?.c001) || 0,
-    c002: Number(initialData?.c002) || 0,
-    c003: Number(initialData?.c003) || 0,
-    c004: Number(initialData?.c004) || 0,
-    c005: Number(initialData?.c005) || 0,
-    c006: Number(initialData?.c006) || 0,
-    c007: Number(initialData?.c007) || 0,
-    c008: Number(initialData?.c008) || 0,
-    c009: Number(initialData?.c009) || 0,
-    c010: Number(initialData?.c010) || 0
+    selectedDate: new Date(),
+    sk: '',
+    c1: 0,
+    c2: 0,
+    c3: 0,
+    c4: 0,
+    c5: 0,
+    c001: 0,
+    c002: 0,
+    c003: 0,
+    c004: 0,
+    c005: 0,
+    c006: 0,
+    c007: 0,
+    c008: 0,
+    c009: 0,
+    c010: 0
   });
   const [activeStep, setActiveStep] = useState(startWithReview ? steps.length - 1 : 0);
   const [error, setError] = useState(null);
@@ -72,28 +72,33 @@ const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithRevi
         setLoading(true);
         setError(null);
 
-        if (!initialData?.companyId || !initialData?.productionSiteId) {
-          throw new Error('Missing company or production site ID');
+        const sk = DateFormatter.toApiFormat(formData.selectedDate);
+
+        // Get companyId and productionSiteId from parent component or route params
+        const { companyId, productionSiteId } = initialData || {};
+
+        if (!companyId || !productionSiteId) {
+          throw new Error('Missing required site information');
         }
 
-        const sk = DateFormatter.toApiFormat(formData.selectedDate);
         const existingData = await productionApi.checkExisting(
-          initialData.companyId,
-          initialData.productionSiteId,
+          companyId,
+          productionSiteId,
           sk
         );
 
         if (existingData) {
-          setShowConfirmDialog(true);
           setExistingData(existingData);
-          enqueueSnackbar('Data already exists for this month', { variant: 'warning' });
+          setShowConfirmDialog(true);
         } else {
           setActiveStep(prevStep => prevStep + 1);
         }
       } catch (error) {
         console.error('Error checking existing data:', error);
         setError(error.message);
-        enqueueSnackbar(error.message || 'Failed to check existing data', { variant: 'error' });
+        enqueueSnackbar(error.message || 'Failed to check existing data', {
+          variant: 'error'
+        });
       } finally {
         setLoading(false);
       }
@@ -325,12 +330,14 @@ const ProductionSiteDataForm = ({ initialData, onSubmit, onCancel, startWithRevi
 
 ProductionSiteDataForm.propTypes = {
   initialData: PropTypes.shape({
-    companyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    productionSiteId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    // ... other prop validations
-  }).isRequired,
+    companyId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    productionSiteId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    sk: PropTypes.string,
+    selectedDate: PropTypes.instanceOf(Date),
+    // ... other field validations
+  }),
   onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func,
+  onCancel: PropTypes.func.isRequired,
   startWithReview: PropTypes.bool
 };
 
