@@ -1,0 +1,8 @@
+{
+  "type": "json",
+  "path": "./data",
+  "entities": [
+    "units",
+    "productions"
+  ]
+}

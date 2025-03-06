@@ -1,0 +1,63 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    flex-shrink: 0;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #1E3A8A;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.nav-link:hover {
+    background-color: #2563EB;
+    border-radius: 5px;
+}
+
+.production-page {
+    padding: 20px;
+}
+
+.site-cards {
+    display: flex;
+    gap: 20px;
+}
+
+.production-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.production-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.status.active {
+    color: green;
+}
